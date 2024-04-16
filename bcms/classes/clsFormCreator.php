@@ -1,0 +1,782 @@
+<?php
+
+    class clsFormCreator Extends clsFormGenerator{
+        public $html_data;     
+        public $log;
+
+        public $r;
+
+        public $output;
+
+        public $Message="";
+       
+        function __construct(){
+			
+			$this->Set_Log(clsClassFactory::$all_vars['log']);
+            $this->Set_DataBase(clsClassFactory::$all_vars['r']);
+		}
+
+        
+
+        function Set_DataBase($r){
+			$this->r=$r;
+			
+		}
+
+        function Set_Log($log){
+			$this->log=$log;
+			
+		}
+
+function Create_Login_Form($Form_Action=""){
+
+            $output="";
+            if($Form_Action==""){
+                $Form_Action=$_SERVER['REQUEST_URI'];
+            }
+            $output='
+			<form name="form1" method="post" action="'.$Form_Action.'">
+                <table width="300" border="2" align="center" cellpadding="2" cellspacing="1" bgcolor="#97C8F9" id="table">
+                    <tr>
+                    <td bgcolor="#E6E6E6"><strong>Username:</strong></td>
+                    <td bgcolor="#FFFFFF"><input type="text" name="username" id="username"></td>
+                    </tr>
+                    <tr>
+                    <td bgcolor="#E6E6E6"><strong>Password:</strong></td>
+                    <td bgcolor="#FFFFFF"><input type="password" name="password" id="password"></td>
+                    </tr>
+                    <tr>
+                    <td colspan="2" align="right" bgcolor="#E6E6E6"><a href="/forgot-password/">Forgotten Your Details?</a>        <input type="submit" name="Submit" id="Submit" value="Submit"></td>
+                    </tr>
+                    <tr>
+                    <td colspan="2" align="right" bgcolor="#E6E6E6"><a href="/register/">Register</a></td>
+                    </tr>
+                </table>
+                </form>';
+			return $output;
+		}
+        
+        function Create_Country_Select($countryID=0){
+            
+            $output="";
+            $output='<SELECT NAME="countryID" id="countryID">';
+            
+            
+            $sql=$this->r->rawQuery("SELECT id,Country_Name FROM countries");
+            while($myrow=$this->r->Fetch_Array($sql)){
+                if($countryID==$myrow[0]){
+                    $output.="<option value='".$myrow[0]."' selected>$myrow[1]</option>";
+                }else{
+                    $output.="<option value='".$myrow[0]."'>".$myrow[1]."</option>";
+                };
+            }
+            $output.="</SELECT>";
+            
+            return $output;
+            
+        }
+        
+
+function Create_Admin_Member_Register_Form($countryID=0,$domainsID=0,$mod_business_categoriesID=0,$Message="",$Form_Action=""){
+            
+                $output="";
+                if($Form_Action==""){
+                    $Form_Action=$_SERVER['REQUEST_URI'];
+                }
+    
+                $country_html=$this->Create_Country_Select();//($countryID);
+                $business_category_html=$this->Create_Business_Categories_Select();//($domainsID,$mod_business_categoriesID);
+                $output='
+                <table width="650" border="0" align="center" cellpadding="0" cellspacing="0">
+                <tr>
+                  <td>&nbsp;</td>
+                </tr>
+                <tr>
+                  <td valign="top"><form action="'.$Form_Action.'"  method="post" name="form2"  >
+                      <span class="pageheading">Add New Account </span><span class="RedText">'.$Message.'</span><br>
+                      <br>
+                    <br>
+                    <span class="RedText"><strong>*</strong></span><strong> Mandatory Fields </strong>
+                    <table width="100%" border="0" cellpadding="3" cellspacing="1" id="table">
+                      <tr>
+                        <td class="tabletitle"><strong>Profile Domain</strong></td>
+                        <td class="tablewhite"><input name="subdomain" type="text" id="subdomain" size="45"> .bizdirectory.online</td>
+                      </tr>
+                      <tr>
+                        <td width="163" class="tabletitle"><strong> Business Name<span class="RedText">*</span></strong></td>
+                        <td width="352" class="tablewhite"><input name="business_name" type="text" id="name" size="45"></td>
+                      </tr>
+                      <tr>
+                        <td class="tabletitle"><strong>Contact Name</strong></td>
+                        <td class="tablewhite"><input name="contact_name" type="text" id="contact_name" size="45"></td>
+                      </tr>
+                      <tr>
+                        <td class="tabletitle"><strong> Email<span class="RedText">*</span></strong></td>
+                        <td class="tablewhite"><input name="email" type="text" id="email" size="45"></td>
+                      </tr>
+                      <tr>
+                        <td class="tabletitle"><strong>Address 1</strong></td>
+                        <td class="tablewhite"><input name="address" type="text" id="address" size="45"></td>
+                      </tr>
+                      <tr>
+                        <td class="tabletitle"><strong>Address 2</strong></td>
+                        <td class="tablewhite"><input name="address2" type="text" id="address" size="45"></td>
+                      </tr>
+                      <tr>
+                        <td class="tabletitle"><strong>Address 3</strong></td>
+                        <td class="tablewhite"><input name="address3" type="text" id="address" size="45"></td>
+                      </tr>
+                      <tr>
+                        <td class="tabletitle"><strong>Suburb</strong></td>
+                        <td class="tablewhite"><input name="suburb" type="text" id="suburb" size="45"></td>
+                      </tr>
+                      <tr>
+                        <td class="tabletitle"><strong>City</strong></td>
+                        <td class="tablewhite"><input name="city" type="text" id="city" size="45"></td>
+                      </tr>
+                      <tr>
+                        <td class="tabletitle"><strong>State</strong></td>
+                        <td class="tablewhite"><input name="state" type="text" id="state" size="45"></td>
+                      </tr>
+                      <tr>
+                        <td class="tabletitle"><strong>Postcode</strong></td>
+                        <td class="tablewhite"><input name="postcode" type="text" id="postcode" size="45"></td>
+                      </tr>
+                      <tr>
+                        <td class="tabletitle"><strong>Country</strong></td>
+                        <td class="tablewhite">'.$country_html.'</td>
+                      </tr>
+                      <tr>
+                        <td class="tabletitle"><strong>Phone</strong></td>
+                        <td class="tablewhite"><input name="phone" type="text" id="phone" size="45"></td>
+                      </tr>
+                      <tr>
+                        <td class="tabletitle"><strong>Mobile</strong></td>
+                        <td class="tablewhite"><input name="mobile" type="text" id="mobile" size="45"></td>
+                      </tr>
+                      <tr>
+                        <td class="tabletitle"><strong>Fax</strong></td>
+                        <td class="tablewhite"><input name="fax" type="text" id="fax" size="45"></td>
+                      </tr>
+                      <tr>
+                        <td class="tabletitle"><strong>Website</strong></td>
+                        <td class="tablewhite"><input name="website" type="text" id="website" size="45"></td>
+                      </tr>
+                      <tr>
+                        <td class="tabletitle"><strong>Username:</strong> </td>
+                        <td class="tablewhite"><input name="username" type="text" id="UserName" size="45"></td>
+                      </tr>
+                      <tr>
+                        <td class="tabletitle"><strong>Password</strong></td>
+                        <td class="tablewhite"><input name="password" type="text" id="password" size="45"></td>
+                      </tr>
+                      
+                      <tr>
+                        <td class="tabletitle"><strong>TAX Identifier</strong></td>
+                        <td class="tablewhite"><input name="abn" type="text" id="abn" size="45"></td>
+                      </tr>
+                      <tr>
+                        <td class="tabletitle"><strong>Business Category</strong></td>
+                        <td class="tablewhite">'.$business_category_html.'</td>
+                      </tr>
+                      <tr>
+                        <td class="tabletitle"><strong>Directory Description</strong></td>
+                        <td class="tablewhite"><textarea name="business_description" cols="45" rows="4" id="business_description"></textarea></td>
+                      </tr>
+                      
+                      <tr>
+                        <td colspan="2" align="center" class="tablewhite">
+                        <input name="Submit" type="submit"  class="formbuttons" id="Submit" value="Save" onClick="return confirmSubmit()">
+                                  </td>
+                      </tr>
+                      </table>
+                    <p><br>
+                      
+                      </p>
+                    </form></td>
+                </tr>
+              </table>';
+                    return $output;
+                    
+                }  
+
+                function Create_Postal_Addresses_List(){
+            
+                  
+                  
+                  //$sql=$this->r->rawQuery("SELECT id FROM mod_link_tables WHERE mod_tablesID-From='31' AND mod_tablesID-To='32'");
+                  $output_middle="";
+                  $mod_link_tablesID=1;
+                  $address_list=array();
+                  $sql=$this->r->rawQuery("SELECT source_keyID FROM mod_link_tables_keys WHERE mod_link_tablesID='".$mod_link_tablesID."' AND destination_keyID='".$_SESSION['membersID']."'	");
+                  while($myrow=$this->r->Fetch_Array($sql)){
+                    $sql_text="SELECT id,name FROM mod_address_details WHERE id='".$myrow[0]."'";
+                    $sql2=$this->r->rawQuery($sql_text);
+                    print $sql_text;
+                    $data=$this->r->Fetch_Assoc($sql2);
+                    $address_list[]=$data;
+                    $output_middle.="<tr><td>".$data['name']."</td><td><a href='".$_SERVER['REQUEST_URI']."edit=".$data['id']."/'>Edit</a></td></tr>";
+                  }
+                  $output="<table>".$output_middle."</table>";
+                  
+                  
+                  return $output;
+                  
+              }
+
+                function Create_Postal_Address($Form_Action=""){
+            
+                  $output="";
+                  if($Form_Action==""){
+                      $Form_Action=$_SERVER['REQUEST_URI'];
+                  }
+      
+                  $country_html=$this->Create_Country_Select();//($countryID);
+                  $output='
+                  <table width="650" border="0" align="center" cellpadding="0" cellspacing="0">
+                  <tr>
+                    <td>&nbsp;</td>
+                  </tr>
+                  <tr>
+                    <td valign="top"><form action="'.$Form_Action.'"  method="post" name="form2"  >
+                        <span class="pageheading">Add New Postal Address </span><span class="RedText">'.$this->Message.'</span><br>
+                        <br>
+                      <br>
+                      <span class="RedText"><strong>*</strong></span><strong> Mandatory Fields </strong>
+                      <table width="100%" border="0" cellpadding="3" cellspacing="1" id="table">
+                        
+                        <tr>
+                          <td width="163" class="tabletitle"><strong>Address Name<span class="RedText">*</span></strong></td>
+                          <td width="352" class="tablewhite"><input name="name" type="text" id="name" size="45"></td>
+                        </tr>
+                        
+                        <tr>
+                          <td class="tabletitle"><strong>Address 1</strong></td>
+                          <td class="tablewhite"><input name="address" type="text" id="address" size="45"></td>
+                        </tr>
+                        <tr>
+                          <td class="tabletitle"><strong>Address 2</strong></td>
+                          <td class="tablewhite"><input name="address2" type="text" id="address" size="45"></td>
+                        </tr>
+                        <tr>
+                          <td class="tabletitle"><strong>Address 3</strong></td>
+                          <td class="tablewhite"><input name="address3" type="text" id="address" size="45"></td>
+                        </tr>
+                        <tr>
+                          <td class="tabletitle"><strong>Suburb</strong></td>
+                          <td class="tablewhite"><input name="suburb" type="text" id="suburb" size="45"></td>
+                        </tr>
+                        <tr>
+                          <td class="tabletitle"><strong>City</strong></td>
+                          <td class="tablewhite"><input name="city" type="text" id="city" size="45"></td>
+                        </tr>
+                        <tr>
+                          <td class="tabletitle"><strong>State</strong></td>
+                          <td class="tablewhite"><input name="state" type="text" id="state" size="45"></td>
+                        </tr>
+                        <tr>
+                          <td class="tabletitle"><strong>Postcode</strong></td>
+                          <td class="tablewhite"><input name="postcode" type="text" id="postcode" size="45"></td>
+                        </tr>
+                        <tr>
+                          <td class="tabletitle"><strong>Country</strong></td>
+                          <td class="tablewhite">'.$country_html.'</td>
+                        </tr>
+                        <tr>
+                          <td class="tabletitle"><strong>Phone</strong></td>
+                          <td class="tablewhite"><input name="phone" type="text" id="phone" size="45"></td>
+                        </tr>
+                        <tr>
+                          <td class="tabletitle"><strong>Mobile</strong></td>
+                          <td class="tablewhite"><input name="mobile" type="text" id="mobile" size="45"></td>
+                        </tr>
+                        <tr>
+                          <td class="tabletitle"><strong>Fax</strong></td>
+                          <td class="tablewhite"><input name="fax" type="text" id="fax" size="45"></td>
+                        </tr>
+                        
+                        
+                        
+                        <tr>
+                          <td class="tabletitle"><strong>TAX Identifier</strong></td>
+                          <td class="tablewhite"><input name="abn" type="text" id="abn" size="45"></td>
+                        </tr>
+                        
+                        
+                        
+                        <tr>
+                          <td colspan="2" align="center" class="tablewhite">
+                          <input name="Submit" type="submit"  class="formbuttons" id="Submit" value="Save" onClick="return confirmSubmit()">
+                                    </td>
+                        </tr>
+                        </table>
+                      <p><br>
+                        
+                        </p>
+                      </form></td>
+                  </tr>
+                </table>';
+                      return $output;
+                      
+                  } 
+
+                  function Create_Change_Password($Form_Action=""){
+                    $output="";
+                    if($Form_Action==""){
+                        $Form_Action=$_SERVER['REQUEST_URI'];
+                    }
+        
+                    $output='
+                  <p align="center">&nbsp;</p>
+                  <p><font size="2">To <strong><span class="Morone">update your password</span></strong> simply type in your current password, and then type in your new password twice. This will
+                    ensure that you did not mis-type your new password.</font></p>
+                  <form action="'.$Form_Action.'"  method="post" name="form2" id="form2" >
+                    <span class="RedText"><?php print $Message; ?></span><br />
+                    <br />
+                    <table width="70%" border="0" align="center" cellpadding="3" cellspacing="1" bgcolor="#97C8F9" id="table">
+                      <tr>
+                        <td width="295" bgcolor="#FFFFFF"><strong> Current Password</strong></td>
+                        <td width="241" bgcolor="#FFFFFF"><input name="cpassword" type="password" class="formfield1" id="cpassword" /></td>
+                      </tr>
+                      <tr>
+                        <td bgcolor="#FFFFFF"><strong>New Password</strong></td>
+                        <td bgcolor="#FFFFFF"><input name="password" type="password" class="formfield1" id="password" /></td>
+                      </tr>
+                      <tr>
+                        <td bgcolor="#FFFFFF"><strong>Retype New Password</strong></td>
+                        <td bgcolor="#FFFFFF"><input name="password2" type="password" class="formfield1" id="password2" /></td>
+                      </tr>
+                      <tr>
+                        <td colspan="2" align="right" bgcolor="#E6E6E6"><input name="Submit" type="submit" class="formbuttons" value="Save" onclick="return confirmSubmit()" /></td>
+                      </tr>
+                    </table>
+                  </form>
+                  <p><font size="2">Note:&nbsp; If you would like <strong><span class="Morone">to update
+                    your User Details</span></strong> you will need to send an email to <a href="mailto:admin@noodnet.com">admin@noodnet.com</a> with your new details and a Nood
+                    Network Administrator will update your details.</font></p>';
+                    return $output;
+                    
+                }
+
+                  function Create_User_Details_oldest($Form_Action=""){
+            
+                    $output="";
+                    if($Form_Action==""){
+                        $Form_Action=$_SERVER['REQUEST_URI'];
+                    }
+        
+                    $output='
+                    <table width="650" border="0" align="center" cellpadding="0" cellspacing="0">
+                    <tr>
+                      <td>&nbsp;</td>
+                    </tr>
+                    <tr>
+                      <td valign="top"><form action="'.$Form_Action.'"  method="post" name="form2"  >
+                          <span class="pageheading">Edit User Details </span><span class="RedText">'.$this->Message.'</span><br>
+                          <br>
+                        <br>
+                        <span class="RedText"><strong>*</strong></span><strong> Mandatory Fields </strong>
+                        <table width="100%" border="0" cellpadding="3" cellspacing="1" id="table">
+                          
+                          <tr>
+                            <td width="163" class="tabletitle"><strong>First Name<span class="RedText">*</span></strong></td>
+                            <td width="352" class="tablewhite"><input name="First_Name" type="text" id="First_Name" size="45"></td>
+                          </tr>
+                          
+                          <tr>
+                            <td class="tabletitle"><strong>Last Name</strong></td>
+                            <td class="tablewhite"><input name="Last_Name" type="text" id="Last_Name" size="45"></td>
+                          </tr>
+                          <tr>
+                            <td class="tabletitle"><strong>Birth Date</strong></td>
+                            <td class="tablewhite"><input name="Last_Name" type="text" id="Last_Name" size="45"></td>
+                          </tr>
+                          
+                          
+                          
+                          
+                          <tr>
+                            <td colspan="2" align="center" class="tablewhite">
+                            <input name="Submit" type="submit"  class="formbuttons" id="Submit" value="Save" onClick="return confirmSubmit()">
+                                      </td>
+                          </tr>
+                          </table>
+                        <p><br>
+                          
+                          </p>
+                        </form></td>
+                    </tr>
+                  </table>';
+                        return $output;
+                        
+                    }
+
+
+              public function Member_Register_Form($Message=""){
+                  
+                  
+                $this->output='
+                <script type="text/javascript">
+                    <!--
+                    function CheckAgree(){
+                        var target=document.getElementById("IAgree");
+                        if(target.checked){
+                            return true;
+                        }else{
+                            alert("You must agree to the terms and conditions");
+                            return false;
+                        }
+                    }
+    
+                    //-->
+                    </script>';
+                    
+                    $this->output.='
+                    <table width="100%">
+                        <tr>
+                            <td width="20%" valign="top">
+                                <a href="/login/">Login</a><br>
+                                <a href="/forgot-password/">Forgot Login</a>
+                            </td>
+                            <td width="80%">
+                    <form action="'.$_SERVER['REQUEST_URI'].'" method="post" name="form1" />
+                    '.$Message.'
+                    <br>
+                    <table width="434" border=0 align="center" cellpadding=2 cellspacing="1" bgcolor="#97C8F9" id="table">
+                        <tr>
+                        <td colspan="2" align="center" bgcolor="#E6E6E6"><strong>All Fields Are Mandatory</strong></td>
+                        </tr>
+                        <tr>
+                        <td width="184" bgcolor="#E6E6E6"><strong>Business&nbsp; Name</strong></td>
+                        <td width="240" bgcolor="#FFFFFF">
+                            <INPUT NAME="name" TYPE="text" id="name" value="'.$_POST['name'].'" SIZE="26">
+                        </td>
+                        </tr>
+                        <tr>
+                        <td width="184" bgcolor="#E6E6E6"> <strong>Business Address</strong> </td>
+                        <td width="240" bgcolor="#FFFFFF"> 
+                            <INPUT NAME="address" TYPE="text" id="address" value="'.$_POST['address'].'" SIZE="40">
+                        </td>
+                        </tr>
+                        <tr>
+                        <td width="184" bgcolor="#E6E6E6"> <strong>Suburb / Town / City</strong> </td>
+                        <td width="240" bgcolor="#FFFFFF"> 
+                            <INPUT NAME="suburb" TYPE="text" id="suburb" value="'.$_POST['suburb'].'" SIZE="26">
+                        </td>
+                            
+                        </tr>
+                        <tr>
+                        <td width="184" bgcolor="#E6E6E6"> <strong>State</strong> </td>
+                        <td width="240" bgcolor="#FFFFFF"> 
+                            <SELECT NAME="state" id="state">
+                            <OPTION SELECTED VALUE="Queensland">Queensland
+                                <OPTION VALUE="New South Wales">New South Wales
+                                <OPTION VALUE="Victoria">Victoria
+                                <OPTION VALUE="South Australia">South Australia
+                                <OPTION VALUE="Western Australia">Western Australia
+                                <OPTION VALUE="Tasmania">Tasmania
+                                <OPTION VALUE="Australian Capital Territory">Australian Capital Territory
+                                <OPTION VALUE="Northern Territory">Northern Territory
+                            </SELECT>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td width="184" bgcolor="#E6E6E6"> <strong>Postcode </strong> </td>
+                        <td width="240" bgcolor="#FFFFFF"> 
+                            <INPUT NAME="postcode" TYPE="text" id="postcode"
+                     value="'.$_POST['postcode'].'" SIZE="8">
+                        </td>
+                        </tr>
+                        <tr bgcolor="#C6C6CD" >
+                            <td width="35%" align="left"><strong>*Country</strong></td>
+                            <td align="left"><select name="countryID" onChange="setDelivery(this.value)">
+                            ';
+                            $sql=$this->r->rawQuery("SELECT id,Country_Name FROM countries");
+                            while($myrow=$this->r->Fetch_Array($sql)){
+                                if($_POST['countryID']==$myrow[0]){
+                                    $this->output.='<option value="'.$myrow[0].'" selected>'.$myrow[1].'</option>';
+                                }else{
+                                    $this->output.='<option value="'.$myrow[0].'">'.$myrow[1].'</option>';
+                                };
+                            }
+                            $this->output.='</select></td>
+                        <tr>
+                        <td width="184" bgcolor="#E6E6E6"> <strong>ABN</strong></td>
+                        <td width="240" bgcolor="#FFFFFF"> 
+                            <INPUT NAME="abn" TYPE="text" id="abn" value="'.$_POST['abn'].'" SIZE="20">
+                        </td>
+                        </tr>
+                        <tr>
+                        <td width="184" bgcolor="#E6E6E6"> <strong>Phone Number</strong> </td>
+                        <td width="240" bgcolor="#FFFFFF"> 
+                            <INPUT NAME="phone" TYPE="text" id="phone" value="'.$_POST['phone'].'" SIZE="20">
+                        </td>
+                        </tr>
+                        <tr>
+                        <td width="184" bgcolor="#E6E6E6"> <strong>Mobile Number</strong> </td>
+                        <td width="240" bgcolor="#FFFFFF"> 
+                            <INPUT NAME="mobile" TYPE="text" id="mobile" value="'.$_POST['mobile'].'" SIZE="20">
+                        </td>
+                        </tr>
+                        <tr>
+                        <td width="184" bgcolor="#E6E6E6"> <strong>Fax Number</strong> </td>
+                        <td width="240" bgcolor="#FFFFFF"> 
+                            <INPUT NAME="fax" TYPE="text" id="fax" value="'.$_POST['fax'].'" SIZE="20">
+                        </td>
+                        </tr>
+                        <tr>
+                        <td width="184" bgcolor="#E6E6E6"> <strong>E-mail Address</strong> </td>
+                        <td width="240" bgcolor="#FFFFFF"> 
+                            <INPUT NAME="email" TYPE="text" id="email"
+                                 value="'.$_POST['email'].'" SIZE="40">
+                                 
+                        </td>
+                        </tr>
+                        <tr>
+                        <td width="184" bgcolor="#E6E6E6"> <strong>Web Site</strong> </td>
+                        <td width="240" bgcolor="#FFFFFF"> 
+                            http://
+                            <INPUT NAME="website" TYPE="text" id="website" value="'.$_POST['website'].'" SIZE="30">
+                        </td>
+                        </tr>
+                        <tr>
+                        <td width="184" bgcolor="#E6E6E6"> <strong>Contact Person</strong> </td>
+                        <td width="240" bgcolor="#FFFFFF"> 
+                            <INPUT NAME="contact_name" TYPE="text" id="contact_name" value="'.$_POST['contact_name'].'" SIZE="26">
+                        </td>
+                        </tr>
+                        <tr>
+                        <td bgcolor="#E6E6E6"><strong>Password</strong></td>
+                        <td bgcolor="#FFFFFF"><input name="password" type="text" id="password" value="'.$_POST['password'].'" size="26" /></td>
+                        </tr>
+                        <tr>
+                        <td width="184" bgcolor="#E6E6E6"> <strong>Business Category</strong> </td>
+                        <td width="240" bgcolor="#FFFFFF"><SELECT NAME="mod_business_categoriesID" id="mod_business_categoriesID">';
+                        
+                            $Count=0;
+                            //$r=new ReturnRecord();
+                            $sq2=$this->r->rawQuery("SELECT id,CategoryTitle FROM mod_business_categories WHERE  domainsID=0 ORDER BY CategoryTitle");  
+                            while ($myrow = $this->r->Fetch_Array($sq2)) {
+                                $this->output.='<option value="'.$myrow[0].'">'.$myrow[1].'</option>';
+                            };
+                            
+                        $this->output.='</SELECT>
+                        </td>
+                        </tr>
+                        <tr>
+                        <td height="24" bgcolor="#E6E6E6"><p><strong>You Agree To <br />
+                        </strong><strong><a href="/terms-and-conditions/" target="_blank">Terms &amp; Conditions</a></strong></p></td>
+                        <td bgcolor="#FFFFFF"><input name="IAgree" type="checkbox" id="IAgree" value="1"></td>
+                        </tr>
+                        
+                        <tr>
+                        <td colspan="2" align="right" bgcolor="#E6E6E6"><input type="submit" name="Submit" id="Submit" value="Submit" onClick="return CheckAgree()"></td>
+                        </tr>
+                    </table>
+                    </form>
+    
+                    </td>
+                    </table>';
+                  return $this->output;
+              }
+
+              function Create_User_Details($Form_Action=""){
+                echo" \n DDG |";
+                
+                $input['type_form']="Add";
+                $this->output=$this->Create_Form($input);
+                return $this->output;
+              }
+
+            public function Create_Form($input=array()){
+              //print_r($input);
+              switch($input['type_form']){
+                case "Add";
+                $table_array=array('width'=>"40%", 'border'=>0,'align'=>"center",'cellpadding'=>2,
+                'cellspacing'=>"1" ,'bgcolor'=>"#EBEBEB", 'id'=>"table");
+
+                $table_total=array('tags_columns'=>2,'tags_rows'=>4);
+
+                $table_cols_array=array();
+                $table_cols_array[]=array('align'=>"left",'bgcolor'=>"#CCC");
+                $table_cols_array[]=array('align'=>"right",'bgcolor'=>"#FFFFFF");
+
+                $input_item=array('id'=>'First_Name','name'=>'First_Name','type'=>"text",'value'=>"",'size'=>"45",'style'=>"",'class'=>"");
+                $input['items'][]=$input_item;
+                $input_item=array('id'=>'Last_Name','name'=>'Last_Name','type'=>"text",'value'=>"",'size'=>"45",'style'=>"",'class'=>"");
+                $input['items'][]=$input_item;
+                $input_item=array('id'=>'Birth_Date','name'=>'Birth_Date','type'=>"text",'value'=>"",'size'=>"45",'style'=>"",'class'=>"");
+                $input['items'][]=$input_item;
+
+                $tag_item=array('type'=>"label",'value'=>"<strong>First Name<span class='RedText'>*</span></strong>");
+                $input['tags'][]=$tag_item;
+                $tag_item=array('type'=>"label",'value'=>"<strong>Last Name<span class='RedText'>*</span></strong>");
+                $input['tags'][]=$tag_item;Case
+                $tag_item=array('type'=>"label",'value'=>"<strong>Birth Date<span class='RedText'>*</span></strong>");
+                $input['tags'][]=$tag_item;
+
+                $input['tags'][]=array('type'=>"submit",'value'=>'<input name="Submit" type="submit"  class="formbuttons" id="Submit" value="Save">');
+
+                $total_cols=$table_total['tags_columns'];
+                $total_rows=$table_total['tags_rows'];
+                
+
+                $input['cell_output'][0][0]=$input['tags'][0];
+                $input['cell_output'][0][1]=$input['items'][0];
+                $input['cell_output'][1][0]=$input['tags'][1];
+                $input['cell_output'][1][1]=$input['items'][1];
+                $input['cell_output'][2][0]=$input['tags'][2];
+                $input['cell_output'][2][1]=$input['items'][2];
+                $input['cell_output'][3][1]=$input['tags'][3];
+                //$input['cell_output'][3][1]=$input['items'][3];
+
+
+                //print_r($input);
+                /*
+                  row=0 col=0 
+                  row=0 col=1 
+                  row=1 col=0 
+                  row=1 col=1 
+                  row=2 col=0 
+                  row=2 col=1 
+                  row=3 col=0 
+                  row=3 col=1 
+
+                */
+                $input['table_dimentions']=$table_total;
+
+                $input['table_tags']['cols']=$table_cols_array;
+                $input['table_tags']['rows']=array();
+                $input['table_properties']=$table_array;
+                
+                //$this->output=$this->Create_Add_Form($input);
+                break;
+                case "Edit";
+                break;
+                case "Modify";
+                break;
+              }
+              //$input['type_form']
+              $this->output=$this->Create_HTML_Form($this->output);
+              return $this->output;
+            }
+            
+            public function Create_Server_Form(){
+
+                
+
+                $item_array=$this->Create_Table_Elements();
+                $text_input_item=$item_array[0];
+                $drop_down_input_item=$item_array[1];
+                $blank_item=$item_array[2];
+                $hidden_item=$item_array[3];
+                $button_item=$item_array[4];
+
+                $input['header_tags']=array('id','Name','Organization','Main Url','Server Name','Server Admin','IP Hostname','Server Company_Site','');
+                $input['header_tags_type']=array('blank','label','drop_down','label','label','label','label','label',"label");
+                $input['select_items']=array('id','Name','mod_organizationID','Main_Url','ServerName','ServerAdmin','IP_Hostname','Server_Company_Site','id');
+                $input['item_types']=array('blank','text_field','drop_down','text_field','text_field','text_field','text_field','text_field',"submit_button");
+                $input['item_type_properties']=array($blank_item,$text_input_item,$drop_down_input_item,$text_input_item,$text_input_item,$text_input_item,$text_input_item,$text_input_item,$button_item);
+
+                $table_total=array('tags_columns'=>2,'tags_rows'=>9);
+                $input['table_total']=$table_total;
+                /*
+                $table_array=array('width'=>"40%", 'border'=>0,'align'=>"center",'cellpadding'=>2,
+                'cellspacing'=>"1" ,'bgcolor'=>"#EBEBEB", 'id'=>"table");
+              
+                $table_cols_array=array();
+                $table_cols_array[]=array('align'=>"left",'bgcolor'=>"#CCC");
+                $table_cols_array[]=array('align'=>"right",'bgcolor'=>"#FFFFFF");
+              
+                $input['tags'][]=array('type'=>"submit",'value'=>'<input name="Submit" type="submit"  class="formbuttons" id="Submit" value="Save">');
+
+                $total_cols=$table_total['tags_columns'];
+                $total_rows=$table_total['tags_rows'];
+                
+              
+                $input['table_dimentions']=$table_total;
+
+                $input['table_tags']['cols']=$table_cols_array;
+                $input['table_tags']['rows']=array();
+                $input['table_properties']=$table_array;
+                
+                //$this->output=$this->Create_Editor_Form($input);
+
+                */
+                //Create_Edit_Table($input=array(),$edit_id=0,$sql_table,$order_by="id")
+                if(isset(clsSystem::$vars->content_data['get_variables']['id'])){
+                  $edit_id=clsSystem::$vars->content_data['get_variables']['id'];
+                }else{
+                  $edit_id=null;
+                }
+                
+                $this->output=$this->Create_Edit_Table($input,$edit_id,"servers","id");
+                
+                $this->output=$this->Create_HTML_Form($this->output,$_SERVER['REQUEST_URI']);
+                return $this->output;
+            }
+
+            public function Create_Content_Pages_List_Table(){
+                $input['header_tags']=array('id','Page','Title','Menu Title','Changed','Exposure','Sort Order','Edit');
+                $input['header_tags_type']=array('blank','label','label','label','label','label','label','label');
+                $input['select_items']=array('id','URI','Title','MenuTitle','Changed','Exposure','Sort_Order','id');
+                $input['item_types']=array('blank','label','label','label','label','label','label','edit_link');
+                $input['edit_page']=array('target_uri'=>'/management-edit-administrator/');
+                $this->output=$this->Create_List_Table($input,"content_pages","id");
+                return $this->output;
+            }
+
+            public function Create_Server_List_Table(){
+              $input['header_tags']=array('id','Name','Website','IP Hostname','Server Company Site','Edit');
+              $input['header_tags_type']=array('blank','label','label','label','label','label');
+              $input['select_items']=array('id','Name','Main_Url','IP_Hostname','Server_Company_Site','id');
+              $input['item_types']=array('blank','label','label','label','label','edit_link');
+              $input['edit_page']=array('target_uri'=>'/management-hosting-edit-servers/');
+              $this->output=$this->Create_List_Table($input,"servers","id");
+              return $this->output;
+            }
+
+          public function Create_Domains_List_Table(){
+            $input['header_tags']=array('id','Name','Site Title','Edit');
+            $input['header_tags_type']=array('blank','label','label','label');
+            $input['select_items']=array('id','Name','SiteTitle','id');
+            $input['item_types']=array('blank','label','label','edit_link');
+            $input['edit_page']=array('target_uri'=>'/management-edit-administrator/');
+            $this->output=$this->Create_List_Table($input,"domains","id");
+            return $this->output;
+          }
+
+          public function Create_Members_List_Table(){
+            $input['header_tags']=array('id','Name','Email','Edit');
+            $input['header_tags_type']=array('blank','label','label','label');
+            $input['select_items']=array('id','Name','Email','id');
+            $input['item_types']=array('blank','label','label','edit_link');
+            $input['edit_page']=array('target_uri'=>'/management-edit-administrator/');
+
+            $this->output=$this->Create_List_Table($input,"mod_user_accounts","id");
+            return $this->output;
+          }
+
+          public function List_Server_Rows($retrieve_array=array()){
+
+              
+            $return_array=$this->List_Table_Rows("servers",$retrieve_array,"id");
+            return $return_array;
+          }
+
+          
+
+          public function List_Domains_Rows($retrieve_array=array()){
+            
+            $return_array=$this->List_Table_Rows("domains",$retrieve_array,"id");
+            return $return_array;
+          }
+
+          
+
+          public function List_Content_Pages_Rows($retrieve_array=array()){
+            
+            $return_array=$this->List_Table_Rows("content_pages",$retrieve_array,"id");
+            return $return_array;
+          }  
+    }
