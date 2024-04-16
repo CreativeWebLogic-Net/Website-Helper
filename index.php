@@ -1,5 +1,5 @@
 <?php
-  include("Website-Helper/classes/clsClassFactory.php");
-  include("Website-Helper/classes/clsSystem.php");
+  include("bcms/classes/clsClassFactory.php");
+  include("bcms/classes/clsSystem.php");
   $s=new clsSystem();
   
