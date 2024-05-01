@@ -1,55 +1,51 @@
 <?php
 
-    class clsHosting extends clsFormCreator{
+    class clsHosting{
+        
        
-        public $r;
-        public $log;
+        
         public $output;
-
+        public $var=array();
+        public $cls=array();
         function __construct(){
-			$this->Set_Log(clsClassFactory::$all_vars['log']);
-            $this->Set_DataBase(clsClassFactory::$all_vars['r']);
+            $this->var=&clsClassFactory::$vrs;
+            $this->cls=&clsClassFactory::$cls;
 			
-		}
-        function Set_DataBase($r){
-			$this->r=$r;
-			
+			//parent::__construct();
 		}
 
-        function Set_Log($log){
-			$this->log=$log;
-			
-		}
+        
+       
 
-        function Pre_Create_Server_List(){
+        public function Pre_Create_Server_List(){
 			$this->output=__METHOD__;
             return $this->output;
 		}
-        function Pre_Create_Server_Add(){
+        public function Pre_Create_Server_Add(){
 			$this->output=__METHOD__;
             return $this->output;
 		}
 
-        function Pre_Create_Server_Edit(){
+        public function Pre_Create_Server_Edit(){
 			$this->output=__METHOD__;
             return $this->output;
 		}
-        function Create_Server_List(){
+        public function Create_Server_List(){
             //print "XXD3";
             //$this->output="XXD4";
-			$this->output=$this->Create_Server_List_Table();
+			$this->output=$this->cls->clsFormCreator->Create_Server_List_Table();
             return $this->output;
 		}
 
-        function Create_Server_Edit(){
+        public function Create_Server_Edit(){
             //print "XXD3";
             //$this->output="XXD4";
-			$this->output=$this->Create_Server_Form();
+			$this->output=$this->cls->clsFormCreator->Create_Server_Form();
             return $this->output;
 		}
 
-        function Create_Server_Add(){
-            $this->output=$this->Create_Server_Form();
+        public function Create_Server_Add(){
+            $this->output=$this->cls->clsFormCreator->Create_Server_Form();
             return $this->output;
 		}
 

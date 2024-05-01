@@ -19,8 +19,8 @@ class clsGenericProxy
 
     public function set_stats()
     {
-        if(isset(clsClassFactory::$all_vars['stats'])){
-            $this->stats=&clsClassFactory::$all_vars['stats'];
+        if(isset($this->clss->clsStatistics)){
+            $this->stats=$this->cls->clsStatistics;
         }
         
     }
@@ -44,10 +44,25 @@ class clsGenericProxy
             return $this->obj;
             
         }
-    
+
+        public function set_object($obj)
+        {
+            
+            $this->obj=$obj;
+            
+        }
+        
     
     public function __call($method, $arguments)
     {
+        //print_r($arguments);
+        //$this->Start_App_Vars();
+        $return_variable=null;
+            if(method_exists($this->obj,$method)){
+                $return_variable=call_user_func_array([$this->obj, $method], $arguments);
+            }
+            return $return_variable;
+        /*
         try {
             if($this->stats){
                 $this->stats->take_time_sample(get_class($this->obj)."->".$method."->".var_export($arguments,true));
@@ -60,7 +75,12 @@ class clsGenericProxy
                     //}
                 }
             } 
-            return call_user_func_array([$this->obj, $method], $arguments);
+            $return_variable=null;
+            if(method_exists($this->obj,$method)){
+                $return_variable=call_user_func_array([$this->obj, $method], $arguments);
+            }
+            return $return_variable;
+            //$this->Update_App_Vars();
         } catch (Exception $e) {
             // catch all
             if (!is_null($this->handler)) {
@@ -69,5 +89,9 @@ class clsGenericProxy
                throw $e;
             }
         }
+        */
+        
     }
+
+    
 }

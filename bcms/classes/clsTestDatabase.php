@@ -1,7 +1,7 @@
 <?php
-    class clsTestDatabase(){
+    class clsTestDatabase{
         public function test_pgsql(){
-			
+			/*
 						
 			$dbconn = pg_connect("host=localhost dbname=cwy0ek0e_bubblelite2 user=postgres password=DickSux5841");
 			// Performing SQL query
@@ -26,11 +26,11 @@
 
 			// Closing connection
 			pg_close($dbconn);
-			
+			*/
 		}
 
 		public function test_mysql($query=false){
-
+			/*
 			include("classes/db.php");
 			//echo"43210-------------------|-".var_export($server_DB,true)."-|----------------------------------------------------------\n\n";
 			$DB=$server_DB;
@@ -58,14 +58,15 @@
 				echo"\n\n<br>-ZZZZAAA----------------------".var_export($row,true)."-------------------------------------\n\n";
 			
 			};
-			*/
+			*//*
 			
 			return $new_links;
+			*/
 		}
 
 		public function test_mysql_db_link($link=false,$query=false){
 			//echo"DDD-test_mysql_db_link---------".$query."------------------".var_export($link,true)."-------------------------------------------------\n\n";
-			
+			/*
 			$result =false;
 			if(!$query){
 				$query = "SELECT * FROM administrators";
@@ -85,16 +86,17 @@
 			while($row = $this->Fetch_Array($result)){
 				print_r($row);
 			};
-			*/
+			*//*
 			$result_array=array();
 			$result_array=$this->test_mysql_db_result($result);
 			//echo"EEE-last---------------------------||-".var_export($result_array,true)."---||----------------------------------------------\n\n";
 			return $result;
+			*/
 		}
 
 		
 		public function test_mysql_db_result($result=false){
-			
+			/*
 			//$query = 'SELECT * FROM administrators';
 			//$result = $link->query($query);
 			//echo"\n\n AAA------------test_mysql_db_result----------------".var_export($result,true)."-------------------------------------------------\n\n";
@@ -117,9 +119,10 @@
 				
 			}
 			return $result_array;
+			*/
 		}
 
-        public function test_pgsql(){
+        public function test_pgsql_xx(){
 			//echo"888800001-------------------|-99-|----------------------------------------------------------\n\n";
 			
 			//echo"888800001-------------------|-".$this->current_db_type."-|----------------------------------------------------------\n\n";
@@ -132,7 +135,7 @@
 				exit("xx".var_export($e,true));
 			}
 			*/
-			
+			/*
 			$dbconn = pg_connect("host=localhost dbname=cwy0ek0e_bubblelite2 user=postgres password=DickSux5841");
 			// Performing SQL query
 			$query = 'SELECT * FROM administrators';
@@ -156,7 +159,7 @@
 
 			// Closing connection
 			pg_close($dbconn);
-			
+			*/
 		}
 
         /*
@@ -202,7 +205,8 @@
 		}
 		*/
 		
-		public function test_mysql(){
+		public function _xxx(){
+			/*
 			$DB=$this->server_login;
 			$DB['server_type']="MySQL";
 			$this->log->general("App Data Array ",4,$DB);
@@ -219,9 +223,8 @@
 			$myrow=$result->fetch_row();
 			//print_r($myrow);
 			$this->log->general("App Data Array ",4,$myrow);
-			
+			*/
 		}
     }
 
 
-?>

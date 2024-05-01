@@ -4,7 +4,11 @@
         private $DB=array();
 
         private $Current_DB="";
+
+		private $Current_DB_List="";
         private $links;
+
+		private $num_rows;
 
         private $result;
 
@@ -58,14 +62,14 @@
 				
 			$db = new SQLite3($DB['dbName']);
 			$this->links[$TArr]=$db;
-			$this->Current_DB_List[]=$TArr;
+			//$this->Current_DB_List[]=$TArr;
             $this->Current_DB=$TArr;
 			return $this->links[$TArr];
 		}
 
         public function rawQuery($query="",$link=false)
 		{
-            print $query." \n\n";
+            //print $query." \n\n";
 			$result=false;
 			if($query!=""){
 				$this->SQL=$query;
@@ -75,7 +79,12 @@
 				try{
 					if($link){
 						$result = $link->query($query);
-                        $this->Set_Result($result);
+						if($result){
+							$this->Set_Result($result);
+						}else{
+							print "\n failed query =>".$query." \n\n";
+						}
+                        
 					}else{
 					}
 					if(!$result){
@@ -139,18 +148,25 @@
 		public function Fetch_Assoc($result=false)
 		{
 			$row=array();
+			$return_array=array();
 			if(!$result) $result=$this->Get_Result();
 			if($result){
 				$row = $result->fetchArray(SQLITE3_ASSOC);
-				if(is_array($row)){
-					return $row;
+				//print_r($row);
+				$return_array=$row;
+				
+				
+				if(is_array($return_array)){
+					return $return_array;
 				}else{
-					$row=array();
+					$return_array=array();
 				}
+				
 			}else{
-                $row=array();
+                $return_array=array();
 			}
-			return $row;
+			//print_r($return_array);
+			return $return_array;
 		}
 
 		public function Fetch_Both($result=false)
@@ -195,13 +211,36 @@
 			
 		}
 		
-		function Insert_Id(){
+		function Insert_Id($result=false){
+			/*
 			try{
-				$InsertID = $this->links->insert_id;
+				//$InsertID = $this->links->insert_id;
+				$InsertID = $this->links->lastInsertRowID();
 				return $InsertID;
 			}catch(ErrorException $e){
 				$this->log->general("-Insert_Id failed--".var_export($e,true),3);
 			}
+			*/
+			$row=array();
+			$return_array=array();
+			if(!$result) $result=$this->Get_Result();
+			if($result){
+				$row = $result->lastInsertRowID();
+				//print_r($row);
+				$return_array=$row;
+				
+				
+				if(is_array($return_array)){
+					return $return_array;
+				}else{
+					$return_array=array();
+				}
+				
+			}else{
+                $return_array=array();
+			}
+			//print_r($return_array);
+			return $return_array;
 		}
 
         

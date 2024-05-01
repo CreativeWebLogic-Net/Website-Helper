@@ -22,7 +22,7 @@
         }
 
         public function Set_Log($log){
-            $this->log=clsClassFactory::$all_vars['log'];
+           // $this->log=clsClassFactory::$all_vars['log'];
             //print_r($this->log);
             //$this->log->general('Boot Success: ',9,array());
                     
@@ -34,7 +34,7 @@
             
         }
 
-        private function getServerOSType() {
+        public function getServerOSType() {
             return php_uname('s');
         }
 

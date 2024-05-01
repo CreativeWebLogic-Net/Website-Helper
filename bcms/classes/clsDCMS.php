@@ -112,7 +112,7 @@
 			$host_name=gethostname();
 			print $host_name."-<br>";
 			$current_dir=pathinfo(__DIR__);
-			print_r($current_dir)."<br>";
+			//print_r($current_dir)."<br>";
 			print($_SERVER['PHP_SELF']);
 			
 			$dir    = $dir.'/';
@@ -122,7 +122,7 @@
 				echo "Not Dir cdf ->".$dir."-\n\n";
 			}
 			$files1 = scandir($dir);
-			print_r($files1);
+			//print_r($files1);
 			
 			$file = $dir.$files1[3];
 			print $file;

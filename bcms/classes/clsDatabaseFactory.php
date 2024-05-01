@@ -15,7 +15,7 @@
         }
 
         public function add_database($DB){
-            print_r($DB);
+            //print_r($DB);
             $this->Current_Database=$DB['db_server_id'];
 			$this->DB[$this->Current_Database]=$DB;
             

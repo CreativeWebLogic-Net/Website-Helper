@@ -1,51 +1,42 @@
 <?php
 
-    class clsMembers extends clsFormCreator{
-        private $text_data=array();
+    class clsMembers{
+        //private $text_data=array();
         public $Message="";
 
-        public $output="";
-        public $log;
-
-        public $r;
-
         
+        public $output="";
+        public $var=array();
+        public $cls=array();
         function __construct(){
-            $this->Set_Log(clsClassFactory::$all_vars['log']);
-            $this->Set_DataBase(clsClassFactory::$all_vars['r']);
+            $this->var=&clsClassFactory::$vrs;
+            $this->cls=&clsClassFactory::$cls;
             
         }
 
-        function Set_DataBase($r){
-			$this->r=$r;
-			
-		}
+        
 
-        function Set_Log($log){
-			$this->log=$log;
-			
-		}
-
-        function Pre_LogOut(){
+        
+        public function Pre_LogOut(){
             session_start();
             session_destroy();
             $Message="You are logged out";
             header("Location: /");
         }
 
-        function LogOut(){
+        public function LogOut(){
             return "You Have logged out";
         }
 
         
-        function Pre_Login(){
+        public function Pre_Login(){
             if(isset($_POST['Submit'])){
                 if($_POST['Submit']){
                     
                     $user_details=$this->Check_Login($_POST['username'],$_POST['password']);
                     if(count($user_details)>0){
                         //$return_array=array("details"=>$data_user_details,"accounr"=>$data_user_account,"level"=>$data_user_level,"profile"=>$data_user_profile);
-                        $this->log->general('Member Login Checked-',1);
+                        $this->cls->clsLog->general('Member Login Checked-',1);
                         $_SESSION['member_array']=$user_details;
                         $_SESSION['membersID']=$user_details["account"]['id'];
                         
@@ -65,20 +56,20 @@
             }else{
                 //$this->Message="Incorrect Email Or Password";
             }
-            clsSystem::$vars->Message=$this->Message;
+            //clsSystem::$vars->Message=$this->Message;
             $this->output=$this->Message;
             return $this->output;
         }
         
         
-        function Member_Register(){
+        public function Member_Register(){
             
-            $this->output=$this->Member_Register_Form();
+            $this->output=$this->cls->clsFormCreator->Member_Register_Form();
             return $this->output;
         }
 
 
-        function Member_Login(){
+        public function Member_Login(){
             //print "DDD";
             if(isset($_SESSION['membersID'])){
                 if($_SESSION['membersID']){
@@ -96,9 +87,11 @@
                 //print "You are now logged in!!!";
 
             }else{
-                $this->text_data['debug'][]="show log in";
+                $this->var['domain']['debug'][]="show log in";
                 //print "xxx".$this->Message;
                 $this->output=$this->Message;
+                $this->output.=$this->cls->clsFormCreator->Create_Login_Form();
+                /*
                 $this->output.='
                 <form name="form1" method="post" action="/login/">
                 <table width="300" border="2" align="center" cellpadding="2" cellspacing="1" bgcolor="#97C8F9" id="table">
@@ -119,30 +112,33 @@
                 </table>
                 </form>
                 ';
-                
+                */
             };
-            clsSystem::$vars->Message=$this->Message;
+            //clsSystem::$vars->Message=$this->Message;
             return $this->output;
         }
 
-        function Check_Login($UserName,$Password){
+
+        
+
+        public function Check_Login($UserName,$Password){
             $return_array=array();
             $sql="SELECT * FROM mod_login_details where username='".$UserName."' and password='".$Password."' LIMIT 0,1";
-            $data=$this->r->rawQuery($sql);
-            $data_user_details=$this->r->Fetch_Assoc($data);
+            $data=$this->cls->clsDatabaseInterface->rawQuery($sql);
+            $data_user_details=$this->cls->clsDatabaseInterface->Fetch_Assoc($data);
             if(count($data_user_details)){
                 $sql="SELECT * FROM mod_user_accounts where mod_login_detailsID='".$data_user_details['id']."' LIMIT 0,1";
                 //print $sql;
-                $data=$this->r->rawQuery($sql);
-                $data_user_account=$this->r->Fetch_Assoc($data);
+                $data=$this->cls->clsDatabaseInterface->rawQuery($sql);
+                $data_user_account=$this->cls->clsDatabaseInterface->Fetch_Assoc($data);
 
                 $sql="SELECT * FROM mod_user_levels where id='".$data_user_account['mod_login_detailsID']."' LIMIT 0,1";
-                $data=$this->r->rawQuery($sql);
-                $data_user_level=$this->r->Fetch_Assoc($data);
+                $data=$this->cls->clsDatabaseInterface->rawQuery($sql);
+                $data_user_level=$this->cls->clsDatabaseInterface->Fetch_Assoc($data);
 
                 $sql="SELECT * FROM mod_user_profile where id='".$data_user_account['mod_user_profileID']."' LIMIT 0,1";
-                $data=$this->r->rawQuery($sql);
-                $data_user_profile=$this->r->Fetch_Assoc($data);
+                $data=$this->cls->clsDatabaseInterface->rawQuery($sql);
+                $data_user_profile=$this->cls->clsDatabaseInterface->Fetch_Assoc($data);
                 $return_array=array("details"=>$data_user_details,"account"=>$data_user_account,"level"=>$data_user_level,"profile"=>$data_user_profile);
             }else{
 
@@ -152,7 +148,7 @@
             return $return_array;
         }
 
-        function Member_Admin_Login(){
+        public function Member_Admin_Login(){
             if(isset($_GET['file'])){
                 $file_name=$_GET['file'];
                 header("Location: http://assets.localhost/".$file_name);
@@ -170,7 +166,7 @@
             if(isset($_GET['hash'])){
                 $login=true;
                 $sql="UPDATE administrators SET administratorActive=1 WHERE hash='".$_GET['hash']."'";
-                $data=$r->rawQuery($sql);
+                $data=$this->cls->clsDatabaseInterfacerawQuery($sql);
                 $sql="SELECT * FROM administrators where hash='".$_GET['hash']."' LIMIT 0,1";
             }
 
@@ -185,8 +181,8 @@
             }
 
             if($login){
-                $data=$r->rawQuery($sql);
-                $dataarray=$r->Fetch_Array($data);
+                $data=$this->cls->clsDatabaseInterfacerawQuery($sql);
+                $dataarray=$this->cls->clsDatabaseInterfaceFetch_Array($data);
                     if(isset($dataarray[0])){
                         if($dataarray[0]>0){ //admin login ok
                             
@@ -205,10 +201,10 @@
                                 $sql.=" AND administratorsID=$session_data[administratorsID] AND clientsID=$session_data[clientsID]";
                             }
                             
-                            $rslt=$r->RawQuery($sql);
+                            $rslt=$this->cls->clsDatabaseInterfaceRawQuery($sql);
                             if($rslt){
-                                if($r->NumRows($rslt)>0){
-                                    $data=$r->Fetch_Array($rslt);
+                                if($this->cls->clsDatabaseInterfaceNumRows($rslt)>0){
+                                    $data=$this->cls->clsDatabaseInterfaceFetch_Array($rslt);
                                     if($data[0]>0){
                                         $session_data['original_domainsID']=$data[0];
                                         $_COOKIE['original_domainsID']=$data[0];
@@ -276,7 +272,7 @@
         }
 
 
-        function Pre_Register(){
+        public function Pre_Register(){
             if(!isset($_POST['name'])) $_POST['name']="";
             if(!isset($_POST['address'])) $_POST['address']="";
             if(!isset($_POST['suburb'])) $_POST['suburb']="";
@@ -299,49 +295,51 @@
                     
                     
                     if($continue){
-                        $this->log->general('Member Resister',1);
-                        $subdomain=dirify(trim(str_replace(" ","-",$_POST['name'])));
+                        $this->cls->clsLog->general('Member Resister',1);
+                        $subdomain=$this->cls->clsAssortedFunctions->dirify(trim(str_replace(" ","-",$_POST['name'])));
                         $sql="INSERT INTO users VALUES ('NULL', '$_POST[name]', '$_POST[address]', '$_POST[suburb]', '$_POST[state]', '$_POST[postcode]', '$subdomain', '$_POST[phone]', '$_POST[mobile]', '$_POST[fax]', '$_POST[email]', '$_POST[website]', '$_POST[contact_name]', '$_POST[password]',  '1', '0', '$_POST[abn]', '', '$_POST[mod_business_categoriesID]','New')";
                         //print $sql;
-                        $rslt=$this->r->RawQuery($sql);
+                        $rslt=$this->cls->clsDatabaseInterface->RawQuery($sql);
                         if($rslt){
-                            if($domain_data['AEmail']!=""){
-                                $Simple="New user id is ".$this->r->Insert_Id();
+                            if($this->var['domain']['AEmail']!=""){
+                                $Simple="New user id is ".$this->cls->clsDatabaseInterface->Insert_Id();
                                 foreach($_POST as $key=>$val){
                                     $Simple.="\n $key=$val";	
                                 }
                                 
                                 $sql="SELECT id FROM users WHERE email='$_POST[email]'";
-                                $rslt=$this->r->RawQuery($sql);
-                                if($this->r->NumRows($rslt)>0){
-                                    $data=$this->r->Fetch_Array($rslt);
+                                $rslt=$this->cls->clsDatabaseInterface->RawQuery($sql);
+                                if($this->cls->clsDatabaseInterface->NumRows($rslt)>0){
+                                    $data=$this->cls->clsDatabaseInterface->Fetch_Array($rslt);
                                     $Simple.="\n WARNING DUPLICATE Email FOUND ON USER $data[0]";
                                 }
-                                
+                                /*
                                 $m=new SendMail();
                                 $m->Body($Simple,$Simple);
-                                $m->To(array("BCMSL Admin"=>$domain_data['AEmail']));
+                                $m->To(array("BCMSL Admin"=>$this->var['domain']['AEmail']));
                                 $m->From("BCMSL Bot","info@".DOMAINNAME);
                                 $m->Subject("New User Has Registered on ".DOMAINNAME);
                                 $m->Send();
                                 $Message="Success";
+                                */
                             }
                             
                             header("Location: /Registration-Complete/");
                         }else{
-                            print "error ".$this->r->Error();	
+                            print "error ".$this->cls->clsDatabaseInterface->Error();	
                         }
                     }
                 }
             }
         }
 
-        function Pre_User_Details(){
+        public function Pre_User_Details(){
 	
             if(isset($_POST['Submit'])){
                 if($_POST['Submit']){
                     
                     $membersID=$_SESSION['membersID'];
+                    /*
                     $m= new UpdateDatabase($log);
                     $m->Set_Log($log);
                     $m->Set_Database($r);
@@ -351,15 +349,15 @@
                     $m->AddTable("users");
                     $m->AddID($_SESSION['membersID']);
                     $m->DoStuff();
-                    
+                    */
                 }
             }
         }
 
-        function Pre_Postal_Address(){
+        public function Pre_Postal_Address(){
             if(isset($_POST['Submit'])){
                 if($_POST['Submit']){
-                    
+                    /*
                     $membersID=$_SESSION['membersID'];
                     $m= new AddToDatabase($log);
                     $m->ChangeInsertType("REPLACE");
@@ -371,20 +369,20 @@
                     $m->AddTable("user_details");
                     $m->AddID($_SESSION['membersID']);
                     $m->DoStuff();
-                    
+                    */
                 }
             }
         }
 
 
-        function Postal_Address(){
+        public function Postal_Address(){
             //echo "\n\n ===================================================================================== 777 \n\n";
             $membersID=$_SESSION['membersID'];
             //$r=new ReturnRecord();
-            $r->AddTable("user_details");
+            $this->cls->clsDatabaseInterfaceAddTable("user_details");
         
-            $r->AddSearchVar($_SESSION['membersID']);
-            $Memb=$r->GetRecord();
+            $this->cls->clsDatabaseInterfaceAddSearchVar($_SESSION['membersID']);
+            $Memb=$this->cls->clsDatabaseInterfaceGetRecord();
             
             $user_details_array=array('name','address','suburb','state','postcode','abn','phone','mobile','fax','email','website','contact_name','password','business_description');
             foreach($user_details_array as $key=>$val){
@@ -394,7 +392,7 @@
             }
             $this->output='
             
-            <form method="post" action="'.clsSystem::$vars->content_data['PAGENAME'].'">
+            <form method="post" action="'.$this->var['content']['PAGENAME'].'">
             <div align="center">
                 <center>
                 <?php print $Message;?>
@@ -423,8 +421,8 @@
                                 <td width="35%" align="left"><strong>*Country</strong></td>
                                 <td align="left"><select name="countryID" onChange="setDelivery(this.value)">
                                 ';
-                                $sql=$this->r->rawQuery("SELECT id,Country_Name FROM countries");
-                                while($myrow=$this->r->Fetch_Array($sql)){
+                                $sql=$this->cls->clsDatabaseInterface->rawQuery("SELECT id,Country_Name FROM countries");
+                                while($myrow=$this->cls->clsDatabaseInterface->Fetch_Array($sql)){
                                     if($Memb['countryID']==$myrow[0]){
                                         $this->output.='<option value="'.$myrow[0].'" selected>'.$myrow[1].'</option>';
                                     }else{
@@ -458,12 +456,12 @@
             </div>
             </form>';
         }
-        function Change_Password(){
-            $this->output=$this->Create_Change_Password();
+        public function Change_Password(){
+            $this->output=$this->cls->clsFormCreator->Create_Change_Password();
             return $this->output;
         }
 
-        function Pre_Change_Password(){
+        public function Pre_Change_Password(){
 			if(isset($_POST['Submit'])){
                 if($_POST['Submit']){
                     
@@ -473,14 +471,14 @@
             }
 		}
 
-        function Add_Member(){
-            $this->output=$this->Create_User_Details();
+        public function Add_Member(){
+            $this->output=$this->cls->clsFormCreator->Create_User_Details();
             return $this->output;
         }
 
-        public function Modify_Member(){
+        public  function Modify_Member(){
             
-            $this->output=$this->Create_Members_List_Table();
+            $this->output=$this->cls->clsFormCreator->Create_Members_List_Table();
             return $this->output;
         }
 
@@ -497,48 +495,48 @@
         }
 
         public function Edit_Member(){
-            $this->output=$this->Create_User_Details();
+            $this->output=$this->cls->clsFormCreator->Create_User_Details();
             return $this->output;
         }
    
-        function User_Details(){
+        public function User_Details(){
             $left_output="<br><br>";
             $right_output="";
 
-            $left_output.="<a href='".clsSystem::$vars->content_data["TOTALPAGENAME"]."page=user_details/'>User Details</a><br>";
-            $left_output.="<a href='".clsSystem::$vars->content_data["TOTALPAGENAME"]."page=postal_addresses/'>Postal Addresses</a><br>";
-            $left_output.="<a href='".clsSystem::$vars->content_data["TOTALPAGENAME"]."page=contact_details/'>Contact Details</a><br>";
-            $left_output.="<a href='".clsSystem::$vars->content_data["TOTALPAGENAME"]."page=company_details/'>Organization Details</a><br>";
-            $left_output.="<a href='".clsSystem::$vars->content_data["TOTALPAGENAME"]."page=tax_details/'>Tax Details</a><br>";
-            $left_output.="<a href='".clsSystem::$vars->content_data["TOTALPAGENAME"]."page=interests/'>Interests</a><br>";
-            $left_output.="<a href='".clsSystem::$vars->content_data["TOTALPAGENAME"]."page=orders/'>Orders</a><br>";
-            $left_output.="<a href='".clsSystem::$vars->content_data["TOTALPAGENAME"]."page=account/'>Account</a><br>";
-            $left_output.="<a href='".clsSystem::$vars->content_data["TOTALPAGENAME"]."page=events/'>Events</a><br>";
-            $left_output.="<a href='".clsSystem::$vars->content_data["TOTALPAGENAME"]."page=groups/'>Groups</a><br>";
-            switch(clsSystem::$vars->content_data['get_variables']['page']){
+            $left_output.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=user_details/'>User Details</a><br>";
+            $left_output.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=postal_addresses/'>Postal Addresses</a><br>";
+            $left_output.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=contact_details/'>Contact Details</a><br>";
+            $left_output.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=company_details/'>Organization Details</a><br>";
+            $left_output.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=tax_details/'>Tax Details</a><br>";
+            $left_output.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=interests/'>Interests</a><br>";
+            $left_output.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=orders/'>Orders</a><br>";
+            $left_output.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=account/'>Account</a><br>";
+            $left_output.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=events/'>Events</a><br>";
+            $left_output.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=groups/'>Groups</a><br>";
+            switch($this->var['content']['get_variables']['page']){
                 case "add_postal":
-                    $right_output=$this->Create_Postal_Address(clsSystem::$vars->content_data['original_uri']);
+                    //$right_output=$this->Create_Postal_Address($this->var['content']['original_uri']);
                 break;
                 case "user_details":
-                    $right_output=$this->Create_User_Details();
+                    //$right_output=$this->Create_User_Details();
                 break;
                 case "postal_addresses":
-                    $right_output.="<a href='".clsSystem::$vars->content_data["TOTALPAGENAME"]."page=add_postal/'>Add Postal Address</a><br><br><br>";
-                    $right_output.=$this->Create_Postal_Addresses_List();
+                    $right_output.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=add_postal/'>Add Postal Address</a><br><br><br>";
+                    //$right_output.=$this->Create_Postal_Addresses_List();
                 break;
                 case "interests":
                     $interest_menu="";
-                    $interest_menu.="<a href='".clsSystem::$vars->content_data["TOTALPAGENAME"]."page=interests/page2=movies/'>Movies</a><br>";
-                    $interest_menu.="<a href='".clsSystem::$vars->content_data["TOTALPAGENAME"]."page=interests/page2=tv_shows/'>TV Shows</a><br>";
-                    $interest_menu.="<a href='".clsSystem::$vars->content_data["TOTALPAGENAME"]."page=interests/page2=artists/'>Artists</a><br>";
-                    $interest_menu.="<a href='".clsSystem::$vars->content_data["TOTALPAGENAME"]."page=interests/page2=books/'>Books</a><br>";
-                    $interest_menu.="<a href='".clsSystem::$vars->content_data["TOTALPAGENAME"]."page=interests/page2=sports/'>Sports Teams</a><br>";
-                    $interest_menu.="<a href='".clsSystem::$vars->content_data["TOTALPAGENAME"]."page=interests/page2=athletes/'>Athletes</a><br>";
-                    $interest_menu.="<a href='".clsSystem::$vars->content_data["TOTALPAGENAME"]."page=interests/page2=people/'>People</a><br>";
-                    $interest_menu.="<a href='".clsSystem::$vars->content_data["TOTALPAGENAME"]."page=interests/page2=restraunts/'>Restraunts</a><br>";
-                    $interest_menu.="<a href='".clsSystem::$vars->content_data["TOTALPAGENAME"]."page=interests/page2=applications/'>Applications</a><br>";
-                    $interest_menu.="<a href='".clsSystem::$vars->content_data["TOTALPAGENAME"]."page=interests/page2=games/'>Games</a><br>";
-                    switch(clsSystem::$vars->content_data['get_variables']['page2']){
+                    $interest_menu.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=interests/page2=movies/'>Movies</a><br>";
+                    $interest_menu.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=interests/page2=tv_shows/'>TV Shows</a><br>";
+                    $interest_menu.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=interests/page2=artists/'>Artists</a><br>";
+                    $interest_menu.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=interests/page2=books/'>Books</a><br>";
+                    $interest_menu.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=interests/page2=sports/'>Sports Teams</a><br>";
+                    $interest_menu.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=interests/page2=athletes/'>Athletes</a><br>";
+                    $interest_menu.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=interests/page2=people/'>People</a><br>";
+                    $interest_menu.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=interests/page2=restraunts/'>Restraunts</a><br>";
+                    $interest_menu.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=interests/page2=applications/'>Applications</a><br>";
+                    $interest_menu.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=interests/page2=games/'>Games</a><br>";
+                    switch($this->var['content']['get_variables']['page2']){
                         case "movies":
                             $interests_right_output="Show Movies Liked";
                         break;
@@ -582,15 +580,15 @@
             return $this->output;
         }
 
-        function User_Details_old(){
+        public function User_Details_old(){
             //echo "\n\n ===================================================================================== 777 \n\n";
             $membersID=$_SESSION['membersID'];
             /*
             //$r=new ReturnRecord();
-            $this->r->AddTable("users");
+            $this->cls->clsDatabaseInterface->AddTable("users");
         
-            $this->r->AddSearchVar($_SESSION['membersID']);
-            $Memb=$this->r->GetRecord();
+            $this->cls->clsDatabaseInterface->AddSearchVar($_SESSION['membersID']);
+            $Memb=$this->cls->clsDatabaseInterface->GetRecord();
             */
             $Memb=array();
             $user_details_array=array('name','address','suburb','state','postcode','abn','phone','mobile','fax','email','website','contact_name','password','business_description');
@@ -604,7 +602,7 @@
             }
 
             $this->output='            
-            <form method="post" action="'.clsSystem::$vars->content_data['PAGENAME'].'">
+            <form method="post" action="'.$this->var['content']['PAGENAME'].'">
             <div align="center">
                 <center>
                 '.$this->Message.'
@@ -633,8 +631,8 @@
                                 <td width="35%" align="left"><strong>*Country</strong></td>
                                 <td align="left"><select name="countryID" onChange="setDelivery(this.value)">
                                 ';
-                                $sql=$this->r->rawQuery("SELECT id,Country_Name FROM countries");
-                                while($myrow=$this->r->Fetch_Array($sql)){
+                                $sql=$this->cls->clsDatabaseInterface->rawQuery("SELECT id,Country_Name FROM countries");
+                                while($myrow=$this->cls->clsDatabaseInterface->Fetch_Array($sql)){
                                     if($Memb['countryID']==$myrow[0]){
                                         $this->output.='<option value="'.$myrow[0].'" selected>'.$myrow[1].'</option>';
                                     }else{
@@ -703,23 +701,24 @@
             
 
 
-            function Pre_Forgot_Password(){
+            public function Pre_Forgot_Password(){
                 if(isset($_POST['Submit'])&&isset($_POST['email'])){
-                    $rslt=$this->r->RawQuery('SELECT password,name,email,id FROM users WHERE email="'.$_POST[email].'"');
+                    $rslt=$this->cls->clsDatabaseInterface->RawQuery('SELECT password,name,email,id FROM users WHERE email="'.$_POST['email'].'"');
                     if($rslt){
                         $Simple="Dear Member here are the details you requested.\n";
-                        $this->m=new SendMail();
-                        while($data=$r->Fetch_Array($rslt)){
-                            $m->To(array($data[1]=>$data[2]));
+                        //$this->m=new SendMail();
+                        while($data=$this->cls->clsDatabaseInterfaceFetch_Array($rslt)){
+                            //$m->To(array($data[1]=>$data[2]));
                             $Simple.="Your name is: $data[1] \n Your email is $data[2].\n Your password is $data[0] \n";
                             $Simple.="------------------------------------------------------------------------------\n";
                         }
-                        
+                        /*
                         $this->m->Body($Simple,$Simple);
                         
                         $this->m->From(DOMAINNAME." Admin","admin@".DOMAINNAME);
                         $this->m->Subject("Your password reminder");
                         $this->m->Send();
+                    */
                         $Message="Password sent..";
                     }else{
                         $Message="Email not found";
@@ -727,8 +726,8 @@
                 }
             }
 
-            function Forgot_Password(){
-                $this->output.="<form name='form1' method='post' action='".$_SERVER['REQUEST_URI']."'>".$Message."
+            public function Forgot_Password(){
+                $this->output.="<form name='form1' method='post' action='".$_SERVER['REQUEST_URI']."'>
                     <table width='334' border='0' align='center' cellpadding='2' cellspacing='1' bgcolor='#97C8F9' id='table'>
                         <tr>
                         <td colspan='2' align='center' bgcolor='#FFFFFF'><strong>Please enter your email and click Submit and we will email you your password:-</strong></td>
@@ -746,7 +745,7 @@
             }
 
 
-            function Change_Password_Form(){
+            public function Change_Password_Form(){
                 $this->output='<p align="center">&nbsp;</p>
                     <p><font size="2">To <strong><span class="Morone">update your password</span></strong> simply type in your current password, and then type in your new password twice. This will
                     ensure that you did not mis-type your new password.</font></p>
@@ -779,11 +778,11 @@
 
 
 
-        function HTML_Output(){
+            public function HTML_Output(){
             print $this->output;
         }
 
-        function Member_Add(){
+        public function Member_Add(){
             $this->output='
             <table width="650" border="0" align="center" cellpadding="0" cellspacing="0">
             <tr>
@@ -853,23 +852,9 @@
                     <td class="tabletitle"><strong>Status</strong></td>
                     <td class="tablewhite">
                     <select name="status" id="accesslvl">
-                    <option value="New" ';
+                    <option value="New" 
                     
-                    if($Insert['accesslvl']=="New"){
-                    $this->output.='"selected"';
-                    }
                     
-                    $this->output.='>New Member</option>
-                    <option value="Rejected"';
-                    if($Insert['accesslvl']=="Rejected"){
-                    $this->output.='"selected"';
-                    }
-                    $this->output.='>Rejected</option>
-                    <option value="Approved" ';
-                    if($Insert['accesslvl']=="Approved"){
-                    $this->output.='"selected"';
-                    }
-                    $this->output.='>Approved</option>
                 </select>
                 </td>
                 </tr>
@@ -882,14 +867,14 @@
                     <td class="tablewhite"><SELECT NAME="mod_business_categoriesID" id="mod_business_categoriesID">';
 
                     $Count=0;
-                    $sql="SELECT id,CategoryTitle FROM mod_business_categories WHERE ((domainsID=".$session_data['domainsID'].") OR  (domainsID=0)) ORDER BY CategoryTitle";
+                    $sql="SELECT id,CategoryTitle FROM mod_business_categories WHERE ((domainsID=".$_SESSION['domainsID'].") OR  (domainsID=0)) ORDER BY CategoryTitle";
                 
-                            $sq2=$this->r->rawQuery($sql);  
-                            while ($myrow = $this->r->Fetch_Array($sq2)) {
+                            $sq2=$this->cls->clsDatabaseInterface->rawQuery($sql);  
+                            while ($myrow = $this->cls->clsDatabaseInterface->Fetch_Array($sq2)) {
                                 $this->output.='<option value="'.$myrow[0].'"';
-                                if($Insert['mod_business_categoriesID']==$myrow[0]){
-                                    $this->output.='"selected"';
-                                } 
+                                //if($Insert['mod_business_categoriesID']==$myrow[0]){
+                                    //$this->output.='"selected"';
+                                //} 
                                 $this->output.='">$myrow[1]</option>"';
                             };
                             $this->output.='
@@ -897,7 +882,7 @@
                             </tr>
                             <tr>
                                 <td class="tabletitle"><strong>Directory Description</strong></td>
-                                <td class="tablewhite"><textarea name="business_description" cols="45" rows="4" id="business_description">'.$Insert['business_description'].'</textarea></td>
+                                <td class="tablewhite"><textarea name="business_description" cols="45" rows="4" id="business_description"></textarea></td>
                             </tr>
                             </table>
                             <p><br>

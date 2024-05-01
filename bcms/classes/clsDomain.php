@@ -1,60 +1,94 @@
 <?php
 
-    class clsDomain extends clsFormCreator{
-        private $content_data=array();      
-        private $domain_data=array();
-        private $content_domain_data=array();
-        private $domain_user_data=array();
-        private $app_data=array();
-
-        private $all_data_arrays=array();
-        private $all_data_names=array(0=>"app",1=>"domain_user",2=>"domain",3=>"content",4=>"content_domain");
-        public $log;
-
-        public $r;
+    //class clsDomain extends clsFormCreator{
+        class clsDomain {
+        
 
         public $output;
 
         public $Message;
-       
+        
+        public $var=array();
+        public $cls=array();
         function __construct(){
-			
-			$this->Set_Log(clsClassFactory::$all_vars['log']);
-            $this->Set_DataBase(clsClassFactory::$all_vars['r']);
+            $this->var=&clsClassFactory::$vrs;
+            $this->cls=&clsClassFactory::$cls;
+
+        
+            
+            //$className="\n Class=>".__CLASS__."  => \n";
+			//print $className;
+
+           
 		}
 
-        function Domain_Set_Data_Arrays($content_domain_data,$content_data,$domain_data,$domain_user_data,$app_data){
-			$this->content_data=$content_data;
-            $this->domain_data=$domain_data;
-            $this->content_domain_data=$content_domain_data;
-            $this->domain_user_data=$domain_user_data;
-            $this->app_data=$app_data;
-		}
-
-        function Domain_Get_Data_Arrays(){
-            //$output_array=array($this->all_data_names[4]=>$this->content_domain_data,$this->all_data_names[3]=>$this->content_data,
-            //$this->all_data_names[2]=>$this->domain_data,$this->all_data_names[1]=>$this->domain_user_data,$this->all_data_names[0]=>$this->app_data);
-            $output_array=array($this->content_domain_data,$this->content_data,$this->domain_data,$this->domain_user_data,$this->app_data);
-			return $output_array;
-		}
-
-        function Set_DataBase($r){
-			$this->r=$r;
-			
-		}
-
-        function Set_Log($log){
-			$this->log=$log;
-			
-		}
-        function Domain_Init(){
-            $this->log->general("-Domain Module Loading-",1);
-            //echo"--73---------------------------------------------------------------------------\n";
+        
+        /*
+        public function __call($method, $arguments)
+        {
+            try {
+                
+                $return_variable=null;
+                if(method_exists($this,$method)){
+                    $this->Start_App_Vars();
+                    $return_variable=call_user_func_array([$this, $method], $arguments);
+                    $this->Update_App_Vars();
+                }
+                return $return_variable;
+            } catch (Exception $e) {
+                throw $e;
+            }
+            
+        }
+        
+        
+        public function __call($method, $arguments)
+        {
+            try {
+                echo"--666-------------------------".$method."--------------------------------------------------\n";
+                $return_variable=null;
+                if(method_exists($this,$method)){
+                    $this->Start_App_Vars();
+                    $return_variable=call_user_func_array([$this, $method], $arguments);
+                    $this->Update_App_Vars();
+                }
+                return $return_variable;
+            } catch (Exception $e) {
+                throw $e;
+            }
+            
+        }
+        */
+        /*
+        public function __call($method, $arguments)
+        {
+            try {
+                echo"--666------Call Function--------------Method=>-----".$method."-------vls=>--".__CLASS__."-----------------------------------------\n";
+                $return_variable=null;
+                if(method_exists($this,$method)){
+                    
+                    //$this->Start_App_Vars();
+                    //exit("bboo".var_export($this,true));
+                    $return_variable=call_user_func_array([$this, $method], $arguments);
+                    
+                    //$this->Update_App_Vars();
+                }
+                return $return_variable;
+            } catch (Exception $e) {
+                throw $e;
+            }
+            
+        }
+        */
+        public function Domain_Init(){
+            //$this->Start_App_Vars();
+            //$this->cls->clsLog->general("-Domain Module Loading-",1);
+            
             //$current_domain=eregi_replace("www\.","",$_SERVER['HTTP_HOST']);
             $current_domain= str_replace('www.', "",$_SERVER['HTTP_HOST']);
             
             //$current_domain=$_SERVER['HTTP_HOST'];
-            $this->log->general("-Domain Loading-".$current_domain."|",1);
+            //$this->cls->clsLog->general("-Domain Loading-".$current_domain."|",1);
             //define('DOMAINNAME',$current_domain);
             
             if(isset($_GET['dcmshost'])){
@@ -64,31 +98,33 @@
             }
             
             if(isset($_GET['ajax'])){
-                $this->domain_data["db"]['templatesID']=35;
-                $this->content_data["db"]['templatesID']=35;
+                $this->var['domain']["db"]['templatesID']=35;
+                $this->var['content']["db"]['templatesID']=35;
             }
             
-            //print $TargetHost;
-            $this->content_data["TargetHost"]=$TargetHost;
-            $this->content_data["original_domain"]=$current_domain;
+            //echo"--73----------------------------".var_export($this->var['content'],true)."-----------------------------------------------\n";
+            
+            $this->var['content']["TargetHost"]=$TargetHost;
+            $this->var['content']["original_domain"]=$current_domain;
+            
             $TotalDomainName=str_replace("www\.", "", $TargetHost);
-            $this->content_data["TOTALDOMAINNAME"]=$TotalDomainName;
-            define('TOTALDOMAINNAME',$TotalDomainName);
-            $this->log->general("\n-",1);
-            $this->log->general("-Domain Total Loading 2-".$TargetHost,1);
+            $this->var['content']["TOTALDOMAINNAME"]=$TotalDomainName;
+            //define('TOTALDOMAINNAME',$TotalDomainName);
+            $this->cls->clsLog->general("\n-",1);
+            $this->cls->clsLog->general("-Domain Total Loading 2-".$TargetHost,1);
             
             $DomainVariableArray=array();
-            $this->domain_user_data=array();
+            $this->var['domain_user']=array();
             $csearch=true;
             $totalcount=0;
             $num_rows=0;
-            $this->domain_data["db"]=array();
-            $this->domain_data["dcmshost"]="";
+            $this->var['domain']["db"]=array();
+            $this->var['domain']["dcmshost"]="";
             if(isset($_GET['dcmshost'])){
-                $this->domain_data["dcmshost"]=$_GET['dcmshost'];
+                $this->var['domain']["dcmshost"]=$_GET['dcmshost'];
             }
             
-            $this->log->general("1 In Domain Counting Down->".$csearch."->".$TotalDomainName,3);
+            $this->cls->clsLog->general("1 In Domain Counting Down->".$csearch."->".$TotalDomainName,3);
             //echo"--4411108-------------------------".$csearch."--------------------------------------------------\n";
             while($csearch){
                 if($totalcount>10){
@@ -108,42 +144,47 @@
                     //$sql="SELECT COUNT(*) AS total FROM content_pages";
                     
                     //$csearch=false;
-                    echo"\n\n--22222-------------------------".$sql."--------------------------------------------------\n";
+                    //echo"\n\n--22222-------------------------".$sql."--------------------------------------------------\n";
                     
-                    $this->log->general("1 In Domain Counting Down->".$sql,3);
-                    $rslt=$this->r->RawQuery($sql);
-                    $num_rows=$this->r->NumRows($rslt);
+                    $this->cls->clsLog->general("1 In Domain Counting Down->".$sql,3);
+                    $rslt=$this->cls->clsDatabaseInterface->RawQuery($sql);
+                    $num_rows=$this->cls->clsDatabaseInterface->NumRows($rslt);
                     if($num_rows>0){
-                        $row = $this->r->Fetch_Assoc();
+                        $row = $this->cls->clsDatabaseInterface->Fetch_Assoc();
+                        /*
+                        $this->cls->clsContent->Content_Init_Page_Details();
+                        $sql="SELECT domainsID FROM content_pages WHERE  URI='".$this->var['content']["URI"]."'  LIMIT 0,1";
                         
-                        $this->domain_data["db"]=$row;
+                        $rslt=$this->cls->clsDatabaseInterface->RawQuery($sql);
+                        $content_row = $this->cls->clsDatabaseInterface->Fetch_Assoc();
+                        if($row['id']!=$content_row['domainsID']){
+                            //$sql="SELECT DISTINCT * FROM domains WHERE id='".$content_row['domainsID']."'";
+                            //echo"\n\n--22222-------------------------".$sql."--------------------------------------------------\n";
+                            //$rslt=$this->cls->clsDatabaseInterface->RawQuery($sql);
+                            //$num_rows=$this->cls->clsDatabaseInterface->NumRows($rslt);
+                            //$row = $this->cls->clsDatabaseInterface->Fetch_Assoc();
+
+                            $row['id']=0;
+                        }
+                        */
+                        $this->var['domain']["db"]=$row;
                         $csearch=false;
                     }else{
-                        echo"\n\n--22222-------------------------".$num_rows."--------------------------------------------------\n";
+                        //echo"\n\n--22222-------------------------".$num_rows."--------------------------------------------------\n";
                     }
                     
-                    /*
-                    while ($row = $this->r->Fetch_Array()) {
-                        //echo "{$row['id']} {$row['name']} {$row['email']} \n";
-                        $num_rows++;
-                        $this->domain_data["db"]=$row;
-                        echo"yyy";
-                        print_r($row);
-                    }
-                    */
-                    //$num_rows=$this->r->NumRows($rslt);
-                    
+                                        
                     
                     //echo"\n\n778xxx-nr->".$num_rows;
-                    $this->log->general("Domain Counting Down->".$sql,3);
+                    $this->cls->clsLog->general("Domain Counting Down->".$sql,3);
                     //echo"--4432-------------------------".$csearch."--------------------------------------------------\n";
                 }else{
                     $sql="SELECT DISTINCT * FROM domains WHERE Name='ajax.install.me'";
-                    $rslt=$this->r->RawQuery($sql);
-                    $num_rows=$this->r->NumRows($rslt);
+                    $rslt=$this->cls->clsDatabaseInterface->RawQuery($sql);
+                    $num_rows=$this->cls->clsDatabaseInterface->NumRows($rslt);
                     if($num_rows>0){
-                        $row = $this->r->Fetch_Assoc();
-                        $this->domain_data["db"]=$row;
+                        $row = $this->cls->clsDatabaseInterface->Fetch_Assoc();
+                        $this->var['domain']["db"]=$row;
                     }
                     //echo"\n\n--22222112-------------------------".$csearch."--------------------------------------------------\n";
                     $num_rows=0;
@@ -151,52 +192,52 @@
                 }
                 //echo"--4412345-------------------------".$csearch."--------------------------------------------------\n";
                 //if($rslt){
-                //print_r($this->domain_data);
+                //print_r($this->var['domain']);
                 if($num_rows>0){
-                    //$this->domain_data["db"]=$this->r->Fetch_Assoc();//reset to mirror site details
+                    //$this->var['domain']["db"]=$this->cls->clsDatabaseInterface->Fetch_Assoc();//reset to mirror site details
                     
-                    //print_r($this->domain_data);
+                    //print_r($this->var['domain']);
                     //echo"--44321-------------------------".$csearch."--------------------------------------------------\n";
-                    //$num_rows=$this->r->NumRows($rslt);
+                    //$num_rows=$this->cls->clsDatabaseInterface->NumRows($rslt);
                     //echo"11nr->".$num_rows;
-                    $this->log->general("Domain Found->".$num_rows,3);
+                    $this->cls->clsLog->general("Domain Found->".$num_rows,3);
                     //if($num_rows>0){
-                    //$this->domain_data["db"]=$this->r->Fetch_Assoc();//reset to mirror site details
+                    //$this->var['domain']["db"]=$this->cls->clsDatabaseInterface->Fetch_Assoc();//reset to mirror site details
                     $csearch=false;
-                    $this->log->general("Domain cr->".$num_rows,3);
+                    $this->cls->clsLog->general("Domain cr->".$num_rows,3);
                     //if(!defined(DOMAINNAME)) define('DOMAINNAME',$TotalDomainName);
-                    $this->log->general("Domain ar->".$num_rows,3);
-                    //$this->domain_data["db"]=$this->r->Fetch_Assoc();
-                    //print_r($this->domain_data);
-                    $this->log->general("Domain xr->".var_export($this->domain_data,true),3);
+                    $this->cls->clsLog->general("Domain ar->".$num_rows,3);
+                    //$this->var['domain']["db"]=$this->cls->clsDatabaseInterface->Fetch_Assoc();
+                    //print_r($this->var['domain']);
+                    $this->cls->clsLog->general("Domain xr->".var_export($this->var['domain'],true),3);
                     //echo"--44666-------------------------".$csearch."--------------------------------------------------\n";
-                    if(isset($this->domain_data["db"]['mirrorID'])){
+                    if(isset($this->var['domain']["db"]['mirrorID'])){
                         // if domain is mirrored reset domain_data to domain referenced
-                        if($this->domain_data["db"]['mirrorID']>0){
-                            $this->log->general("Domain Mirror->",3);
-                            $sql="SELECT * FROM domains WHERE id=".$this->domain_data["db"]['mirrorID'];
-                            $rslt=$this->r->RawQuery($sql);
-                            $num_rows=$this->r->NumRows($rslt);
+                        if($this->var['domain']["db"]['mirrorID']>0){
+                            $this->cls->clsLog->general("Domain Mirror->",3);
+                            $sql="SELECT * FROM domains WHERE id=".$this->var['domain']["db"]['mirrorID'];
+                            $rslt=$this->cls->clsDatabaseInterface->RawQuery($sql);
+                            $num_rows=$this->cls->clsDatabaseInterface->NumRows($rslt);
                             if($num_rows>0){
-                                $this->domain_data["original_db"]=$this->domain_data["db"];
-                                $this->domain_data["db"]=$this->r->Fetch_Assoc();//reset to mirror site details
-                                $this->log->general("Domain zr->".var_export($this->domain_data,true),3);
+                                $this->var['domain']["original_db"]=$this->var['domain']["db"];
+                                $this->var['domain']["db"]=$this->cls->clsDatabaseInterface->Fetch_Assoc();//reset to mirror site details
+                                $this->cls->clsLog->general("Domain zr->".var_export($this->var['domain'],true),3);
                             }
                         }
                     }
-                    //print_r($this->domain_data);
-                    $this->log->general("Domain br->".var_export($this->domain_data,true),3);
+                    //print_r($this->var['domain']);
+                    $this->cls->clsLog->general("Domain br->".var_export($this->var['domain'],true),3);
                         
-                        //if(!defined(DOMAINSID)) define('DOMAINSID',$this->domain_data['id']);
+                        //if(!defined(DOMAINSID)) define('DOMAINSID',$this->var['domain']['id']);
                     //}	
                 }else{
                     $TArr=explode('.',$TotalDomainName);
                     //print_r($TArr);
-                    if(!isset($this->domain_data["dcmshost"])){
+                    if(!isset($this->var['domain']["dcmshost"])){
                         if(count($TArr)>2){
                             for($x=0;$x<(count($TArr)-2);$x++){
-                                $this->domain_user_data["sub_domain_items"][$x]=$TArr[$x];
-                                //$this->domain_user_data["sub_domain_total"].=($x==0 : '.' ? '').$TArr[$x];
+                                $this->var['domain_user']["sub_domain_items"][$x]=$TArr[$x];
+                                //$this->var['domain_user']["sub_domain_total"].=($x==0 : '.' ? '').$TArr[$x];
                             }
                         }
                     }
@@ -212,48 +253,48 @@
                     $count=strpos($TotalDomainName,".");
                     //print_r($matches);
                     if($count==0){
-                        $this->domain_data["original_db"]['domain_type']="install.me";
+                        $this->var['domain']["original_db"]['domain_type']="install.me";
                         //$TotalDomainName="install.me";
                     //if(strpos($TotalDomainName,"\.")==false){
                         //if(!pre($TotalDomainName)){
                         //exit($count."Invalid Domain Name->".$TotalDomainName);
-                        $this->log->general("Invalid Domain Count DownName->".$sql." ".$TotalDomainName."|",3);
+                        $this->cls->clsLog->general("Invalid Domain Count DownName->".$sql." ".$TotalDomainName."|",3);
                     }
                     //	}
                 };
             }
                 //}else{
-        //		$this->log->general("Invalid Domain Name None Found->".$sql."  ".$TotalDomainName,3);
+        //		$this->cls->clsLog->general("Invalid Domain Name None Found->".$sql."  ".$TotalDomainName,3);
             //}
             
-            $this->domain_data["TotalDomainName"]=$TotalDomainName;
-            $this->domain_data["DomainVariableArray"]=$DomainVariableArray;
-            //print_r($this->domain_data);
+            $this->var['domain']["TotalDomainName"]=$TotalDomainName;
+            $this->var['domain']["DomainVariableArray"]=$DomainVariableArray;
+            //print_r($this->var['domain']);
             //echo"--744------------------------------";//.var_export($DomainVariableArray,true)."---------------------------------------------\n";
-            $this->log->general("Domain Ending->",3);
-            $this->log->general("Sub Domain Check->".var_export($DomainVariableArray,true),3);
+            $this->cls->clsLog->general("Domain Ending->",3);
+            $this->cls->clsLog->general("Sub Domain Check->".var_export($DomainVariableArray,true),3);
             
             
             if(count($DomainVariableArray)>0){
                 //echo $sql."--405---------------------------------------------------------------------------\n";
                 //$DName=$DomainVariableArray[0];
-                $DName=$this->domain_user_data["sub_domain_total"];
+                $DName=$this->var['domain_user']["sub_domain_total"];
                 $sql="SELECT * FROM users WHERE subdomain='".$DName."' LIMIT 0,1";
 
-                $rslt=$this->r->RawQuery($sql);
-                $domain_count=$this->r->NumRows($rslt);
+                $rslt=$this->cls->clsDatabaseInterface->RawQuery($sql);
+                $domain_count=$this->cls->clsDatabaseInterface->NumRows($rslt);
                 //echo $domain_count."--405---------------------------------------------------------------------------\n";
                 if($domain_count>0){
                     $continue=true;
-                    //while($myrow=$this->r->Fetch_Assoc($rslt)){
-                    $myrow=$this->r->Fetch_Assoc($rslt);
+                    //while($myrow=$this->cls->clsDatabaseInterface->Fetch_Assoc($rslt)){
+                    $myrow=$this->cls->clsDatabaseInterface->Fetch_Assoc($rslt);
                     $sql="SELECT domainsID FROM mod_business_categories WHERE id='".$myrow['mod_business_categoriesID']."'";
-                    $rslt2=$this->r->RawQuery($sql);
-                    $data=$this->r->Fetch_Array($rslt2);
+                    $rslt2=$this->cls->clsDatabaseInterface->RawQuery($sql);
+                    $data=$this->cls->clsDatabaseInterface->Fetch_Array($rslt2);
                     //print_r($myrow);
                     //flush();
-                    if($data[0]==$this->domain_data["db"]['id']){
-                        $this->domain_user_data["db"]=$myrow;
+                    if($data[0]==$this->var['domain']["db"]['id']){
+                        $this->var['domain_user']["db"]=$myrow;
                     }
                     //}
                 }else{
@@ -261,48 +302,33 @@
                     
                     $sql="SELECT * FROM content_pages WHERE  module_viewsID='801'";
                     //echo "--414----------".$sql."--------------------------------454---------------------------------\n";
-                    $rslt=$this->r->RawQuery($sql);
-                    $this->content_domain_data["db"]=$this->r->Fetch_Assoc($rslt);
-                    //echo "--404----------".$sql."-----------------".var_export($this->content_domain_data,true)."---------------414---------------------------------\n";
+                    $rslt=$this->cls->clsDatabaseInterface->RawQuery($sql);
+                    $this->var['content_domain']["db"]=$this->cls->clsDatabaseInterface->Fetch_Assoc($rslt);
+                    //echo "--404----------".$sql."-----------------".var_export($this->var['content_domain'],true)."---------------414---------------------------------\n";
                 }
                 //echo $sql."--405---------------------------------------------------------------------------\n";
             }else{
                 //echo $sql."--2222---------------------------------------------------------------------------\n";
             }
-            //echo "--888---------------------------------".var_export($this->content_domain_data,true)."------------------------------------------\n";
-            ////echo"-333-".$TotalDomainName."--".var_export($this->content_data,true)."-123-".var_export($this->domain_data,true)."--".var_export($this->content_domain_data,true);
-            //echo"-222-".var_export($this->domain_data,true)."--22--";
-            $this->log->general("Domain Complete->",3);
-            $this->log->general("\n",3);
-            //echo "--8887654321---------------------------------".var_export($this->content_domain_data,true)."------------------------------------------\n";
+            //echo "--888---------------------------------".var_export($this->var['content_domain'],true)."------------------------------------------\n";
+            ////echo"-333-".$TotalDomainName."--".var_export($this->var['content'],true)."-123-".var_export($this->var['domain'],true)."--".var_export($this->var['content_domain'],true);
+            //echo"-222-".var_export($this->var['domain'],true)."--22--";
+            $this->cls->clsLog->general("Domain Complete->",3);
+            $this->cls->clsLog->general("\n",3);
+            //echo "--8887654321---------------------------------".var_export($this->var['content_domain'],true)."------------------------------------------\n";
             if(isset($_GET['ajax'])){
-                $this->domain_data["db"]['templatesID']=35;
-                $this->content_data["db"]['templatesID']=35;
+                $this->var['domain']["db"]['templatesID']=35;
+                $this->var['content']["db"]['templatesID']=35;
             }
-        }
-    
-
-        function Pre_Modify_Domain(){
-            /*
-            if(isset($_POST['Submit'])){
-                if($_POST['Submit']){
-                    
-                
-                }
-            }else{
-                //$this->Message="Incorrect Email Or Password";
-            }
+            //echo"\n\n--22222XXXY-------------------------".$sql."--------------------------------------------------\n";
+            //print_r($this->var['domain']);
+            //$this->Update_App_Vars();
             
-            clsSystem::$vars->Message=$this->Message;
-            $this->output=$this->Message;
-            return $this->output;
-            */
         }
         
-        
-        function Domain_List(){
-            echo"\n FFG \n";
-            $this->output=$this->Create_Domains_List_Table();
+        public function Domain_List(){
+            //echo"\n FFG \n";
+            $this->output=$this->cls->Create_Domains_List_Table();
             return $this->output;
         }
 

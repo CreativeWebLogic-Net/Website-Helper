@@ -1,31 +1,20 @@
 <?php
 
-    class clsShoppingCart{
+    class clsShoppingCart Extends clsRootVariables{
        
-        private $text_data=array();
         public $Message="";
 
         public $output="";
-        public $log;
-
-        public $r;
-
         
+        public $var=array();
+        public $cls=array();
         function __construct(){
-            $this->Set_Log(clsClassFactory::$all_vars['log']);
-            $this->Set_DataBase(clsClassFactory::$all_vars['r']);
-            //session_destroy();
+            $this->var=&clsClassFactory::$vrs;
+            $this->cls=&clsClassFactory::$cls;
+         
         }
 
-        function Set_DataBase($r){
-			$this->r=$r;
-			
-		}
-
-        function Set_Log($log){
-			$this->log=$log;
-			
-		}
+                
 
         public function pre_order_page(){
 
@@ -46,8 +35,8 @@
             $sql="SELECT id,Image,Name,SDesc,Price,ProductCode FROM Products";
 					
 					    
-            $rslt=$this->r->RawQuery($sql);
-            while($myrow=$this->r->Fetch_Array($rslt)){
+            $rslt=$this->cls->clsDatabaseInterface->RawQuery($sql);
+            while($myrow=$this->cls->clsDatabaseInterface->Fetch_Array($rslt)){
                 $this->output.='<tr bgcolor="'.(($Count%2)==0 ? "#CECECE" : "#E5E5E5").'" >
                 <td width="16%">';
                 if($myrow[1]!=""){
@@ -182,9 +171,9 @@
                     foreach($product_array as $key=>$val){
                         if($val>0){
                             $sql="SELECT id,Image,Name,SDesc,Price,ProductCode FROM Products WHERE ProductCode='$key'";
-                            $rslt=$this->r->RawQuery($sql);
+                            $rslt=$this->cls->clsDatabaseInterface->RawQuery($sql);
                             //print ($sql);
-                            while($myrow=$this->r->Fetch_Array($rslt)){
+                            while($myrow=$this->cls->clsDatabaseInterface->Fetch_Array($rslt)){
                                 
                                 if($myrow[5]==$key){
                                     //echo"\n\n yyy $key=>$val  \n\n";

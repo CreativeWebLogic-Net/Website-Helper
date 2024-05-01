@@ -10,8 +10,7 @@
 
         private $use_cookie=true;
         private $id;
-        private $r;
-        private $log;
+        
         private $guid;
         private $new_guid;
         private $server_variables=array();
@@ -26,83 +25,18 @@
 
         private $savePath;
 
-        private $clsSession;
-
-        /*
-        public function open($savePath, $sessionName): bool {
+        public $var=array();
+        public $cls=array();
+        function __construct(){
+            $this->var=&clsClassFactory::$vrs;
+            $this->cls=&clsClassFactory::$cls;
+        
             
-            $this->savePath = $savePath;
-            if (!is_dir($this->savePath)) {
-                mkdir($this->savePath, 0777);
-            }
-            
-            return true;
-        }
-
-        public function close(): bool {
-            return true;
-        }
-
-        public function read($id) {
-            //if(isset($this->session_get_variable[$id])){
-                return $this->session_get_variable($id);
-                //return $this->session_get_variable($id);
-            //else{
-                //return false;
-            //}
-            
-            //return (string)@file_get_contents("$this->savePath/sess_$id");
-        }
-
-        public function write($id, $data): bool {
-            $write_array=array($id=>$data);
-            //print_r($write_array);
-            return $this->session_set_variable($write_array);
-            //return file_put_contents("$this->savePath/sess_$id", $data) === false ? false : true;
-        }
-
-        public function destroy($id): bool {
-            
-            $file = "$this->savePath/sess_$id";
-            if (file_exists($file)) {
-                unlink($file);
-            }
-            
-            return true;
-        }
-
-        public function gc($maxlifetime) {
-            
-            foreach (glob("$this->savePath/sess_*") as $file) {
-                if (filemtime($file) + $maxlifetime < time() && file_exists($file)) {
-                    unlink($file);
-                }
-            }
-            
-            return true;
-        }
-        */
-    
-        public function __construct()
-        {
-            
-            //$this->set_ip_address($ip_address);
-            //print "xx";
-            
-            //print("todo 00001");
-            
-            //session_start();
-            /*
-            $this->clsSession = new clsSessionHandler();
-            session_set_save_handler($this->clsSession, true);
-            */
-            
-
-            $_SESSION['new_membersID']=666;
-
             $this->session_set_globals();
-        }
-    
+            
+		}
+        
+            
         public function read_data($id)
         {
             $this->id=$id;
@@ -128,22 +62,26 @@
         public function session_set_globals()
         {
             $map_array=array(0=>"SESSION",1=>"SERVER",2>"GET",3=>"POST",4=>"FILES",5=>"RERQUEST",6=>"ENV",7=>"COOKIE");
-            $input_array=array($_SESSION,$_SERVER,$_GET,$_POST,$_FILES,$_REQUEST,$_ENV,$_COOKIE);
+            //$input_array=array($_SESSION,$_SERVER,$_GET,$_POST,$_FILES,$_REQUEST,$_ENV,$_COOKIE);
+            $input_array=array($_SERVER,$_GET,$_POST,$_FILES,$_REQUEST,$_ENV,$_COOKIE);
+            //print_r($input_array);
+            //
+            //$input_array=array($_SESSION,$_SERVER,$_GET,$_POST,$_FILES,$_REQUEST,$_ENV,$_COOKIE);
                         //$input_array=$GLOBALS;
             //$input_array=array($_SESSION,$_SERVER);
             foreach ($input_array as $name => $value) {
-                //$this->log->general("Map ",9,array($name,$value));
+                //$this->cls->clsLog->general("Map ",9,array($name,$value));
                 
                 foreach ($value as $var_name => $var_value) {
                     
-                    //$this->log->general("Map ",9,array($map_array,$name));
+                    //$this->cls->clsLog->general("Map ",9,array($map_array,$name));
                     $this->session_vars_data[$map_array[$name]][$var_name]=$var_value;
                 }
             
             }
             $this->set_data($this->session_vars_data,$serialize="serialize");
             $this->server_variables['HTTP_USER_AGENT']=$_SERVER['HTTP_USER_AGENT'];
-            //$this->log->general("All Globals ",9,array($_SERVER,$this->session_vars_data,$input_array));
+            //$this->cls->clsLog->general("All Globals ",9,array($_SERVER,$this->session_vars_data,$input_array));
         }
         
 
@@ -179,39 +117,28 @@
             if($log){
                 $new_log=$log;
             }else{
-                $new_log=clsClassFactory::$all_vars['log'];
+                $new_log=clsClassFactory::$cls->clsLog;
             }
-            $this->log=$new_log;
-            //print_r($this->log);
-            //$this->log->general('Boot Success: ',9,array());
+            $this->cls->clsLog=$new_log;
+            //print_r($this->cls->clsLog);
+            //$this->cls->clsLog->general('Boot Success: ',9,array());
                     
         }
 
         public function set_database($r=null)
         {
-            $this->r=&clsClassFactory::$all_vars['r'];
+            $this->cls->clsDatabaseInterface=&$r;
             
         }
-
+        /*
         public function set_session()
         {
-            $this->sess=&clsClassFactory::$all_vars['sess'];
+            $this->sess=&clsClassFactory::$cls->clsSession;
             
         }
+        */
 
         
-
-        public function set_assorted()
-        {
-            $this->a=&clsClassFactory::$all_vars['sess'];
-            
-        }
-
-        public function requested_classes()
-        {
-            $class_names=array("clsLog","clsDatabaseInterface","clsSession","clsAssortedFunctions");
-            
-        }
 
         public function Get_Current_Time(){
             date_default_timezone_set('Australia/Sydney');
@@ -237,7 +164,7 @@
             //}
             
 
-            $this->log->general('Set IP: ',9,array($pos,$this->ip_address_type,$this->ip_address,$ip_address));
+            $this->cls->clsLog->general('Set IP: ',9,array($pos,$this->ip_address_type,$this->ip_address,$ip_address));
             //echo $ipv4; // prints 127.0.0.1
             
         }
@@ -276,7 +203,7 @@
                 $tag="none";
                 $created_data=$this->data;
             }
-            //$this->log->general($tag,9,array("output"=>$created_data));
+            //$this->cls->clsLog->general($tag,9,array("output"=>$created_data));
         }
 
         public function get_data($serialize="none")
@@ -316,11 +243,11 @@
 
         public function set_new_guid($guid)
         {
-            //print $guid;
+            
             if($this->new_guid==""){
                 $this->new_guid=$guid;
             }
-            
+            //print $this->guid;
         }
 
         public function set_guid_details($guid)
@@ -333,6 +260,7 @@
 
         public function get_guid()
         {
+            //print "guid->".$this->guid." | ";
             $return_val="";
             if($this->guid!=""){
                 $return_val=$this->guid;
@@ -340,12 +268,14 @@
                 $this->guid=$this->new_guid;
                 $return_val=$this->guid;
             }
+            
             return $return_val;
         }
 
         public function session_start()
         {
             //session_start();
+            //print "session_start>".$this->guid." | ";
             if(isset($_COOKIE["Session"])){
                 $this->use_cookie=true;
                 $session_cookie=$_COOKIE["Session"];
@@ -378,7 +308,7 @@
             
             //print"ggg".$_COOKIE["Session"].'  -'.$this->id.'  -'.$this->guid.'- \n\n';
             //print_r($this->id);
-            $this->log->general("session_start->",5,array($tag,$this->use_cookie,$session_cookie));
+            $this->cls->clsLog->general("session_start->",5,array($tag,$this->use_cookie,$session_cookie));
         }
     
         public function write_data($id, $data)
@@ -398,7 +328,7 @@
             //$this->id=$id;
             //$this->data=serialize($data);
             //$this->unserialize_data=$this->set_data($data,"serialize");  
-            $serialized_data=$this->r->Escape($this->serialized_data);
+            $serialized_data=$this->cls->clsDatabaseInterface->Escape($this->serialized_data);
             $current_time=$this->Get_Current_Time();
             $browser_type=base64_encode($this->server_variables['HTTP_USER_AGENT']);
             //if($this->use_cookie){
@@ -407,13 +337,13 @@
             //    $sql='INSERT INTO mod_session (session_name,session_data,ip_address) VALUES ("'.$this->id.'","'.$serialized_data.'","'.$this->ip_address.'")';
            //}
             
-            $rslt=$this->r->RawQuery($sql);
+            $rslt=$this->cls->clsDatabaseInterface->RawQuery($sql);
             if(!$rslt){
-                $error=$this->r->Error();
-                $this->log->general("Database Inserting Error ",9,array($sql,$error,$this->serialized_data));
+                $error=$this->cls->clsDatabaseInterface->Error();
+                $this->cls->clsLog->general("Database Inserting Error ",9,array($sql,$error,$this->serialized_data));
             }
             
-            $this->log->general("Database Inserting ",9,array($sql,time()));
+            $this->cls->clsLog->general("Database Inserting ",9,array($sql,time()));
             //return $this->data;
         }
 
@@ -422,7 +352,7 @@
             //$this->id=$id;
             //$this->data=serialize($data);
             //$this->unserialize_data=$this->set_data($data,"serialize");  
-            $serialized_data=$this->r->Escape($this->serialized_data);
+            $serialized_data=$this->cls->clsDatabaseInterface->Escape($this->serialized_data);
             $current_time=$this->Get_Current_Time();
             $browser_type=base64_encode($this->server_variables['HTTP_USER_AGENT']);
             if($this->use_cookie){
@@ -431,13 +361,13 @@
                 $sql='UPDATE mod_session SET session_name="'.$this->id.'",session_data="'.$serialized_data.'",ip_address="'.$this->ip_address.'",session_time="'.$current_time.'" WHERE ip_address="'.$this->ip_address.'" AND browser_type="'.$browser_type.'"';
             }
             
-            $rslt=$this->r->RawQuery($sql);
+            $rslt=$this->cls->clsDatabaseInterface->RawQuery($sql);
             if(!$rslt){
-                $error=$this->r->Error();
-                $this->log->general("DB Update Error ",9,array($sql,$error,$this->serialized_data));
+                $error=$this->cls->clsDatabaseInterface->Error();
+                $this->cls->clsLog->general("DB Update Error ",9,array($sql,$error,$this->serialized_data));
             }
             
-            $this->log->general("Database Update ",9,array($sql,time()));
+            $this->cls->clsLog->general("Database Update ",9,array($sql,time()));
             
             //return $this->data;
         }
@@ -462,7 +392,7 @@
                     $this->database_write();
                     $this->data=array();
                 }
-                $this->log->general("DB Read IP ",9,array($sql,$return_array));
+                $this->cls->clsLog->general("DB Read IP ",9,array($sql,$return_array));
                 return $this->data;
             }catch(Exception $e){
                 //print"ddd=>".$sql.'  -'.$this->data.'  -'.$this->guid.'- \n\n';
@@ -474,7 +404,7 @@
         public function database_read_id()
         {
             try{
-                //$this->log->general("App Data Array ",9,$this->data);
+                //$this->cls->clsLog->general("App Data Array ",9,$this->data);
                 $return_array=array();
                 $browser_type=base64_encode($this->server_variables['HTTP_USER_AGENT']);
                 $sql='SELECT session_data,ip_address FROM mod_session WHERE session_name="'.$this->id.'" AND browser_type="'.$browser_type.'"';
@@ -490,10 +420,10 @@
                     //$this->session_set_variable($this->data);
                 }else{
                     $this->database_write();
-                    //$this->log->general("DB Empty ",9,array($sql,$this->guid,$return_array));
+                    //$this->cls->clsLog->general("DB Empty ",9,array($sql,$this->guid,$return_array));
                     $this->data=array();
                 }
-		        $this->log->general("DB Read ID ",9,array($sql,$return_array));
+		        $this->cls->clsLog->general("DB Read ID ",9,array($sql,$return_array));
                 return $this->data;
             }catch(Exception $e){
                 //print"ddd=>".$sql.'  -'.$this->data.'  -'.$this->guid.'- \n\n';
@@ -504,17 +434,17 @@
 
         public function database_read($sql)
         {
-            $this->log->general("DB Read ",9,array($sql,$this->session_data));
+            $this->cls->clsLog->general("DB Read ",9,array($sql,$this->session_data));
             try{
-                $rslt=$this->r->RawQuery($sql);
-                $num_rows=$this->r->NumRows($rslt);
+                $rslt=$this->cls->clsDatabaseInterface->RawQuery($sql);
+                $num_rows=$this->cls->clsDatabaseInterface->NumRows($rslt);
                 if($num_rows>0){
-                    $this->session_data=$this->r->Fetch_Assoc($rslt);
+                    $this->session_data=$this->cls->clsDatabaseInterface->Fetch_Assoc($rslt);
                 }else{
                     $this->session_data=array();
                 }
-                $error=$this->r->Error();
-                $this->log->general("Database Error ",9,$error);
+                $error=$this->cls->clsDatabaseInterface->Error();
+                $this->cls->clsLog->general("Database Error ",9,$error);
                 return $this->session_data;
             }catch(Exception $e){
                 //print"ddd=>".$sql.'  -'.$this->data.'  -'.$this->guid.'- \n\n';
@@ -543,7 +473,7 @@
             }
             */
             $save_path='./bcms/sessions/';
-            //$this->fwrite_stream($save_path, $this->retrieve_all_session_variables());
+            //$this->fwrite_stream($save_path, $this->cls->clsDatabaseInterfaceetrieve_all_session_variables());
             //session_save_path($save_path);
             //ini_set('session.save_path', $save_path);
             
@@ -555,7 +485,7 @@
             //session_save_path($this->save_path);
         }
 
-        function retrieve_all_session_variables() {
+        private  function retrieve_all_session_variables() {
             $save_array=array();
             $get_array=$this->session_vars_data;
             
@@ -568,7 +498,7 @@
             return $base64_save_array;
         }
 
-        function fwrite_stream($file_path, $string) {
+       public function fwrite_stream($file_path, $string) {
             $fp = fopen($file_path, "w");
             for ($written = 0; $written < strlen($string); $written += $fwrite) {
                 $fwrite = fwrite($fp, substr($string, $written));

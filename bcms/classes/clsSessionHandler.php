@@ -1,7 +1,7 @@
 <?php
 class clsSessionHandler implements SessionHandlerInterface
 {
-    private $savePath="/bcms/sesions/";
+    private $savePath="./bcms/sesions/";
 
     public $sess;
     public $log;
@@ -17,15 +17,7 @@ class clsSessionHandler implements SessionHandlerInterface
         
     }
 
-    function Set_DataBase($r){
-        $this->r=$r;
-        
-    }
-
-    function Set_Log($log){
-        $this->log=$log;
-        
-    }
+    
 
     function Set_Session($sess){
         $this->sess=$sess;
@@ -40,7 +32,7 @@ class clsSessionHandler implements SessionHandlerInterface
 		if($savePath!=""){
 			$this->savePath = $savePath;
 		}
-		print("XX4".$this->savePath);
+		//print("XX4".$this->savePath);
         if (!is_dir($this->savePath)) {
             mkdir($this->savePath, 0777);
         }

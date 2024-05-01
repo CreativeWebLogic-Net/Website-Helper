@@ -1,24 +1,17 @@
 <?php
     
 
-    class clsContent{
-        private $r;
-        private $log;
+    class clsContact{
+        
         private $output;
 
         function __construct(){
-			
-			
-		}
-        function Set_DataBase($r){
-			$this->r=$r;
+			//parent::__construct();
 			
 		}
 
-        function Set_Log($log){
-			$this->log=$log;
-			
-		}
+        
+        
         
         public function Pre_Contact(){
 
@@ -39,7 +32,7 @@
                 
                 if($continue){
                     $sql="SELECT SiteTitle,AEmail FROM domains WHERE id=".$domain_data['id'];
-                    $rslt=$r->RawQuery($sql);
+                    $rslt=$this->r->RawQuery($sql);
                     $domdata=mysql_fetch_array($rslt);
                     $From['name']=$domdata[0]." Message Bot";
                     $From['email']=$domdata[1];

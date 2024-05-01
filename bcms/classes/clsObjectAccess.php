@@ -13,8 +13,18 @@
         public function set_array($data_arr)
         {
            foreach($data_arr as $key=>$val){
-                $this->data[$key] = $val;
+                if($this->data[$key]!=$val){
+                    $this->data[$key] = $val;
+                    $this->call_event($key,$val);
+                }
+                
             }
+            
+        }
+
+        public function call_event($key,$val)
+        {
+           //print_r($this->data);
             
         }
 

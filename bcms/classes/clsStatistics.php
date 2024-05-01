@@ -1,6 +1,7 @@
 <?php
 
     class clsStatistics{
+        //class clsStatistics{
         private $size_data=array();
         private $size_total=0;
         private $time_data=array();
@@ -12,25 +13,27 @@
         
 
         function __construct(){
+            //parent::__construct();
+            //echo "hello world jjj";
             $this->start_interval_timer();
 		}
-
-        function test_output(){
-            echo "hello world";
+        
+        public function test_output(){
+            //echo "hello world";
         }
 
-        function start_timer($time_tag){
+        public function start_timer($time_tag){
             $this->time_data[$time_tag]=hrtime();
         }
 
-        function start_interval_timer(){
+        public function start_interval_timer(){
             //$time_tag=0;
             //$this->time_interval_data_count=$time_tag;
             $this->time_interval_data[]=hrtime(true);
             $this->time_interval_data_count=0;
         }
 
-        function take_time_sample($location_sample=""){
+        public function take_time_sample($location_sample=""){
             /*
             if(!isset($this->time_interval_data[$this->time_interval_data_count])){
                 $this->time_interval_data[$this->time_interval_data_count]=0;
@@ -54,16 +57,16 @@
             $this->time_interval_data_count++;
         }
 
-        function retrieve_time_samples(){
+        public function retrieve_time_samples(){
             $return_array=array($this->time_interval_data,$this->time_interval_location_sample,$this->size_data,$this->size_total);
             return $return_array;
         }
 
-        function end_timer($time_tag){
+        public function end_timer($time_tag){
             $this->time_taken_data[$time_tag]=hrtime()-$this->time_data[$time_tag];
         }
 
-        function size_data($size_tag,$size){
+        public function size_data($size_tag,$size){
             //print ("\n ".$size_tag."GG2255 Total Size->".$size." \n".$this->size_total);
             $this->size_data[][$size_tag]=$size;
             $this->size_total+=$size;
@@ -75,7 +78,7 @@
 */
         
 
-        function variable_size_data($size_tag,$variable_array=array()){
+public function variable_size_data($size_tag,$variable_array=array()){
             $serialized = serialize($variable_array);
             $size = strlen($serialized); // or mb_strlen($serialized, '8bit')
             

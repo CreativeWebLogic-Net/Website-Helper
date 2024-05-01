@@ -2,55 +2,21 @@
 
     class clsFormGenerator{
         public $html_data;     
-        public $log;
-
-        public $r;
+        
 
         public $rslt;
 
         public $output;
 
         public $Message="";
-       
+        public $var=array();
+        public $cls=array();
         function __construct(){
-			
-			$this->Set_Log(clsClassFactory::$all_vars['log']);
-            $this->Set_DataBase(clsClassFactory::$all_vars['r']);
-		}
+            $this->var=&clsClassFactory::$vrs;
+            $this->cls=&clsClassFactory::$cls;
+		    }
 
-        /*
-        function Database_Raw_Query($sql){
-			$this->rslt=clsClassFactory::$all_vars['r']->rawQuery($sql);
-			return $this->rslt;
-		}
-
-        function Fetch_Array($rslt=null){
-            if(!is_null($rslt)){
-                $this->rslt=$rslt;
-            }
-            
-           return $this->rslt=clsClassFactory::$all_vars['r']->Fetch_Array($this->rslt);
-        }
-
-        function Fetch_Assoc($rslt=null){
-            if(!is_null($rslt)){
-                $this->rslt=$rslt;
-            }
-            
-           return $this->rslt=clsClassFactory::$all_vars['r']->Fetch_Assoc($this->rslt);
-        }
-        */
-        /*
-        function Set_DataBase(&$r){
-			$this->r=$r;
-			
-		}
-        
-        function Set_Log(&$log){
-			$this->log=$log;
-			
-		}
-*/
+       // ==================================================================  new form builder types | create html Form Field
         public function Create_HTML_Form($input_html="",$Form_Action="",$hidden_item=""){
             if($Form_Action==""){
               $Form_Action=$_SERVER['REQUEST_URI'];
@@ -62,6 +28,27 @@
             return $this->output;
           }
 
+          function Create_Select($name,$id,$item_array,$defaultID=0){
+            //print_r($item_array);
+            $output="";
+            $output='<select name="'.$name.'" id="'.$id.'">';
+            
+            
+            foreach($item_array as $key=>$val){
+                if($defaultID==$key){
+                    $output.="<option value='".$val[0]."' selected>$val[1]</option>";
+                }else{
+                    $output.="<option value='".$val[0]."'>".$val[1]."</option>";
+                };
+            }
+            $output.="</select>";
+            
+            return $output;
+            
+        }
+
+          // ==================================================================  new form builder types | DB Selections
+
         public function List_Table_Rows($table_name,$retrieve_array=array(),$order_by="id",$max_rows=0,$page_number=1){
             $retrieve_list="*";
             if(count($retrieve_array)>0){
@@ -71,20 +58,26 @@
               } 
               */
             }
-            $order_by_sql=" ORDER BY ".$order_by;
-            if($max_rows>0){
-                $sql_limits=" LIMIT 0,10";
+            if($order_by!=""){
+              $order_by_sql=" ORDER BY ".$order_by;
+              if($max_rows>0){
+                  $sql_limits=" LIMIT 0,10";
+              }else{
+                  $sql_limits="";
+              }
             }else{
-                $sql_limits="";
+              $order_by_sql="";
+              $sql_limits="";
             }
+            
             
             $sql="SELECT ".$retrieve_list." FROM ".$table_name." ".$order_by_sql." ".$sql_limits;
             //print $sql;
             $return_array=array();
-            $sql=$this->r->rawQuery($sql);
-            //$this->rslt=$this->Database_Raw_Query($sql);
-            while($myrow=$this->r->Fetch_Array($sql)){
-            //while($myrow=$this->Fetch_Array($this->rslt)){
+            $sql=$this->cls->clsDatabaseInterface->rawQuery($sql);
+            //$this->cls->clsDatabaseInterfaceslt=$this->Database_Raw_Query($sql);
+            while($myrow=$this->cls->clsDatabaseInterface->Fetch_Array($sql)){
+            //while($myrow=$this->Fetch_Array($this->cls->clsDatabaseInterfaceslt)){
               $return_array[]=$myrow;
             }
             //print_r($return_array);
@@ -101,24 +94,14 @@
             $sql="SELECT ".$retrieve_list." FROM ".$table_name." WHERE  id=".$edit_id;
             //print $sql;
             $return_array=array();
-            $rslt=$this->r->rawQuery($sql);
+            $rslt=$this->cls->clsDatabaseInterface->rawQuery($sql);
             
-            $return_array=$this->r->Fetch_Array($rslt);
+            $return_array=$this->cls->clsDatabaseInterface->Fetch_Array($rslt);
             return $return_array;
           }
 
-          public function Create_Table_Elements($item_values=array()){
-            $return_array=array();
-            //$text_input_item=array('type'=>"text",'value'=>"",'size'=>"45",'style'=>"",'class'=>"");
-            //$drop_down_input_item=array('type'=>"drop_down",'value'=>"",'size'=>"45",'style'=>"",'class'=>"",'db_table'=>"mod_organization");
-            $text_input_item=array('type'=>"text",'size'=>"45",'style'=>"",'class'=>"");
-            $drop_down_input_item=array('type'=>"drop_down",'size'=>"45",'style'=>"",'class'=>"",'db_table'=>"mod_organization");
-            $blank_item=array('type'=>'blank');
-            $hidden_item=array('type'=>'hidden',"value"=>'',"html"=>'<input type="hidden" value="">');
-            $button_item=array('type'=>"submit_button","value"=>'',"name"=>'',"id"=>'');
-            $return_array=array($text_input_item,$drop_down_input_item,$blank_item,$hidden_item,$button_item);
-            return $return_array;
-          }
+          
+          // ==================================================================  new form builder types | Constants
 
         public function Create_Table_Constants(){
             $return_array=array();
@@ -128,6 +111,7 @@
             $table_cols_array=array('align'=>"left",'bgcolor'=>"#FFFFFF");
             $table_cols_array_odd=array('align'=>"left",'bgcolor'=>"#EBEBEB");
             $return_array=array($table_array,$table_th_array,$table_cols_array,$table_cols_array_odd);
+            //print_r($return_array);
             return $return_array;
         }
 
@@ -147,8 +131,24 @@
             return $return_array;
         }
 
+        // ==================================================================  new form builder types | Create HTML Tag Types
+
+        public function Create_Table_Elements($item_values=array()){
+          $return_array=array();
+          //$text_input_item=array('type'=>"text",'value'=>"",'size'=>"45",'style'=>"",'class'=>"");
+          //$drop_down_input_item=array('type'=>"drop_down",'value'=>"",'size'=>"45",'style'=>"",'class'=>"",'db_table'=>"mod_organization");
+          $text_input_item=array('type'=>"text",'size'=>"45",'style'=>"",'class'=>"");
+          $drop_down_input_item=array('type'=>"drop_down",'size'=>"45",'style'=>"",'class'=>"",'db_table'=>"mod_organization");
+          $blank_item=array('type'=>'blank');
+          $hidden_item=array('type'=>'hidden',"value"=>'',"html"=>'<input type="hidden" value="">');
+          $button_item=array('type'=>"submit_button","value"=>'Submit',"name"=>'Submit',"id"=>'','class'=>"formbuttons");
+          $return_array=array($text_input_item,$drop_down_input_item,$blank_item,$hidden_item,$button_item);
+          return $return_array;
+        }
+
         public function Create_Table_Items($input_type="label",$input_value="",$input_variables=array()){
             //print " \n iv=>".$input_value." \n ";
+            $table_content="";
             switch($input_type){
               case "blank":
                 $table_content="";
@@ -168,6 +168,7 @@
                 
                 break;
                 case "text_field":
+                  case "text":
                     $text_field_value=0;
                     if(isset($input_value)) $text_field_value=$input_value;
                     if(isset($input_variables['value'])) $text_field_value=$input_variables['value'];
@@ -192,6 +193,9 @@
             }
             return $table_content;
           }
+
+          // ==================================================================  new form builder types | list
+
 
         public function Create_List_Table($input=array(),$sql_table,$order_by="id"){
             //print_r($input);
@@ -218,17 +222,27 @@
               $input['table_dimentions']=$table_total;
 
               $table_constants=$this->Create_Table_Constants();
+              
               $input['table_properties']=$table_constants[0];
               $input['table_tags_th']=$table_constants[1];
               $input['table_tags_td']=$table_constants[2];
               $input['table_tags_td_odd']=$table_constants[3];
               
-              //print_r($input);
+              //print_r($input['select_items']);
+              $input['row_outputs']=array();
               //$input['edit_page']=array('target_uri'=>$_SERVER['REQUEST_URI']);
               //$list_rows=$this->List_Content_Pages_Rows($input['select_items']);
               //$list_rows=$this->List_Table_Rows("content_pages",$input['select_items'],"id");
-              $list_rows=$this->List_Table_Rows($sql_table,$input['select_items'],$order_by);
-              $input['row_outputs']=$list_rows;
+              if(isset($input['select_items'])){
+                if(is_array($input['select_items'])){
+                  if(count($input['select_items'])>0){
+                    $list_rows=$this->List_Table_Rows($sql_table,$input['select_items'],$order_by);
+                    $input['row_outputs']=$list_rows;
+                  }
+                }
+              }
+              
+              
               //print_r($input);
               $this->output=$this->Create_List_Form($input);
               $this->output=$this->Create_HTML_Form($this->output,$_SERVER['REQUEST_URI']);
@@ -236,6 +250,8 @@
               
               return $this->output;
           }
+
+          // ==================================================================  new form builder types | edit
 
           public function Create_Edit_Table($input=array(),$edit_id=0,$sql_table,$order_by="id"){
             
@@ -263,7 +279,7 @@
             
             
             $list_rows=$this->Edit_Table_Rows($sql_table,$input['select_items'],$edit_id);
-            print_r($list_rows);
+            //print_r($list_rows);
             $input['row_outputs']=$list_rows;
             
             $this->output=$this->Create_Editor_Form($input);
@@ -272,6 +288,9 @@
             
             return $this->output;
           }
+
+          // ==================================================================  new form builder types | list
+
 
         public function Create_List_Form($input=array()){
             //print_r($input);
@@ -287,6 +306,10 @@
             $form_output="";
             $input_tag='';
             $row_data=$input['row_outputs'];
+            
+            if($form_rows==0){
+              $form_rows=count($input['header_tags']);
+            }
             if($form_rows>0){
               for($row=0;$row<=$form_rows;$row++){
                 $input_tag.=' <tr>';
@@ -307,16 +330,26 @@
                     $row_items=$row-1;
                     //print_r($input);
                     $input_variables=array();
-                    if($input['item_types'][$col]=="edit_link"){
-                      $id=$input['row_outputs'][$row_items][0];
-                        //$target_domain=$_SERVER['REQUEST_URI'];
-                        $target_domain=$input['edit_page']['target_uri'];//=array('target_uri'=>$_SERVER['REQUEST_URI']);
-                        ///management-edit-administrator/
-                        $input_variables=array("id"=>$id,'REQUEST_URI'=>$target_domain);
+                    if(isset($input['item_types'][$col])){
+                      if($input['item_types'][$col]=="edit_link"){
+                        $id=$input['row_outputs'][$row_items][0];
+                          //$target_domain=$_SERVER['REQUEST_URI'];
+                          $target_domain=$input['edit_page']['target_uri'];//=array('target_uri'=>$_SERVER['REQUEST_URI']);
+                          ///management-edit-administrator/
+                          $input_variables=array("id"=>$id,'REQUEST_URI'=>$target_domain);
+                      }
                     }
                     
-
-                    $table_content=$this->Create_Table_Items($input['item_types'][$col],$input['row_outputs'][$row_items][$col],$input_variables);
+                    
+                    if(isset($input['row_outputs'][$row_items][$col])){
+                      echo"--666------Call Function--------------Method=>------------vls=>--".__CLASS__."-----------------------------------------\n";
+               
+                      //print_r($input);
+                      $table_content=$this->Create_Table_Items($input['item_types'][$col],$input['row_outputs'][$row_items][$col],$input_variables);
+                    }else{
+                      $table_content=$this->Create_Table_Items($input['item_types'][$col],array(),$input_variables);
+                    }
+                    
                               
                   }
                   //print_r($input);
@@ -330,13 +363,15 @@
                     }
                     
                   }
-                  if($input['header_tags_type'][$col]!="blank"){
-                      foreach($table_column as $key=>$val){
-                        $table_column_spread=$key."='".$val."' ";
-                      }
-                      $input_tag.=" \n".' <'.$header_tag.' '.$table_column_spread.' >';
-                      $input_tag.=$table_content;
-                      $input_tag.=' </'.$header_tag.'>';
+                  if(isset($input['header_tags_type'][$col])){
+                    if($input['header_tags_type'][$col]!="blank"){
+                        foreach($table_column as $key=>$val){
+                          $table_column_spread=$key."='".$val."' ";
+                        }
+                        $input_tag.=" \n".' <'.$header_tag.' '.$table_column_spread.' >';
+                        $input_tag.=$table_content;
+                        $input_tag.=' </'.$header_tag.'>';
+                    }
                   }
                   
                 }
@@ -350,6 +385,124 @@
             return $this->output;
           }
 
+
+          // ==================================================================  new form builder types | create
+          public function Create_Input_Form($input=array()){
+            //echo"--66677------Call Function--------------Method=>------------vls=>--".__CLASS__."-----------------------------------------\n";
+            //print "\n =>".var_export($input,true)." \n";
+            $table_properties=" \n ".' <table ';
+            
+            $table_properties_tags="";
+            foreach($input['table_properties'] as $key=>$val){
+              $table_properties_tags.=$key."='".$val."' ";
+            }
+            $table_properties.=$table_properties_tags.">";
+            $form_rows=$input['table_dimentions']['tags_rows'];
+            $form_cols=$input['table_dimentions']['tags_columns'];
+            $form_output="";
+            $input_tag='';
+            if($form_rows>0){
+              for($row=0;$row<$form_rows;$row++){
+                $input_tag.=" \n".' <tr> ';
+                //$total_rows=$input['table_dimentions']['tag_rows'];
+                $end_rows=$input['table_dimentions']['end_rows'];
+                if($row==($form_rows-$end_rows)){
+                  
+                  //print "\nDDD =>".$row." \n";
+                  $table_column=$input['table_tags']['cols'];
+                  $table_column_spread="";
+                  foreach($table_column as $key=>$val){
+                    if($key=="align"){
+                      $val="right";
+                    }
+                      $table_column_spread.=$key."='".$val."' ";
+                  }
+                  $input_tag.=' <td '.$table_column_spread.' colspan="2" >';
+
+                  print "\nDDD =>".var_export($input['item_type_properties'][$row],true)." \n";
+                  $table_content=$this->Create_Table_Items($input['item_type_properties'][$row]['type'],$variable_value,$input_variables);
+                  $input_tag.=$table_content;//$input['item_types'][$row];
+                  $input_tag.=' </td>';
+                  $input_tag.=' </tr>';
+                }else{
+                  
+                  //print "\n =>".$input['table_dimentions']['end_rows']." \n";
+                  if($input['item_types'][$row]=="blank"){
+                      $input_tag="";
+                  }else{
+                    
+                      for($col=0;$col<$form_cols;$col++){
+                        /*
+                        if($col==0){
+                          $input_tag.=$input['header_tags'][$row];
+                        }
+                        
+                        */ 
+                        //echo"--1234------Call Function------Col--".$col."------Method=>-----".var_export($input['item_type_properties'],true)."-------vls=>--".__CLASS__."-----------------------------------------\n";
+                  
+                        if(isset($input['table_tags']['cols'])){
+                          
+                          $table_column=$input['table_tags']['cols'];
+                          $table_column_spread="";
+                          foreach($table_column as $key=>$val){
+                              $table_column_spread.=$key."='".$val."' ";
+                          }
+                          $input_tag.=' <td '.$table_column_spread.' >';
+                          if($col==0){
+                            //echo"--001234------Call Function------Col--".$col."------Method=>-----".var_export($input,true)."-------vls=>--".__CLASS__."-----------------------------------------\n";
+                  
+                              $input_tag.=$input['header_tags'][$row];
+                          }else{
+                              //print_r($input['item_types'][$row]);
+                              $inputID=array('id'=>$input['select_items'][$row]);
+                              $properties=$input['item_type_properties'][$row];
+                              $input_variables=array_merge($inputID,$properties);
+                              //echo"--889------Call Function------Col--".$col."------Method=>-----".var_export($properties,true)."-------vls=>--".__CLASS__."-----------------------------------------\n";
+                  
+                              //print_r($properties);
+                              if(isset($input['row_outputs'][$row])){
+                                  $variable_value=$input['row_outputs'][$row];
+                              }else{
+                                  $variable_value="";
+                              }
+                              
+                              $table_content=$this->Create_Table_Items($input['item_types'][$row],$variable_value,$input_variables);
+                              $input_tag.=$table_content;//$input['item_types'][$row];
+                          }   
+
+                        }else{
+                          echo"--3334------Call Function--------------Method=>------------vls=>--".__CLASS__."-----------------------------------------\n";
+                          //print_r($input['table_tags']);
+                        }
+                                        
+                    
+                          $input_tag.=' </td>';
+                      }
+                      $input_tag.=' </tr>'; 
+                  }
+                  
+                }
+                
+              }
+              
+                $form_output.=$input_tag."\n";
+                
+            }
+            $table_properties.=$form_output."</table>";
+            
+            $this->output=$table_properties;
+            
+            return $this->output;
+
+          }
+          // ==================================================================  new form builder types | update
+
+          // ==================================================================  new form builder types | retrieve
+
+          // ==================================================================  new form builder types | Delete
+
+          
+          // ==================================================================  new form builder types | edit
           public function Create_Editor_Form($input=array()){
             //print_r($input);
             $table_properties=" \n ".' <table ';
@@ -380,7 +533,7 @@
                         if($col==0){
                             $input_tag.=$input['header_tags'][$row];
                         }else{
-                            print_r($input['item_types'][$row]);
+                            //print_r($input['item_types'][$row]);
                             $inputID=array('id'=>$input['select_items'][$row]);
                             $properties=$input['item_type_properties'][$row];
                             $input_variables=array_merge($inputID,$properties);
@@ -411,23 +564,6 @@
 
           }
 
-          function Create_Select($name,$id,$item_array,$defaultID=0){
-            //print_r($item_array);
-            $output="";
-            $output='<select name="'.$name.'" id="'.$id.'">';
-            
-            
-            foreach($item_array as $key=>$val){
-                if($defaultID==$key){
-                    $output.="<option value='".$val[0]."' selected>$val[1]</option>";
-                }else{
-                    $output.="<option value='".$val[0]."'>".$val[1]."</option>";
-                };
-            }
-            $output.="</select>";
-            
-            return $output;
-            
-        }
+          
 
     }

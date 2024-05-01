@@ -2,33 +2,33 @@
 
     class clsFormCreator Extends clsFormGenerator{
         public $html_data;     
-        public $log;
-
-        public $r;
-
+        
         public $output;
 
         public $Message="";
        
+        public $var=array();
+        public $cls=array();
         function __construct(){
-			
-			$this->Set_Log(clsClassFactory::$all_vars['log']);
-            $this->Set_DataBase(clsClassFactory::$all_vars['r']);
-		}
-
+            $this->var=&clsClassFactory::$vrs;
+            $this->cls=&clsClassFactory::$cls;	
+          parent::__construct();
+		    }
         
+    function Create_Login_Form($Form_Action=""){
+      $output=$this->Create_Members_Login_List_Table();
 
-        function Set_DataBase($r){
-			$this->r=$r;
-			
+
+            //$output="";
+            if($Form_Action==""){
+                $Form_Action=$_SERVER['REQUEST_URI'];
+            }
+            
+			return $output;
 		}
+    /*
+      $this->Create_Members_Login_List_Table();
 
-        function Set_Log($log){
-			$this->log=$log;
-			
-		}
-
-function Create_Login_Form($Form_Action=""){
 
             $output="";
             if($Form_Action==""){
@@ -55,6 +55,7 @@ function Create_Login_Form($Form_Action=""){
                 </form>';
 			return $output;
 		}
+        */
         
         function Create_Country_Select($countryID=0){
             
@@ -62,8 +63,8 @@ function Create_Login_Form($Form_Action=""){
             $output='<SELECT NAME="countryID" id="countryID">';
             
             
-            $sql=$this->r->rawQuery("SELECT id,Country_Name FROM countries");
-            while($myrow=$this->r->Fetch_Array($sql)){
+            $sql=$this->cls->clsDatabaseInterface->rawQuery("SELECT id,Country_Name FROM countries");
+            while($myrow=$this->cls->clsDatabaseInterface->Fetch_Array($sql)){
                 if($countryID==$myrow[0]){
                     $output.="<option value='".$myrow[0]."' selected>$myrow[1]</option>";
                 }else{
@@ -85,7 +86,7 @@ function Create_Admin_Member_Register_Form($countryID=0,$domainsID=0,$mod_busine
                 }
     
                 $country_html=$this->Create_Country_Select();//($countryID);
-                $business_category_html=$this->Create_Business_Categories_Select();//($domainsID,$mod_business_categoriesID);
+                $business_category_html="";//$this->Create_Business_Categories_Select();//($domainsID,$mod_business_categoriesID);
                 $output='
                 <table width="650" border="0" align="center" cellpadding="0" cellspacing="0">
                 <tr>
@@ -208,12 +209,12 @@ function Create_Admin_Member_Register_Form($countryID=0,$domainsID=0,$mod_busine
                   $output_middle="";
                   $mod_link_tablesID=1;
                   $address_list=array();
-                  $sql=$this->r->rawQuery("SELECT source_keyID FROM mod_link_tables_keys WHERE mod_link_tablesID='".$mod_link_tablesID."' AND destination_keyID='".$_SESSION['membersID']."'	");
-                  while($myrow=$this->r->Fetch_Array($sql)){
+                  $sql=$this->cls->clsDatabaseInterface->rawQuery("SELECT source_keyID FROM mod_link_tables_keys WHERE mod_link_tablesID='".$mod_link_tablesID."' AND destination_keyID='".$_SESSION['membersID']."'	");
+                  while($myrow=$this->cls->clsDatabaseInterface->Fetch_Array($sql)){
                     $sql_text="SELECT id,name FROM mod_address_details WHERE id='".$myrow[0]."'";
-                    $sql2=$this->r->rawQuery($sql_text);
+                    $sql2=$this->cls->clsDatabaseInterface->rawQuery($sql_text);
                     print $sql_text;
-                    $data=$this->r->Fetch_Assoc($sql2);
+                    $data=$this->cls->clsDatabaseInterface->Fetch_Assoc($sql2);
                     $address_list[]=$data;
                     $output_middle.="<tr><td>".$data['name']."</td><td><a href='".$_SERVER['REQUEST_URI']."edit=".$data['id']."/'>Edit</a></td></tr>";
                   }
@@ -491,8 +492,8 @@ function Create_Admin_Member_Register_Form($countryID=0,$domainsID=0,$mod_busine
                             <td width="35%" align="left"><strong>*Country</strong></td>
                             <td align="left"><select name="countryID" onChange="setDelivery(this.value)">
                             ';
-                            $sql=$this->r->rawQuery("SELECT id,Country_Name FROM countries");
-                            while($myrow=$this->r->Fetch_Array($sql)){
+                            $sql=$this->cls->clsDatabaseInterface->rawQuery("SELECT id,Country_Name FROM countries");
+                            while($myrow=$this->cls->clsDatabaseInterface->Fetch_Array($sql)){
                                 if($_POST['countryID']==$myrow[0]){
                                     $this->output.='<option value="'.$myrow[0].'" selected>'.$myrow[1].'</option>';
                                 }else{
@@ -555,8 +556,8 @@ function Create_Admin_Member_Register_Form($countryID=0,$domainsID=0,$mod_busine
                         
                             $Count=0;
                             //$r=new ReturnRecord();
-                            $sq2=$this->r->rawQuery("SELECT id,CategoryTitle FROM mod_business_categories WHERE  domainsID=0 ORDER BY CategoryTitle");  
-                            while ($myrow = $this->r->Fetch_Array($sq2)) {
+                            $sq2=$this->cls->clsDatabaseInterface->rawQuery("SELECT id,CategoryTitle FROM mod_business_categories WHERE  domainsID=0 ORDER BY CategoryTitle");  
+                            while ($myrow = $this->cls->clsDatabaseInterface->Fetch_Array($sq2)) {
                                 $this->output.='<option value="'.$myrow[0].'">'.$myrow[1].'</option>';
                             };
                             
@@ -660,7 +661,7 @@ function Create_Admin_Member_Register_Form($countryID=0,$domainsID=0,$mod_busine
               $this->output=$this->Create_HTML_Form($this->output);
               return $this->output;
             }
-            
+            // ==================================================================  new form builder types | create
             public function Create_Server_Form(){
 
                 
@@ -704,8 +705,8 @@ function Create_Admin_Member_Register_Form($countryID=0,$domainsID=0,$mod_busine
 
                 */
                 //Create_Edit_Table($input=array(),$edit_id=0,$sql_table,$order_by="id")
-                if(isset(clsSystem::$vars->content_data['get_variables']['id'])){
-                  $edit_id=clsSystem::$vars->content_data['get_variables']['id'];
+                if(isset($this->var["content_data"]['get_variables']['id'])){
+                  $edit_id=$this->var["content_data"]['get_variables']['id'];
                 }else{
                   $edit_id=null;
                 }
@@ -715,6 +716,55 @@ function Create_Admin_Member_Register_Form($countryID=0,$domainsID=0,$mod_busine
                 $this->output=$this->Create_HTML_Form($this->output,$_SERVER['REQUEST_URI']);
                 return $this->output;
             }
+
+            // ==================================================================  new form builder types | create
+
+            public function Create_Members_Login_List_Table(){
+              $item_array=$this->Create_Table_Elements();
+              $text_input_item=$item_array[0];
+              $drop_down_input_item=$item_array[1];
+              $blank_item=$item_array[2];
+              $hidden_item=$item_array[3];
+              $button_item=$item_array[4];
+              //print_r($item_array);
+              //$table_total=$input['table_total'];         
+              //$input['table_dimentions']=$table_total;
+              $column_count=0;
+              $table_total=array('tags_columns'=>2,'tags_rows'=>3,'end_rows'=>1);
+
+              $input['table_dimentions']=$table_total;
+
+              $table_constants=$this->Create_Table_Constants();
+              $input['table_properties']=$table_constants[0];
+              $input['table_tags_th']=$table_constants[1];
+              $input['table_tags_td']=$table_constants[2];
+              $input['table_tags_td_odd']=$table_constants[3];
+
+              
+              //$table_constants=$this->Create_Create_Table_Constants();
+              $table_array=$table_constants[0];
+              $table_cols_array=$table_constants[1];
+              //print_r($table_constants);
+              $input['table_tags']['cols']=$table_constants[1];
+              $input['table_tags']['rows']=array();
+              $input['table_properties']=$table_constants[0];
+              
+              $input['header_tags']=array('Username','Password');
+              $input['header_tags_type']=array('label','label');
+              $input['select_items']=array('username','password');
+              $input['item_types']=array('text','text');
+              //$input['edit_page']=array('target_uri'=>'/management/');
+              $input['item_type_properties']=array($text_input_item,$text_input_item,$button_item);
+              $table_total=array('tags_columns'=>2,'tags_rows'=>3);
+              $input['table_total']=$table_total;
+              $this->output=$this->Create_Input_Form($input);
+              //$this->output="Hello Universe";
+              //print $this->output;
+              $this->output=$this->Create_HTML_Form($this->output,$_SERVER['REQUEST_URI']);
+              return $this->output;
+          }
+           
+            // ==================================================================  new form builder types | list tables
 
             public function Create_Content_Pages_List_Table(){
                 $input['header_tags']=array('id','Page','Title','Menu Title','Changed','Exposure','Sort Order','Edit');
@@ -756,6 +806,8 @@ function Create_Admin_Member_Register_Form($countryID=0,$domainsID=0,$mod_busine
             $this->output=$this->Create_List_Table($input,"mod_user_accounts","id");
             return $this->output;
           }
+
+          
 
           public function List_Server_Rows($retrieve_array=array()){
 
