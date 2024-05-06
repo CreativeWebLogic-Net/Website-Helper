@@ -7,45 +7,45 @@
  Sqlite 3<br>
  <br>
 
+<br>
+ Features:-<br>
+	Multi-Domain<br>
+	Multi-User<br>
+	Multiple Organizations<br>
+	Multi-Server<br>
+	Multi-Operating System<br>
+	Multi-Web-Control Panel<br>
+	Local Server<br>
+	Local Syncronized with remote<br>
+	Customizable Interface<br>
+	Customizable Templates<br>
+<br>
+Standard Modules:-<br>
+	News<br>
+	Links<br>
+	Assets<br>
+	Pages <br>
+	Wiki<br>
+	GitHub Support | <br>
+	Remote Storage / Backup<br>
+<br>	
+System Versions:-<br>
+	Website Helper Installer<br>
+ 		Single file that comprehensively evaluates your server <br>
+		capbilities and gives you options about what version you should install.<br>
+	Website Helper Complete<br>
+ 		This uses every option available and lets you serve content to Remote Connect versios.<br>
+   		It contains a full database wich contains yours and youre clients DB details for backups.<br>
+	Website Helper Remote Connect<br>
+ 		This version retrieves relative content, caching it for static pages and for dynamic content <br>
+   		it proxies from its installation to the distribution server.<br>
+	Website Helper Windows Desktop Web App<br>
+ 		This version runs the full or remote version inside a PHP Desktop Client. https://github.com/cztomczak/phpdesktop <br>
 
- Features:-
-	Multi-Domain
-	Multi-User
-	Multiple Organizations
-	Multi-Server
-	Multi-Operating System
-	Multi-Web-Control Panel
-	Local Server
-	Local Syncronized with remote
-	Customizable Interface
-	Customizable Templates
-
-Standard Modules:-
-	News
-	Links
-	Assets
-	Pages 
-	Wiki
-	GitHub Support | 
-	Remote Storage / Backup
-	
-System Versions:-
-	Website Helper Installer
- 		Single file that comprehensively evaluates your server 
-		capbilities and gives you options about what version you should install.
-	Website Helper Complete
- 		This uses every option available and lets you serve content to Remote Connect versios.
-   		It contains a full database wich contains yours and youre clients DB details for backups.
-	Website Helper Remote Connect
- 		This version retrieves relative content, caching it for static pages and for dynamic content 
-   		it proxies from its installation to the distribution server.
-	Website Helper Windows Desktop Web App
- 		This version runs the full or remote version inside a PHP Desktop Client. https://github.com/cztomczak/phpdesktop
-
-  Upcoming Features:-
-  	Web BBS | telnet BBS | Bug tracking |
-    	Features | Issues | Documentation | Project Management |
-   	Versioning | Updates | Projects | Source code |
-     	FAQs | Security | User / Server - Statistics
+  Upcoming Features:-<br>
+  	Web BBS | telnet BBS | Bug tracking |<br>
+    	Features | Issues | Documentation | Project Management |<br>
+   	Versioning | Updates | Projects | Source code |<br>
+     	FAQs | Security | User / Server - Statistics<br>
  
  
