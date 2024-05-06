@@ -55,11 +55,15 @@ class clsGenericProxy
     
     public function __call($method, $arguments)
     {
-        //print_r($arguments);
+        
         //$this->Start_App_Vars();
         $return_variable=null;
             if(method_exists($this->obj,$method)){
+                
                 $return_variable=call_user_func_array([$this->obj, $method], $arguments);
+            }else{
+                $output=$method;
+                $return_variable=$output;
             }
             return $return_variable;
         /*

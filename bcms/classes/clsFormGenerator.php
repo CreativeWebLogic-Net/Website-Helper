@@ -342,7 +342,7 @@
                     
                     
                     if(isset($input['row_outputs'][$row_items][$col])){
-                      echo"--666------Call Function--------------Method=>------------vls=>--".__CLASS__."-----------------------------------------\n";
+                      //echo"--666------Call Function--------------Method=>------------vls=>--".__CLASS__."-----------------------------------------\n";
                
                       //print_r($input);
                       $table_content=$this->Create_Table_Items($input['item_types'][$col],$input['row_outputs'][$row_items][$col],$input_variables);

@@ -23,13 +23,23 @@
         }
 
         public function start_timer($time_tag){
-            $this->time_data[$time_tag]=hrtime();
+            //$this->time_data[$time_tag]=hrtime();
+            if (function_exists('hrtime')) {
+                $this->time_data[$time_tag]=hrtime(true);
+            }else{
+                $this->time_data[$time_tag]=microtime(true);
+            }
+            //microtime
         }
 
         public function start_interval_timer(){
             //$time_tag=0;
             //$this->time_interval_data_count=$time_tag;
-            $this->time_interval_data[]=hrtime(true);
+            if (function_exists('hrtime')) {
+                $this->time_interval_data[]=hrtime(true);
+            }else{
+                $this->time_interval_data[]=microtime(true);
+            }
             $this->time_interval_data_count=0;
         }
 
@@ -40,7 +50,12 @@
                 $this->time_interval_data[$this->time_interval_data_count]=hrtime();
             }
             */
-            $time=hrtime(true);
+            
+            if (function_exists('hrtime')) {
+                $time=hrtime(true);
+            }else{
+                $time=microtime(true);
+            }
             if(isset($this->time_interval_data[$this->time_interval_data_count])){
                 $previous_timestamp=$this->time_interval_data[$this->time_interval_data_count];
                 //print("\n xx1 \n".$previous_timestamp);
@@ -63,7 +78,13 @@
         }
 
         public function end_timer($time_tag){
-            $this->time_taken_data[$time_tag]=hrtime()-$this->time_data[$time_tag];
+            if (function_exists('hrtime')) {
+                $this->time_taken_data[$time_tag]=hrtime()-$this->time_data[$time_tag];
+            }else{
+                $this->time_taken_data[$time_tag]=microtime()-$this->time_data[$time_tag];
+                //$time=microtime(true);
+            }
+            
         }
 
         public function size_data($size_tag,$size){

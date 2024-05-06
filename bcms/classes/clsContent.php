@@ -7,6 +7,8 @@
 
         private $target=array();
 
+        private $target_class="";
+
         
         
 
@@ -467,16 +469,22 @@
                 $this->var['module']["db"] = $this->cls->clsAssortedFunctions->strip_capitals($this->var['module']["db"]);
                 //echo"112234321012345555-----------------------------------------------------------------------------\n";
                 //print_r($this->var['module']);
-                $target_class=$this->var['module']["db"]['class'];
+                $this->target_class=$this->var['module']["db"]['class'];
+                $target_class=$this->target_class;
                 //echo $target_class."-00001112234321012345555-----------------------------------------------------------------------------\n";
-                $this->target=new $target_class();
+                //$this->target=new $target_class();
+                clsClassFactory::Add_Class($this->target_class);
+                //Add_Class($this->target);
                 //echo"1112234321012345555-----------------------------------------------------------------------------\n";
                 //print_r($this->var['module']);
                 //if($this->var['module']["db"]['Pre_FileName']!=""){
                 $pre_method=$this->var['module']["db"]['Pre_Method'];
                 //echo"54321012345555-----------------------------------------------------------------------------\n";
                 if($pre_method!=""){
-                    $this->target->$pre_method();
+                    //$this->target->$pre_method();
+                    //$this->cls->$this->target_class->$pre_method();
+                    //$this->cls->__call($this->target_class,$pre_method);
+                    clsClassFactory::$cls->$target_class->$pre_method();
                     /*
                     $lfile=$this->cls->clsAssortedFunctionspp_data['MODULEBASEDIR'].$this->var['module']["db"]['Dir']."/".$pre_file;
                     //print $lfile;
@@ -524,7 +532,10 @@
             }
             
             if($method!=""){
-                $return_html=$this->target->$method();
+                //$return_html=$this->cls->$this->target_class->$method();
+                $target_class=$this->target_class;
+                $return_html=clsClassFactory::$cls->$target_class->$method();
+                //$return_html=$this->target->$method();
             }
             
             return $return_html;

@@ -1,6 +1,5 @@
-﻿<?php
+﻿<?
 
-//class clsLog extends clsDebug{
    class clsLog{
         
    var $MessageArray=array();
@@ -9,11 +8,7 @@
    var $output_level=5;
 
    function __construct(){
-      /*
-      $className="\n Class=>".__CLASS__."  => \n";
-      print $className;
-      */
-      //parent::__construct();
+      
    }
 
    public function general($msg,$num=0,$log_array=array()){
@@ -66,7 +61,7 @@
 
    public function output_messages()
     {
-      
+      /*
       echo"--------------------All Logs-------------------------------<br><br>\n\n";
         
       
@@ -76,8 +71,7 @@
             ///print_r($this->PriorityMessages);
          }
          echo"</pre>";
-         
+         */
     }
 
 }
-

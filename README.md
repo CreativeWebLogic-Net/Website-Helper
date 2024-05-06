@@ -6,15 +6,6 @@
  PostgreSQL<br>
  Sqlite 3<br>
  <br>
- and coming soon:-<br>
- MongoDB<br>
- MS SQL Server Express<br>
- MS SQL Server 2019<br>
- Oracle<br>
- Google Cloud Big Query<br>
- Railway<br>
- jfrog<br>
- render pgSQL<br>
 
 
  Features:-
@@ -31,9 +22,12 @@
     News | Links | Assets | Pages 
     | Wiki | Web BBS | telnet BBS | Bug tracking |
     Features | Issues | Documentation | Project Management |
-    Monitoring | Virus Scanning | Firewall Control | Browser Plugin |
-    Versioning | Updates | Polls | Book Keeping | Accounting | Support Packages | Package Managers
-    Projects | Source code | SVN Support | FAQs | Security | User / Server - Statistics | 
+    Versioning | Updates | Projects | Source code | GitHub Support | FAQs | Security | User / Server - Statistics | 
     Remote Storage / Backup
+	
+	System Versions:-
+		Website Helper Full Installation
+		Website Helper Remote Connect
+		Website Helper Windows Desktop Web App
  
  

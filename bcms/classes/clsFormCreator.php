@@ -801,7 +801,7 @@ function Create_Admin_Member_Register_Form($countryID=0,$domainsID=0,$mod_busine
             $input['header_tags_type']=array('blank','label','label','label');
             $input['select_items']=array('id','Name','Email','id');
             $input['item_types']=array('blank','label','label','edit_link');
-            $input['edit_page']=array('target_uri'=>'/management-edit-administrator/');
+            $input['edit_page']=array('target_uri'=>'/management-modify-member/');
 
             $this->output=$this->Create_List_Table($input,"mod_user_accounts","id");
             return $this->output;

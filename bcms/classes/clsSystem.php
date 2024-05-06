@@ -57,7 +57,7 @@
         }
         
         private function Set_Session() {
-            
+            /*
             $clsSession = new clsSessionHandler();
             //
             
@@ -71,7 +71,7 @@
             $this->cls->clsSession->session_save_path();
             $this->cls->clsSession->set_ip_address($_SERVER['REMOTE_ADDR']);
             $this->cls->clsSession->session_set_globals();
-            
+            */
         }
         
         private function myAutoloader($className) {

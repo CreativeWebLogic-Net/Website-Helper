@@ -35,11 +35,11 @@
             
             //self::Create_Class_Array();
 		}
-        function Initialize_Basic_Classes(){
-            self::$cls=new clsGenericProxyArray();
-            //self::$vrs = new stdClass();
+        public function Initialize_Basic_Classes(){
+            //self::$cls=new clsGenericProxyArray();
+            self::$vrs = new stdClass();
             self::$vrs=array();//new clsGenericVariables();
-            $className="\n OK | \n";
+           // $className="\n OK | \n";
             self::$cls=new clsGenericProxyArray();
             $set_list=array();
             switch($this->project_type){
@@ -54,10 +54,19 @@
                 break;
             }
             foreach($set_list as $class){
-                self::$cls->$class=new clsGenericProxy(new $class());
+                self::Add_Class($class);
+                //self::$cls->$class=new clsGenericProxy(new $class());
             }
         }       
-                    
+              
+        public static function Add_Class($class){
+
+            //echo"\n xxx->".$class;
+            if(!isset(self::$cls->$class)){
+                self::$cls->$class=new clsGenericProxy(new $class());
+            }
+            
+		}
                    
 
     }

@@ -457,6 +457,7 @@
             </form>';
         }
         public function Change_Password(){
+            $this->output=__METHOD__;
             $this->output=$this->cls->clsFormCreator->Create_Change_Password();
             return $this->output;
         }
@@ -472,12 +473,14 @@
 		}
 
         public function Add_Member(){
-            $this->output=$this->cls->clsFormCreator->Create_User_Details();
+            //$this->output=$this->cls->clsFormCreator->Create_User_Details();
+            //$this->output="Add_Member";
+            $this->output=__METHOD__;
             return $this->output;
         }
 
         public  function Modify_Member(){
-            
+            $this->output=__METHOD__;
             $this->output=$this->cls->clsFormCreator->Create_Members_List_Table();
             return $this->output;
         }
@@ -485,17 +488,18 @@
         
 
         public function Pre_Modify_Member(){
-            $this->output='';
+            $this->output=__METHOD__;
             return $this->output;
         }
 
         public function Pre_Edit_Member(){
-            $this->output='';
+            $this->output=__METHOD__;
             return $this->output;
         }
 
         public function Edit_Member(){
-            $this->output=$this->cls->clsFormCreator->Create_User_Details();
+            //$this->output=$this->cls->clsFormCreator->Create_User_Details();
+            $this->output=__METHOD__;
             return $this->output;
         }
    

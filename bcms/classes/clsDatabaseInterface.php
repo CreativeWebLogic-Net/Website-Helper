@@ -1,5 +1,6 @@
 <?php
-class clsDatabaseInterface extends clsDatabaseCRUD{
+//class clsDatabaseInterface extends clsDatabaseCRUD{
+class clsDatabaseInterface{
 		var $SQL;
 		var $Table;
 		var $TargetField="id";

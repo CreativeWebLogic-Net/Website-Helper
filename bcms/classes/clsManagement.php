@@ -11,11 +11,11 @@
             $this->cls=&clsClassFactory::$cls;	
 			//parent::__construct();
 		}
-
+        /*
         public function __call($method, $arguments)
         {
             try {
-                echo"--666-------------------------".$method."--------------------------------------------------\n";
+                echo"--6667-------------------------".$method."--------------------------------------------------\n";
                 $return_variable=null;
                 if(method_exists($this,$method)){
                     $this->Start_App_Vars();
@@ -28,13 +28,14 @@
             }
             
         }
-
+        */
         private function Pre_Login(){
 			
 			//print "xx22";
 		}
 
         private function Set_Output($output){
+
 			$this->output=$output;
 		}
 
@@ -55,6 +56,11 @@
 
         private function Output_HTML(){
 			return  $this->output;
+		}
+
+        private function Create_Admin_Administrator_Add(){
+			$this->output=__METHOD__;
+            return $this->output;
 		}
 
         private function Pre_Admin_Add_Administrator(){
@@ -79,10 +85,11 @@
                     $Message="Administrator Added";
                 };
                 */
+                return "Pre_Admin_Add_Administrator";
             }
 		}
 
-        private function Pre_Admin_Add_Domain(){
+        public function Pre_Admin_Add_Domain(){
 			if(isset($_POST['Submit'])){
                 /*
                 if($_POST['Submit']){
@@ -355,7 +362,14 @@
             */
 		}
 
-        private function Pre_Admin_Add_Member(){
+        public function Admin_Add_Member(){
+            $this->output=__METHOD__;
+            return $this->output;
+
+        }
+
+        public function Pre_Admin_Add_Member(){
+            
             /*
 			if(isset($_POST['Submit'])){
                 //echo"yyy";
@@ -1239,6 +1253,20 @@
             $output.="</SELECT>";
             return $output;
         }
+
+        public function Admin_Add_Domain(){
+            //echo"hh";
+            $this->output=__METHOD__;
+            return $this->output;
+        }
+
+        public function Sub_Domain_Add(){
+            //echo"hh";
+            $this->output=__METHOD__;
+            return $this->output;
+        }
+
+        
         
         
     }

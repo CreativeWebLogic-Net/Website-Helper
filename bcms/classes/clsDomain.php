@@ -325,10 +325,20 @@
             //$this->Update_App_Vars();
             
         }
+
+        public function Pre_Modify_Domain(){
+            $this->output="Pre Out";
+            return $this->output;
+        }
         
         public function Domain_List(){
-            //echo"\n FFG \n";
-            $this->output=$this->cls->Create_Domains_List_Table();
+            $this->output=__METHOD__;
+            return $this->output;
+        }
+
+        public function Admin_Add_Domain(){
+            echo"hh";
+            $this->output=__METHOD__;
             return $this->output;
         }
 
