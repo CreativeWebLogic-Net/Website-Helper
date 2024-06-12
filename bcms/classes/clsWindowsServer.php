@@ -11,12 +11,18 @@
         private $return_array=array();
         private $return_text="";
 
-        function __construct(){
+        public $all_vars=array();
+        public $var=array();
+        public $cls=array();
+        function __construct($classes=array()){
+            $this->cls=$classes;
+            
+		}
 
-        }
+        
 
         public function Set_Log($log){
-            $this->log=clsClassFactory::$all_vars['log'];
+            //$this->log=clsClassFactory::$all_vars['log'];
             //print_r($this->log);
             //$this->log->general('Boot Success: ',9,array());
                     

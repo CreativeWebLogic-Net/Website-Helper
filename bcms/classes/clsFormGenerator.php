@@ -9,11 +9,11 @@
         public $output;
 
         public $Message="";
+        public $all_vars=array();
         public $var=array();
         public $cls=array();
         function __construct(){
-            $this->var=&clsClassFactory::$vrs;
-            $this->cls=&clsClassFactory::$cls;
+            
 		    }
 
        // ==================================================================  new form builder types | create html Form Field

@@ -10,6 +10,9 @@
         private $log=array();
 
         private $SQL="";
+		public $all_vars=array();
+        public $var=array();
+        public $cls=array();
         function __construct(){
 			
 		}

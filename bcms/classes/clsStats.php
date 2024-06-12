@@ -7,7 +7,9 @@ define ("IMG", "1px.png"); // change this constant to use dif. image/path
 class clsStats{
 
 	
-
+	public $all_vars=array();
+        public $var=array();
+        public $cls=array();
 	function __construct(){
 
 	}

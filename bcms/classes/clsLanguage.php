@@ -4,15 +4,17 @@
         //class clsLanguage {
 
         
-       
-        public $var=array();
-        public $cls=array();
-        function __construct(){
-            $this->var=&clsClassFactory::$vrs;
-            $this->cls=&clsClassFactory::$cls;
+            public $all_vars=array();
+            public $var=array();
+            public $cls=array();
+            function __construct(){
+                
+                
 		}
 
-                
+        
+
+                        
         
 
         public function Language_Init(){
@@ -29,7 +31,7 @@
                 $_SESSION['LanguagesID']=1;
                 $LanguagesID=1;
             }
-            $this->var['app']['LANGUAGESID']=$LanguagesID;
+            $this->all_vars['app']['LANGUAGESID']=$LanguagesID;
             //define('LANGUAGESID',$LanguagesID);
             //
         }

@@ -15,9 +15,9 @@
 
         public $menu_data=array();
         public $a;
-        public $vrs;
-
-        public $cls;
+        public $all_vars=array();
+        public $var=array();
+        public $cls=array();
         public $r;
 
         public $log;

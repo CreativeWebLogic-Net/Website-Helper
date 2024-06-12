@@ -4,13 +4,15 @@
     class clsManagement{
         public $output="";
         public $Message="";
+        public $all_vars=array();
         public $var=array();
         public $cls=array();
-        function __construct(){
-            $this->var=&clsClassFactory::$vrs;
-            $this->cls=&clsClassFactory::$cls;	
-			//parent::__construct();
+        public function __construct($classes=array()){
+            
+            
 		}
+
+        
         /*
         public function __call($method, $arguments)
         {
@@ -810,6 +812,7 @@
 		}
         */
         private function Pre_Admin_Register(){
+            $output="";
 			if(isset($_GET['Message']))$Message=$_GET['Message'];
 	
                 if(isset($_POST['Submit'])){
@@ -878,7 +881,9 @@
                 
                     mail($to, $subject, $message, $headers);
                 */
+                
             }
+            return $output;
 		}
 
         private function Pre_Admin_Add_Page(){
@@ -1261,6 +1266,18 @@
         }
 
         public function Sub_Domain_Add(){
+            //echo"hh";
+            $this->output=__METHOD__;
+            return $this->output;
+        }
+
+        public function Pre_Edit_Administrator(){
+            //echo"hh";
+            $this->output=__METHOD__;
+            return $this->output;
+        }
+
+        public function Edit_Administrator(){
             //echo"hh";
             $this->output=__METHOD__;
             return $this->output;

@@ -8,6 +8,9 @@
         private static $total_html;
         private $combined_total_html;
         private $current_dir="";
+
+        public $var=array();
+        public $cls=array();
         function __construct(){
             $this->add_current_domain();
             

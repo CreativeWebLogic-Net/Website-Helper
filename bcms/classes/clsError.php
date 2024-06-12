@@ -3,7 +3,9 @@
 class clsError{
         
    private $MessageArray=array();
-
+   public $all_vars=array();
+        public $var=array();
+        public $cls=array();
    function __construct(){
 			
         //set_error_handler(array($this, 'myErrorHandler'));

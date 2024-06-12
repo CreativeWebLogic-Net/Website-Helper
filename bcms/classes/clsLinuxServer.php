@@ -11,6 +11,10 @@
         private $return_array=array();
         private $return_text="";
 
+        public $all_vars=array();
+        public $var=array();
+        public $cls=array();
+
         function __construct(){
 
         }

@@ -6,13 +6,15 @@
 
         
         public $output="";
+        public $all_vars=array();
         public $var=array();
         public $cls=array();
         function __construct(){
-            $this->var=&clsClassFactory::$vrs;
-            $this->cls=&clsClassFactory::$cls;
             
-        }
+            
+		}
+
+        
 
         
 
@@ -87,7 +89,7 @@
                 //print "You are now logged in!!!";
 
             }else{
-                $this->var['domain']['debug'][]="show log in";
+                $this->all_vars['domain']['debug'][]="show log in";
                 //print "xxx".$this->Message;
                 $this->output=$this->Message;
                 $this->output.=$this->cls->clsFormCreator->Create_Login_Form();
@@ -301,7 +303,7 @@
                         //print $sql;
                         $rslt=$this->cls->clsDatabaseInterface->RawQuery($sql);
                         if($rslt){
-                            if($this->var['domain']['AEmail']!=""){
+                            if($this->all_vars['domain']['AEmail']!=""){
                                 $Simple="New user id is ".$this->cls->clsDatabaseInterface->Insert_Id();
                                 foreach($_POST as $key=>$val){
                                     $Simple.="\n $key=$val";	
@@ -316,7 +318,7 @@
                                 /*
                                 $m=new SendMail();
                                 $m->Body($Simple,$Simple);
-                                $m->To(array("BCMSL Admin"=>$this->var['domain']['AEmail']));
+                                $m->To(array("BCMSL Admin"=>$this->all_vars['domain']['AEmail']));
                                 $m->From("BCMSL Bot","info@".DOMAINNAME);
                                 $m->Subject("New User Has Registered on ".DOMAINNAME);
                                 $m->Send();
@@ -392,7 +394,7 @@
             }
             $this->output='
             
-            <form method="post" action="'.$this->var['content']['PAGENAME'].'">
+            <form method="post" action="'.$this->all_vars['content']['PAGENAME'].'">
             <div align="center">
                 <center>
                 <?php print $Message;?>
@@ -507,40 +509,40 @@
             $left_output="<br><br>";
             $right_output="";
 
-            $left_output.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=user_details/'>User Details</a><br>";
-            $left_output.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=postal_addresses/'>Postal Addresses</a><br>";
-            $left_output.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=contact_details/'>Contact Details</a><br>";
-            $left_output.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=company_details/'>Organization Details</a><br>";
-            $left_output.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=tax_details/'>Tax Details</a><br>";
-            $left_output.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=interests/'>Interests</a><br>";
-            $left_output.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=orders/'>Orders</a><br>";
-            $left_output.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=account/'>Account</a><br>";
-            $left_output.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=events/'>Events</a><br>";
-            $left_output.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=groups/'>Groups</a><br>";
-            switch($this->var['content']['get_variables']['page']){
+            $left_output.="<a href='".$this->all_vars['content']["TOTALPAGENAME"]."page=user_details/'>User Details</a><br>";
+            $left_output.="<a href='".$this->all_vars['content']["TOTALPAGENAME"]."page=postal_addresses/'>Postal Addresses</a><br>";
+            $left_output.="<a href='".$this->all_vars['content']["TOTALPAGENAME"]."page=contact_details/'>Contact Details</a><br>";
+            $left_output.="<a href='".$this->all_vars['content']["TOTALPAGENAME"]."page=company_details/'>Organization Details</a><br>";
+            $left_output.="<a href='".$this->all_vars['content']["TOTALPAGENAME"]."page=tax_details/'>Tax Details</a><br>";
+            $left_output.="<a href='".$this->all_vars['content']["TOTALPAGENAME"]."page=interests/'>Interests</a><br>";
+            $left_output.="<a href='".$this->all_vars['content']["TOTALPAGENAME"]."page=orders/'>Orders</a><br>";
+            $left_output.="<a href='".$this->all_vars['content']["TOTALPAGENAME"]."page=account/'>Account</a><br>";
+            $left_output.="<a href='".$this->all_vars['content']["TOTALPAGENAME"]."page=events/'>Events</a><br>";
+            $left_output.="<a href='".$this->all_vars['content']["TOTALPAGENAME"]."page=groups/'>Groups</a><br>";
+            switch($this->all_vars['content']['get_variables']['page']){
                 case "add_postal":
-                    //$right_output=$this->Create_Postal_Address($this->var['content']['original_uri']);
+                    //$right_output=$this->Create_Postal_Address($this->all_vars['content']['original_uri']);
                 break;
                 case "user_details":
                     //$right_output=$this->Create_User_Details();
                 break;
                 case "postal_addresses":
-                    $right_output.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=add_postal/'>Add Postal Address</a><br><br><br>";
+                    $right_output.="<a href='".$this->all_vars['content']["TOTALPAGENAME"]."page=add_postal/'>Add Postal Address</a><br><br><br>";
                     //$right_output.=$this->Create_Postal_Addresses_List();
                 break;
                 case "interests":
                     $interest_menu="";
-                    $interest_menu.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=interests/page2=movies/'>Movies</a><br>";
-                    $interest_menu.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=interests/page2=tv_shows/'>TV Shows</a><br>";
-                    $interest_menu.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=interests/page2=artists/'>Artists</a><br>";
-                    $interest_menu.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=interests/page2=books/'>Books</a><br>";
-                    $interest_menu.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=interests/page2=sports/'>Sports Teams</a><br>";
-                    $interest_menu.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=interests/page2=athletes/'>Athletes</a><br>";
-                    $interest_menu.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=interests/page2=people/'>People</a><br>";
-                    $interest_menu.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=interests/page2=restraunts/'>Restraunts</a><br>";
-                    $interest_menu.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=interests/page2=applications/'>Applications</a><br>";
-                    $interest_menu.="<a href='".$this->var['content']["TOTALPAGENAME"]."page=interests/page2=games/'>Games</a><br>";
-                    switch($this->var['content']['get_variables']['page2']){
+                    $interest_menu.="<a href='".$this->all_vars['content']["TOTALPAGENAME"]."page=interests/page2=movies/'>Movies</a><br>";
+                    $interest_menu.="<a href='".$this->all_vars['content']["TOTALPAGENAME"]."page=interests/page2=tv_shows/'>TV Shows</a><br>";
+                    $interest_menu.="<a href='".$this->all_vars['content']["TOTALPAGENAME"]."page=interests/page2=artists/'>Artists</a><br>";
+                    $interest_menu.="<a href='".$this->all_vars['content']["TOTALPAGENAME"]."page=interests/page2=books/'>Books</a><br>";
+                    $interest_menu.="<a href='".$this->all_vars['content']["TOTALPAGENAME"]."page=interests/page2=sports/'>Sports Teams</a><br>";
+                    $interest_menu.="<a href='".$this->all_vars['content']["TOTALPAGENAME"]."page=interests/page2=athletes/'>Athletes</a><br>";
+                    $interest_menu.="<a href='".$this->all_vars['content']["TOTALPAGENAME"]."page=interests/page2=people/'>People</a><br>";
+                    $interest_menu.="<a href='".$this->all_vars['content']["TOTALPAGENAME"]."page=interests/page2=restraunts/'>Restraunts</a><br>";
+                    $interest_menu.="<a href='".$this->all_vars['content']["TOTALPAGENAME"]."page=interests/page2=applications/'>Applications</a><br>";
+                    $interest_menu.="<a href='".$this->all_vars['content']["TOTALPAGENAME"]."page=interests/page2=games/'>Games</a><br>";
+                    switch($this->all_vars['content']['get_variables']['page2']){
                         case "movies":
                             $interests_right_output="Show Movies Liked";
                         break;
@@ -606,7 +608,7 @@
             }
 
             $this->output='            
-            <form method="post" action="'.$this->var['content']['PAGENAME'].'">
+            <form method="post" action="'.$this->all_vars['content']['PAGENAME'].'">
             <div align="center">
                 <center>
                 '.$this->Message.'

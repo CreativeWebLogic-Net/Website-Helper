@@ -12,6 +12,10 @@
 
         private $current_server_type="";
 
+        public $all_vars=array();
+        public $var=array();
+        public $cls=array();
+
         function __construct(){
             $linux=new clsLinuxServer();
             $windows=new clsWindowsServer();

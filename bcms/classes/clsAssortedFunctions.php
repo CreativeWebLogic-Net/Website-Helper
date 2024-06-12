@@ -10,64 +10,83 @@
         private $current_dir="";
 
         private $Current_Dir="";
+
+        public $all_vars=array();
         public $var=array();
         public $cls=array();
         function __construct(){
-            $this->var=&clsClassFactory::$vrs;
-            $this->cls=&clsClassFactory::$cls;
-            //echo"--555-------------------------aaa--------------------------------------------------\n";
             
-            //$this->Set_Input_Variables();
             
-		
-            $this->add_current_domain();
-            //parent::__construct();
-            $this->Set_Asset_Servers();
-            $this->Set_Base_Constants();
-        }
+
+            
+		}
+
+        
+
+        
+
 
         public function Set_Asset_Servers(){
             //$this->Start_App_Vars();
-            $this->var['app']['asset_servers']=array();
-            $this->var['app']['asset_servers'][0]='https://assets.bubblecms.biz/'; // linode server
-            $this->var['app']['asset_servers'][1]='https://spaces.auseo.net/'; // digital ocean custom server
-            $this->var['app']['asset_servers'][2]='https://static-cms.nyc3.cdn.digitaloceanspaces.com/'; // digital ocean cdn server
-            $this->var['app']['asset_servers'][3]='https://static-cms.nyc3.digitaloceanspaces.com/'; //digital ocean standard server
-            $this->var['app']['asset_servers'][4]='https://assets.ownpage.club/'; //asura standard server
-            $this->var['app']['asset_servers'][5]='https://assets.hostingdiscount.club/'; //asura reseller server
-            $this->var['app']['asset_servers'][6]='https://assets.icwl.me/'; //hostgator reseller server
-            $this->var['app']['asset_servers'][7]='https://static-assets.w-d.biz/'; //cloud unlimited server
-            $this->var['app']['asset_servers'][8]='https://assets.i-n.club/'; //ionos unlimited server
-            $this->var['app']['asset_servers'][9]='https://assets.creativeweblogic.net/'; //ionos unlimited server
-            $this->var['app']['asset_servers'][10]='https://static-assets.site/'; //ionos unlimited server
-            $this->var['app']['asset_servers'][11]='https://f005.backblazeb2.com/file/iCWLNet-Website-Assets/';
-
-            $this->var['app']['current_asset_server']=$this->var['app']['asset_servers'][11];
+            $this->all_vars['app']['asset_servers']=array();
             
-            $this->var['app']["include_callback"]="callback";
+            $this->all_vars['app']['asset_servers'][0]='https://assets.bubblecms.biz/'; // linode server
+            $this->all_vars['app']['asset_servers'][1]='https://spaces.auseo.net/'; // digital ocean custom server
+            $this->all_vars['app']['asset_servers'][2]='https://static-cms.nyc3.cdn.digitaloceanspaces.com/'; // digital ocean cdn server
+            $this->all_vars['app']['asset_servers'][3]='https://static-cms.nyc3.digitaloceanspaces.com/'; //digital ocean standard server
+            $this->all_vars['app']['asset_servers'][4]='https://assets.ownpage.club/'; //asura standard server
+            $this->all_vars['app']['asset_servers'][5]='https://assets.hostingdiscount.club/'; //asura reseller server
+            $this->all_vars['app']['asset_servers'][6]='https://assets.icwl.me/'; //hostgator reseller server
+            $this->all_vars['app']['asset_servers'][7]='https://static-assets.w-d.biz/'; //cloud unlimited server
+            $this->all_vars['app']['asset_servers'][8]='https://assets.i-n.club/'; //ionos unlimited server
+            $this->all_vars['app']['asset_servers'][9]='https://assets.creativeweblogic.net/'; //ionos unlimited server
+            $this->all_vars['app']['asset_servers'][10]='https://static-assets.site/'; //ionos unlimited server
+            $this->all_vars['app']['asset_servers'][11]='https://f005.backblazeb2.com/file/iCWLNet-Website-Assets/';
+
+            
+            $this->all_vars['app']['current_asset_server']=$this->all_vars['app']['asset_servers'][11];
+
+            
+            //$this->all_vars=array();
+            //$this->all_vars['app']['current_asset_server']='https://f005.backblazeb2.com/file/iCWLNet-Website-Assets/';
+            //$this->all_vars->do=array('app'=>array('current_asset_server'=>'https://f005.backblazeb2.com/file/iCWLNet-Website-Assets/'));
+            
+            //clsClassFactory::$vrs->{'app'}['current_asset_server']='https://f005.backblazeb2.com/file/iCWLNet-Website-Assets/';
+            //$this->all_vars['app']["include_callback"]="callback";
 
             //$this->Update_App_Vars();
             //----------------------------------------------------------------
+            ////$this->vrs->do=$this->all_vars;
+            //$this->var=$this->all_vars;
         }
 
         public function Set_Base_Constants(){
             //$this->Start_App_Vars();
             $root_array=explode('/',$_SERVER['PHP_SELF']);
             //clsClassFactory::$vrs = new stdClass();
-            //$this->var['app']="xx";
+            //$this->all_vars['app']="xx";
             //print_r(clsClassFactory::$vrs);
+
+            //$this->all_vars=array();
             
-            $this->var['app']['APPBASEDIR']='bcms/';
-            $this->var['app']['ROOTDIR']='/';
+            $this->all_vars['app']['APPBASEDIR']='bcms/';
+            $this->all_vars['app']['ROOTDIR']='/';
             //echo"000101-----------------------------------------------------------------------------\n";
-            $this->var['app']['APPLICATIONSDIR']=$this->var['app']['APPBASEDIR'].'apps';
-            $this->var['app']['MODULEBASEDIR']=$this->var['app']['APPBASEDIR'].'modules/';
-            $this->var['app']['CLASSESBASEDIR']=$this->var['app']['APPBASEDIR'].'classes/';
-            $this->var['app']['INCLUDESBASEDIR']=$this->var['app']['APPBASEDIR'].'includes/';
+            $this->all_vars['app']['APPLICATIONSDIR']=$this->all_vars['app']['APPBASEDIR'].'apps';
+            $this->all_vars['app']['MODULEBASEDIR']=$this->all_vars['app']['APPBASEDIR'].'modules/';
+            $this->all_vars['app']['CLASSESBASEDIR']=$this->all_vars['app']['APPBASEDIR'].'classes/';
+            $this->all_vars['app']['INCLUDESBASEDIR']=$this->all_vars['app']['APPBASEDIR'].'includes/';
+
+
+            
+            //$this->all_vars[]=$this->all_vars;
+            //$this->all_vars->do=$this->all_vars;
             //clsClassFactory::$vrs->Message="";
             //print_r(clsClassFactory::$vrs);
 
             //$this->Update_App_Vars();
+            //$this->vrs->do=$this->all_vars;
+            //$this->var=$this->all_vars;
         }
 
         public function make_guid ($length=32) 
@@ -106,7 +125,11 @@
                 $this->Current_Dir=pathinfo(__DIR__);
             }
             $this->Current_Dir=$this->Current_Dir['dirname'];
-            $this->var['app']['Current_Dir']=$this->Current_Dir;
+            $this->all_vars['app']['Current_Dir']=$this->Current_Dir;
+            //$this->vrs->do=$this->all_vars;
+            //$this->var=$this->all_vars;
+
+            
         }
 
         function tag_replace()
@@ -393,6 +416,8 @@
             }
             return false;
         }
+
+        
 
         
     }

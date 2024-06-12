@@ -6,9 +6,19 @@
         private $Databases=array();
 
         private $Current_Database="";
+
+        public $all_vars=array();
+        public $var=array();
+        public $cls=array();
         function __construct(){
-			
+            
+            //$this->set_database();
+            
 		}
+
+        
+
+        
 
         public function set_database($db_server_id){
             $this->Current_Database=$db_server_id;
@@ -16,6 +26,11 @@
 
         public function add_database($DB){
             //print_r($DB);
+
+            //echo"\n--213456---Class=>".__CLASS__."--Method=>".__METHOD__."---this->var-\n-".var_export($this->var,true)."--\n---------------\n";
+           
+
+            //$this->get_globals();
             $this->Current_Database=$DB['db_server_id'];
 			$this->DB[$this->Current_Database]=$DB;
             
@@ -36,11 +51,20 @@
 
         public function rawQuery($query="")
 		{
-			return $this->Databases[$this->Current_Database]->rawQuery($query);
+            if($query!=""){
+                //echo "\n 6667-xx".$query." \n";
+                if(isset($this->Databases[$this->Current_Database])){
+                    return $this->Databases[$this->Current_Database]->rawQuery($query);
+                }
+                
+            }
+			
 		}
 		
 		public function NumRows(){
-			return $this->Databases[$this->Current_Database]->NumRows();
+            if(isset($this->Databases[$this->Current_Database])){
+			    return $this->Databases[$this->Current_Database]->NumRows();
+            }
 		}
 
         public function Fetch_Array()

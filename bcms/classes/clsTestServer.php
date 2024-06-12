@@ -1,42 +1,34 @@
 <?php
 
-    class clsTestServer extends clsFormCreator{
+    class clsTestServer{
         private $Base_Directory="";
 
         public $log;
 
         private $r;
 
-        private $sess;
+        private $output;
+        public $all_vars=array();
+        public $var=array();
+        public $cls=array();
 
         function __construct(){
 
         }
 
-        public function Set_Log($log){
-            $this->log=clsClassFactory::$all_vars['log'];
-            //print_r($this->log);
-            //$this->log->general('Boot Success: ',9,array());
-                    
+        
+        public function Test_Combined(){
+            $this->Test_File_System();
+            $this->Test_Server_System();
+            $this->Test_Environmental_Variables();
+            $this->Test_PHP_Extensions();
+            $this->Test_Apache_Extensions();
+            $this->Test_PHP_Pear_Extensions();
+            $this->php_info();
+            $this->Test_Server_Details();
+            $this->Retrieve_All_Variables();
         }
-
-        public function set_database($r=null)
-        {
-            $this->r=&clsClassFactory::$all_vars['r'];
-            
-        }
-
-        public function set_session()
-        {
-            $this->sess=&clsClassFactory::$all_vars['sess'];
-            
-        }
-
-        public function set_assorted()
-        {
-            $this->a=&clsClassFactory::$all_vars['sess'];
-            
-        }
+        
 
         public function Test_File_System(){
             $output="";
@@ -46,6 +38,8 @@
             $this->Base_Directory=$current_dir['dirname'].'\\'.$current_dir['basename'];
             $output.="<br>\ncurrent file<br>\n";
             $output.=$_SERVER['PHP_SELF'];
+            $this->output.=$output;
+
             return $output;
         }
 
@@ -56,6 +50,8 @@
             $output.=$_SERVER['SERVER_NAME']."-<br>";
             $output.=gethostname();
             $output.="<br>\nserver hostname<br>\n";
+            $this->output.=$output;
+
             return $output;
         }
 
@@ -65,6 +61,8 @@
             $php_ini[] = getenv('PHP_INI_SCAN_DIR');
             $php_ini[] = getenv('PHPRC');
             $output.=var_export($php_ini,true);
+            $this->output.=$output;
+
             return $output;
         }
 
@@ -72,6 +70,8 @@
             $output="";
             $extensions_array=get_loaded_extensions();
 	        $output.=var_export($extensions_array,true);
+            $this->output.=$output;
+
             return $output;
         }
 
@@ -79,6 +79,8 @@
             $output="";
             $extensions_array=apache_get_modules();
 	        $output.=var_export($extensions_array,true);
+            $this->output.=$output;
+
             return $output;
         }
 
@@ -100,6 +102,8 @@
             //$output.=var_export($extensions_array,true);
             $output.="<br>\n\n".$dir_name."<br>\n\n".$exec_command." <br>\n\nReturned with status $retval and output:\n";
             $output.=var_export($exec_output,true);
+            $this->output.=$output;
+
             return $output;
         }
 
@@ -113,6 +117,8 @@
             $info = preg_replace("/^.*?\<body\>/is", "", $info);
             $info = preg_replace("/<\/body\>.*?$/is", "", $info);
             $output.=$info;
+            $this->output.=$output;
+
             return $output;
         }
 
@@ -121,12 +127,16 @@
             $output.=phpversion();
             $output.=php_sapi_name();
             $output.=$this->php_info();
+            $this->output.=$output;
+
             return $output;
         }
 
         public function Retrieve_All_Variables(){
             $output="";
             $output.=var_export($GLOBALS,true);
+            $this->output.=$output;
+
             return $output;
         }
 
@@ -149,6 +159,8 @@
           public function Retrieve_All_Files(){
                 $output="";
                 $output.=var_export($this->getDirContents($this->Base_Directory),true);
+                $this->output.=$output;
+
                 return $output;
            }
 	

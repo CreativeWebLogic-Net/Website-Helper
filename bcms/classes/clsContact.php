@@ -4,13 +4,17 @@
     class clsContact{
         
         private $output;
-
+        public $all_vars=array();
+        public $var=array();
+        public $cls=array();
         function __construct(){
-			//parent::__construct();
-			
+            
+            
+            
 		}
 
         
+               
         
         
         public function Pre_Contact(){

@@ -3,6 +3,10 @@
     class clsRunScripts{
         private $Base_Directory="";
 
+		public $all_vars=array();
+        public $var=array();
+        public $cls=array();
+
         function __construct(){
 			ini_set("extension", "pgsql");
         }

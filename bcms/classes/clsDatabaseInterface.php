@@ -16,8 +16,8 @@ class clsDatabaseInterface{
 		var $log_text="";
 		var $db_type_list=array("MySQL","Sqlite","pgSQL");
 		private $server_db_list=array();
-		var $current_db_type="MySQL";
-		//var $current_db_type="Sqlite";
+		//var $current_db_type="MySQL";
+		var $current_db_type="Sqlite";
 		//var $current_db_type="pgSQL";
 		var $num_rows=0;
 		var $Retreive_All_Variables=false;
@@ -26,23 +26,23 @@ class clsDatabaseInterface{
 		private $DB_Factory;
 
 		var $server_name="Hostgator Cloud";
+		public $all_vars=array();
+		public $var=array();
+        public $cls=array();
+        function __construct(){
+			$this->cls=&clsClassFactory::$cls;
+            //print_r($this->cls);
+
+			//echo "\n 777-xx \n";
+            $this->get_database_details();
+            
+		}
+
+        
+
 		
-		/*
-		function __construct(&$log=false){
-			if($log){
-				///$this->log=$log;
-				
-			}
-			$this->DB_Factory=new clsDatabaseFactory();
-			$this->Set_Log();
-			$this->get_database_details();
-		}
-		*/
-		function __construct(){
-			
-			$this->DB_Factory=new clsDatabaseFactory();
-			$this->get_database_details();
-		}
+
+        
 		/*
 		public function Add_App_Data(&$app_data){
 			
@@ -82,16 +82,21 @@ class clsDatabaseInterface{
 				return $this->result;
 			}
 		}
-
+		
 		public function get_database_details(){
+			
 			$file_return = "";//include "bcms/classes/db.php";
 			$load_file="bcms/classes/db.php";
 			if (file_exists($load_file)) {
 				$file_return = include ($load_file);
 				$this->server_db_list=$server_DB_list;
-
+				//$this->all_vars=array();
+				$this->all_vars['database']=array();
+				$this->all_vars['database']['db']=array();
 				foreach($this->server_db_list as $key=>$val){
-					$this->DB_Factory->add_database($val);
+					$this->all_vars['database']['db'][]=$val;
+					//$this->cls->export_data();
+					$this->cls->clsDatabaseFactory->add_database($val);
 				}
 			}
 				 
@@ -101,12 +106,13 @@ class clsDatabaseInterface{
 		
 		public function rawQuery($query="")
 		{
-			$result=$this->DB_Factory->rawQuery($query);
+			//echo "\n 666-xx".$query." \n";
+			$result=$this->cls->clsDatabaseFactory->rawQuery($query);
 			return $result;
 		}
 		
 		public function NumRows(){
-			$num_rows=$this->DB_Factory->NumRows();
+			$num_rows=$this->cls->clsDatabaseFactory->NumRows();
 			$this->num_rows=$num_rows;
 			return $num_rows;
 		}
@@ -114,14 +120,14 @@ class clsDatabaseInterface{
 		public function Fetch_Array()
 		{
 			$row=array();
-			$row=$this->DB_Factory->Fetch_Array();
+			$row=$this->cls->clsDatabaseFactory->Fetch_Array();
 			return $row;
 		}
 		
 		public function Fetch_Assoc()
 		{
 			$row=array();
-			$row=$this->DB_Factory->Fetch_Assoc();
+			$row=$this->cls->clsDatabaseFactory->Fetch_Assoc();
 			//print "\n row->".var_dump($row,true)."\n |zz \n";	
 			return $row;
 		}
@@ -129,7 +135,7 @@ class clsDatabaseInterface{
 		public function Fetch_Both()
 		{
 			$row=array();
-			$row=$this->DB_Factory->Fetch_Both();
+			$row=$this->cls->clsDatabaseFactory->Fetch_Both();
 			return $row;
 		}
 
@@ -137,7 +143,7 @@ class clsDatabaseInterface{
 		{
 			$row=array();
 			$return_array=array();
-			while($row=$this->DB_Factory->Fetch_Array()){
+			while($row=$this->cls->clsDatabaseFactory->Fetch_Array()){
 				$return_array[]=$row;
 			}
 			return $return_array;
@@ -147,7 +153,7 @@ class clsDatabaseInterface{
 		{
 			$row=array();
 			$return_array=array();
-			while($row=$this->DB_Factory->Fetch_Assoc()){
+			while($row=$this->cls->clsDatabaseFactory->Fetch_Assoc()){
 				$return_array[]=$row;
 			}
 			return $return_array;
@@ -167,12 +173,12 @@ class clsDatabaseInterface{
 		
 		public function Escape($string)
 		{
-			$st=$this->DB_Factory->Escape($string);
+			$st=$this->cls->clsDatabaseFactory->Escape($string);
 			return $st;
 		}
 		
 		public function Insert_Id(){
-			$InsertID =$this->DB_Factory->Insert_Id();
+			$InsertID =$this->cls->clsDatabaseFactory->Insert_Id();
 			return $InsertID;
 		}
 		

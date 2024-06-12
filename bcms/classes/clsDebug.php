@@ -1,6 +1,10 @@
 <?php
 
     class clsDebug{
+
+        public $all_vars=array();
+        public $var=array();
+        public $cls=array();
        
         function __construct(){
             $className="\n Class=>".__CLASS__."  => \n";

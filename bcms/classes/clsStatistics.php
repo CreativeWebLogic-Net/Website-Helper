@@ -10,6 +10,10 @@
         private $time_interval_data=array();
         private $time_interval_location_sample=array();
         private $time_interval_data_count=0;
+
+        public $all_vars=array();
+        public $var=array();
+        public $cls=array();
         
 
         function __construct(){

@@ -6,11 +6,11 @@
 
         public $output="";
         
+        public $all_vars=array();
         public $var=array();
         public $cls=array();
         function __construct(){
-            $this->var=&clsClassFactory::$vrs;
-            $this->cls=&clsClassFactory::$cls;
+            
          
         }
 

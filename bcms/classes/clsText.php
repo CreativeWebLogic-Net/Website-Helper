@@ -4,12 +4,15 @@
         
         private $content_pagesID=0;
 
+        public $all_vars=array();
         public $var=array();
         public $cls=array();
-        function __construct(){
-            $this->var=&clsClassFactory::$vrs;
-            $this->cls=&clsClassFactory::$cls;
-        }
+        function __construct($classes=array()){
+            $this->cls=$classes;
+            
+		}
+
+        
 
         public function __call($method, $arguments)
         {
@@ -30,14 +33,15 @@
 
 
         function Pre_Display(){
+            //$this->all_vars=$this->vrs->do;
             $this->Start_App_Vars();
             //echo"\n\n--D2222III---------------------------------------------------------------------------\n";
-            //print_r($this->var['content']);
+            //print_r($this->all_vars['content']);
             //$sql="SELECT content_text FROM mod_text WHERE content_pagesID=".PAGESID;
             //$sql="SELECT content_text FROM mod_text WHERE content_pagesID=".$content_data["db"]['id'];
             //echo"700666-----------------------------------------------------------------------------\n";
-            //print_r($this->var['content']);
-            $content_pagesID=$this->var['content']['db']['id'];
+            //print_r($this->all_vars);
+            $content_pagesID=$this->all_vars['content']['db']['id'];
 
             $sql="SELECT * FROM mod_text WHERE content_pagesID=".$content_pagesID;
             //print "\n".$sql."\n";
@@ -51,23 +55,24 @@
             //print_r($rows);
             //echo"\n 10001-----------------------------------------------------------------------------\n";
             if(count($rows)>0){
-                $this->var['text']["db"]=$rows;
+                $this->all_vars['text']["db"]=$rows;
             }else{
-                $this->var['text']["db"]=array();
+                $this->all_vars['text']["db"]=array();
             }
-            //return $this->var['text'];
+            //return $this->all_vars['text'];
             //print_r($text_data);
-            //$this->cls->clsLog->general("-yx Text Display->".var_export($this->var['text']["db"],true),3);
-            //print_r($this->var['text']);
-            $this->Update_App_Vars();
+            //$this->cls->clsLog->general("-yx Text Display->".var_export($this->all_vars['text']["db"],true),3);
+            //print_r($this->all_vars['text']);
+            //$this->Update_App_Vars();
+            //$this->vrs->do=$this->all_vars;
         }
         /*
         function Display_Text(){
             $this->cls->clsLog->general("-yxz Text Display->",3);
             //print "-x-";
-            if(isset($this->var['text']["db"]['content_text'])){
+            if(isset($this->all_vars['text']["db"]['content_text'])){
                 
-                $cur_str=ltrim($this->var['text']["db"]['content_text'],"\n\r\t\v\x00");
+                $cur_str=ltrim($this->all_vars['text']["db"]['content_text'],"\n\r\t\v\x00");
             }else{
                 $cur_str="";
             }
@@ -80,9 +85,9 @@
         function Pre_Display(){
             $this->cls->clsLog->general("-yxz Text Display->",3);
             //print "-x-";
-            if(isset($this->var['text']["db"]['content_text'])){
+            if(isset($this->all_vars['text']["db"]['content_text'])){
                 
-                $cur_str=ltrim($this->var['text']["db"]['content_text'],"\n\r\t\v\x00");
+                $cur_str=ltrim($this->all_vars['text']["db"]['content_text'],"\n\r\t\v\x00");
             }else{
                 $cur_str="";
             }
@@ -93,12 +98,12 @@
         */
         function Main_Display(){
             $this->Start_App_Vars();
-            //print_r($this->var['text']);
+            //print_r($this->all_vars['text']);
             $ret_value="";
-            if(isset( $this->var['text']["db"]['content_text'])){
-                $ret_value=$this->var['text']["db"]['content_text'];
+            if(isset( $this->all_vars['text']["db"]['content_text'])){
+                $ret_value=$this->all_vars['text']["db"]['content_text'];
             }
-            $this->Update_App_Vars();    
+            
             return $ret_value;
         }
 	

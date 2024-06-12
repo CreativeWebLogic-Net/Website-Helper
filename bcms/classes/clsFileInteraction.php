@@ -3,7 +3,9 @@
 
 
     class clsFileInteraction{
-       
+        public $all_vars=array();
+        public $var=array();
+        public $cls=array();
         function __construct(){
 			
 			

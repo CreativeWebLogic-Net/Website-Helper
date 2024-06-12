@@ -1,6 +1,8 @@
 <?php
     class clsDatabaseCRUD{
-
+		public $all_vars=array();
+		public $var=array();
+		public $cls=array();
         //=================================================================================================
 		public function Exec_Create($array_type="Assoc",$table_name,$columns_array=array()){
 			$query_type="Create";
@@ -22,18 +24,39 @@
 			return $this->Execute_Database_Query($array_type,$query_type,$table_name,$columns_array,$specific_columns,$order_by,$max_rows,$page_number);
 		}
 
-		public function Exec_Retrieve($array_type="Assoc",$table_name,$columns_array=array(),$specific_columns=array(),$order_by="id",$max_rows=0,$page_number=1){
-			$query_type="Retrieve";
-			/*
-			if($specific_list!=""){
-				$where_list=" WHERE ".$specific_list;
-			}else{
-				$where_list="";
+		public function Exec_Retrieve($array_type="Assoc",$table_name,$retrieve_columns=array("*"),$where_array=array(),$order_by="id",$max_rows=0,$page_number=1){
+			$numargs = func_num_args();
+			$arg_list = func_get_args();
+			for ($i = 0; $i < $numargs; $i++) {
+				echo "Argument $i is: " . $arg_list[$i] . "\n";
 			}
 			
-			$sql="SELECT ".$retrieve_list." FROM ".$table_name." ".$where_list." ".$order_by_sql." ".$sql_limits;
-			*/
-			return $this->Execute_Database_Query($array_type,$query_type,$table_name,$columns_array,$specific_columns,$order_by,$max_rows,$page_number);
+			$query_type="Retrieve";
+			$where_list="";
+			if(is_array($where_array)){
+				$acount=0;
+				foreach($where_array as $key=>$val){
+					if($acount==0){
+						$where_list.=" WHERE ".implode("=",$val);
+					}else{
+						$where_list.=" AND '".implode("'='",$val)."'";
+					}
+					$acount++;
+				}
+				
+			}
+			if(is_array($retrieve_columns)){
+				$retrieve_list=implode(",",$retrieve_columns);
+			}else{
+				$retrieve_list="";
+			}
+			$order_by_sql=" ORDER BY ".$order_by;
+			//$max_rows=0;
+			//$page_number
+			$sql_limits="LIMIT ".($page_number*$max_rows).",".$max_rows;
+			$sql="SELECT ".$retrieve_list." FROM ".$table_name." ".$where_list." ".$order_by." ".$sql_limits;
+			
+			return $this->Execute_Database_Query($array_type,$query_type,$table_name,$retrieve_columns,$where_array,$order_by,$max_rows,$page_number);
 		}
 
 		public function Exec_Delete($array_type="Assoc",$table_name,$columns_array=array(),$specific_columns=array()){

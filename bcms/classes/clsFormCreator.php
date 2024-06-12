@@ -6,14 +6,22 @@
         public $output;
 
         public $Message="";
-       
+
+        public $all_vars=array();
         public $var=array();
         public $cls=array();
-        function __construct(){
-            $this->var=&clsClassFactory::$vrs;
-            $this->cls=&clsClassFactory::$cls;	
-          parent::__construct();
-		    }
+       
+        public function __construct($classes=array()){
+            
+            
+        }
+
+        
+
+        
+		
+
+     
         
     function Create_Login_Form($Form_Action=""){
       $output=$this->Create_Members_Login_List_Table();
@@ -705,8 +713,8 @@ function Create_Admin_Member_Register_Form($countryID=0,$domainsID=0,$mod_busine
 
                 */
                 //Create_Edit_Table($input=array(),$edit_id=0,$sql_table,$order_by="id")
-                if(isset($this->var["content_data"]['get_variables']['id'])){
-                  $edit_id=$this->var["content_data"]['get_variables']['id'];
+                if(isset($this->all_vars["content_data"]['get_variables']['id'])){
+                  $edit_id=$this->all_vars["content_data"]['get_variables']['id'];
                 }else{
                   $edit_id=null;
                 }

@@ -5,16 +5,14 @@
        
         
         public $output;
+        public $all_vars=array();
         public $var=array();
         public $cls=array();
-        function __construct(){
-            $this->var=&clsClassFactory::$vrs;
-            $this->cls=&clsClassFactory::$cls;
-			
-			//parent::__construct();
-		}
+        public function __construct($classes=array()){
+            
+            		}
 
-        
+               
        
 
         public function Pre_Create_Server_List(){

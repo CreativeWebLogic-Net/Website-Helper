@@ -36,6 +36,9 @@
 		var $server_db_list=array();
 
 		var $server_db_id_list=array();
+
+		public $var=array();
+        public $cls=array();
 		//-----------------------------------------------------------------------------------------------------------
 	
 		//function ConnectDbase(){

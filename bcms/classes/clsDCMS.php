@@ -1,10 +1,12 @@
 <?php
 	
 	class clsDCMS{
-		var $ConfigServer="https://git.creativeweblogic.net/Server-Config-File.html";
-		var $RemoteServer="access.bubblecms.biz/";
-		var $BaseCacheDirectory="cache/";
-		var $BaseDomainCacheDirectory="../cache/";
+		var $ConfigServer="https://creativeweblogic-net.github.io/Website-Helper/Server-Config-File.html";
+		var $RemoteServer="creativeweblogic.net/";
+
+		var $CacheDirectoryName="cache";
+		var $BaseCacheDirectory="../cache/";
+		var $BaseDomainCacheDirectory="./cache/";
 		var $current_dir="";
 		var $current_back_dir="";
 		var $LocalServer;
@@ -33,9 +35,15 @@
 		var $serverFile ="";
 		var $current_original_dir="";
 		var $server_ini_file="";
-		
-		function __construct(){
-		    //print_r($_SESSION);
+
+		public $all_output="";
+
+		public $all_vars=array();
+        public $var=array();
+        public $cls=array();
+        function __construct(){
+            
+            
 			
 		    $this->create_constants();
 			$this->create_domain_cache();
@@ -47,22 +55,32 @@
 		
 		function create_domain_cache() 
 		{ 
+			$cdir='./'.$this->CacheDirectoryName.'/';
+			echo "\n\n error AAA ->".$cdir."--\n\n";
+			if (!file_exists($cdir)){
+				if(!mkdir($cdir)){
+					echo "\n\n error AAA ->".$cdir."--\n\n";
+					
+				}else{
+					echo "\n\n Folder Created ->".$cdir."--\n\n";
+				}
+			}
 			//$current_domain_folder="D:\Program Files\Ampps\www\dcms\cache\localhost8765";
-			$this->cache_domain_dir=$this->current_original_dir['dirname']."/cache/".$this->LocalServer;
+			$this->cache_domain_dir=$cdir.$this->LocalServer;
 			//$this->cache_domain_dir=$current_domain_folder."/";
 			//$current_domain_folder=$this->cache_domain_dir;
 			//$current_domain_folder=".\cache\\".$this->LocalServer;
-			//print "\n\n error abc ->".$this->cache_domain_dir."-- \n\n";
+			//print "\n\n error abc ->".$this->current_original_dir['dirname']."-- \n\n";
 			//$this->show_info($current_domain_folder);
 			if (!file_exists($this->cache_domain_dir)) {
 				if(!mkdir($this->cache_domain_dir)){
-					//echo "\n\n error AAA ->".$current_domain_folder."--\n\n";
+					echo "\n\n error AAA ->".$this->cache_domain_dir."--\n\n";
 					
 				}else{
-					//echo "\n\n Folder Created ->".$current_domain_folder."--\n\n";
+					echo "\n\n Folder Created ->".$this->cache_domain_dir."--\n\n";
 				}
 			}else{
-				//echo "\n\n Folder Exists ->".$current_domain_folder."--\n\n";
+				echo "\n\n Folder Exists ->".$this->cache_domain_dir."--\n\n";
 			}
 		}
 		
@@ -578,6 +596,7 @@
 		}
 		
 		function DisplayRealtime($DisplayPage="/"){
+			//print "ll-";
 		    $filename=$this->get_file_directory("html");
 			//$filename=$this->BaseDomainCacheDirectory."html/".$this->slash_wrap($DisplayPage);
 			$last_cache_date=$this->get_file_date($filename);
@@ -594,12 +613,18 @@
 			}else{
 				$this->WriteCacheFile($DisplayPage,$retdata);
 			}
-			//print $retdata;
+			
 			return $retdata;
 		}
 		
 		function CommandInterface($DisplayPage){
+			$this->all_output=$this->DisplayRealtime($DisplayPage);
 			print $this->DisplayRealtime($DisplayPage);
+		}
+
+		function Return_Output($DisplayPage){
+			$this->all_output=$this->DisplayRealtime($DisplayPage);
+			return $this->all_output;
 		}
 		
 		

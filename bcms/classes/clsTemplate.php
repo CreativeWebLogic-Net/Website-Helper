@@ -1,32 +1,31 @@
 <?php
 
     class clsTemplate{
-
+        public $all_vars=array();
         public $var=array();
         public $cls=array();
         function __construct(){
-            $this->var=&clsClassFactory::$vrs;
-            $this->cls=&clsClassFactory::$cls;
-        }
+            
+            
+		}
 
         
-
         
         /*
         public function Run_Template_Import(){
             
             $template_code="";
-            if(isset($this->var['template']["db"]['dir'])){
-				$this->var['template']['My_Dir']=$this->var['app']['APPBASEDIR']."templates/".$this->var['template']["db"]['dir'];
-				//$load_file=$this->var['template']['My_Dir']."/index.php";
-                $load_file=$this->var['template']['My_Dir'];
+            if(isset($this->all_vars['template']["db"]['dir'])){
+				$this->all_vars['template']['My_Dir']=$this->all_vars['app']['APPBASEDIR']."templates/".$this->all_vars['template']["db"]['dir'];
+				//$load_file=$this->all_vars['template']['My_Dir']."/index.php";
+                $load_file=$this->all_vars['template']['My_Dir'];
 				//$this->cls->clsLog->general("-End line-".$load_file,9);
 				//print $load_file;
-				$this->cls->clsLog->general("-ar Loading Template->",9,$this->var['template']["db"]);
+				$this->cls->clsLog->general("-ar Loading Template->",9,$this->all_vars['template']["db"]);
 				//echo"\n\n-10----".$load_file."----------------------------------------------------\n\n";
                 
 				if(file_exists($load_file)){
-					//$this->var['app']["include_callback"]="callback_template";
+					//$this->all_vars['app']["include_callback"]="callback_template";
 					$filepath=$load_file;
 		            $template_code=$this->Load_File($load_file);
                     echo"\n\n-1001----".$template_code."----------------------------------------------------\n\n";
@@ -44,16 +43,19 @@
             return $template_code;
         }
         */
-        /*
+        
         public function Run_Template(){
-            echo"\n\n-1001--------------------------------------------------------\n\n";
-            print_r($this->vrs);
-            $template_size=strlen($this->var['template']["db"]['filedata']);
-            //$this->cls->clsLog->general("-RT Loading Template->".$template_size,9,$this->var['template']["db"]);
+            $template_code="";
+            $template_size=strlen($this->all_vars['template']["db"]['filedata']);
+            //$this->cls->clsLog->general("-RT Loading Template->".$template_size,9,$this->all_vars['template']["db"]);
             if($template_size>0){
-                
-				return base64_decode($this->var['template']["db"]['filedata']);
-                //return $this->var['template']["db"]['filedata'];
+                $template_code=base64_decode($this->all_vars['template']["db"]['filedata']);
+                //print $template_code;
+                //clsClassFactory::$vrs->new_variables[]=$this->all_vars;
+				return $template_code;
+                //echo"\n\n-1001--------------------------------------------------------\n\n";
+                //print_r($this->all_vars['template']["db"]);
+                //return $this->all_vars['template']["db"]['filedata'];
 				
 				
 			}else{
@@ -61,7 +63,7 @@
 			}
             
         }
-        */
+        
         /*
         public function Load_File($file_wrapper){
             
@@ -89,18 +91,18 @@
             //$this->domains_templatesID=0;
             //set sql result non capitalized
             //echo"--73RRR---------------------------------------------------------------------------\n";
-            //print_r($this->var['content']);
+            //print_r($this->all_vars['content']);
             //echo"--73RRRXXDomain---------------------------------------------------------------------------\n";
-            //print_r($this->var['domain']);
+            //print_r($this->all_vars['domain']);
             //echo"--73RRRXX---------------------------------------------------------------------------\n";
-            if(isset($this->var['content']["db"])){
+            if(isset($this->all_vars['content']["db"])){
                 
-                if(isset($this->var['content']["db"]['templatesID'])){
-                    if($this->var['content']["db"]['templatesID']==0){
-                        //echo"--In Content------------------------ff-|-".$this->var['content']["db"]['templatesID']."-|------------------------------------------------\n";
-                        if(isset($this->var['domain']["db"]['templatesID'])){
-                            if($this->var['domain']["db"]['templatesID']>0){
-                                $templatesID=$this->var['domain']["db"]['templatesID'];
+                if(isset($this->all_vars['content']["db"]['templatesID'])){
+                    if($this->all_vars['content']["db"]['templatesID']==0){
+                        //echo"--In Content------------------------ff-|-".$this->all_vars['content']["db"]['templatesID']."-|------------------------------------------------\n";
+                        if(isset($this->all_vars['domain']["db"]['templatesID'])){
+                            if($this->all_vars['domain']["db"]['templatesID']>0){
+                                $templatesID=$this->all_vars['domain']["db"]['templatesID'];
                             }else{
                                 $templatesID=0;
                             }				
@@ -108,11 +110,11 @@
                             $templatesID=0;
                         }
                     }else{
-                        $templatesID=$this->var['content']["db"]['templatesID'];
+                        $templatesID=$this->all_vars['content']["db"]['templatesID'];
                     }			
-                }elseif(isset($this->var['domain']["db"]['templatesID'])){
-                    if($this->var['domain']["db"]['templatesID']>0){
-                        $templatesID=$this->var['domain']["db"]['templatesID'];
+                }elseif(isset($this->all_vars['domain']["db"]['templatesID'])){
+                    if($this->all_vars['domain']["db"]['templatesID']>0){
+                        $templatesID=$this->all_vars['domain']["db"]['templatesID'];
                     }else{
                         $templatesID=0;
                     }
@@ -123,6 +125,11 @@
                 //echo "\n\n 123QQQ---".$templatesID."----\n\n";
                 //if content page has a custom template then overwrite the domain template
                 if($templatesID>0){
+
+                    //Exec_Retrieve($array_type="Assoc",$table_name,$retrieve_columns=array("*"),$where_array=array(),$order_by="id",$max_rows=0,$page_number=1){
+			
+
+
                     $sql="SELECT * FROM templates WHERE id='".$templatesID."'";
                     //$sql="SELECT * FROM templates WHERE id='27'";
                     //$sql="SELECT * FROM templates";
@@ -130,26 +137,26 @@
                     $num_rows=$this->cls->clsDatabaseInterface->NumRows($rslt);
                     //echo "\n\n 123---".$sql."----\n\n";
                     if($num_rows>0){
-                        $this->var['template']["db"]=$this->cls->clsDatabaseInterface->Fetch_Assoc($rslt);
-                        //print_r($this->var['template']);
+                        $this->all_vars['template']["db"]=$this->cls->clsDatabaseInterface->Fetch_Assoc($rslt);
+                        //print_r($this->all_vars['template']);
                         //print_r($sql);
-                        $this->cls->clsLog->general("DDD HTML Template",9,strlen($this->var['template']["db"]['filedata']));
-                        $this->var['template']["db"] = $this->cls->clsAssortedFunctions->strip_capitals($this->var['template']["db"]);
-                        if(count($this->var['template']["db"])==0){
+                        $this->cls->clsLog->general("DDD HTML Template",9,strlen($this->all_vars['template']["db"]['filedata']));
+                        $this->all_vars['template']["db"] = $this->cls->clsAssortedFunctions->strip_capitals($this->all_vars['template']["db"]);
+                        if(count($this->all_vars['template']["db"])==0){
                             //exit("No Template->".$sql);
                             //$error_message="No template found=>".$sql;
                             //echo $error_message;
-                            //print_r($this->var['template']["db"]);
+                            //print_r($this->all_vars['template']["db"]);
                             
-                            $this->cls->clsLog->general("No template found=>",4,$this->var['template']["db"]);
+                            $this->cls->clsLog->general("No template found=>",4,$this->all_vars['template']["db"]);
                         }
-                        if(strlen($this->var['template']["db"]['filedata'])==0){
-                            $this->cls->clsLog->general("No HTML Template",9,strlen($this->var['template']["db"]['filedata']));
+                        if(strlen($this->all_vars['template']["db"]['filedata'])==0){
+                            $this->cls->clsLog->general("No HTML Template",9,strlen($this->all_vars['template']["db"]['filedata']));
                         }
                         //echo "\n\n 123-------\n\n";
-                        //print_r($template_data);
-                        $this->var['template']['TEMPLATEPATH']=$this->var['app']['APPBASEDIR']."templates/".$this->var['template']["db"]['dir'];
-                        $this->var['template']['TEMPLATEDIR']=$this->var['template']['TEMPLATEPATH'];
+                        //print_r($this->all_vars['template']["db"]);
+                        $this->all_vars['template']['TEMPLATEPATH']=$this->all_vars['app']['APPBASEDIR']."templates/".$this->all_vars['template']["db"]['dir'];
+                        $this->all_vars['template']['TEMPLATEDIR']=$this->all_vars['template']['TEMPLATEPATH'];
                     }else{
                         //exit("No Template->".$sql);
                     }

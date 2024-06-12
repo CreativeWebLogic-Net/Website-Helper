@@ -1,6 +1,7 @@
 <?php
     //class clsSession extends clsMySessionHandler
-    class clsSession //extends clsSessionHandler// extends clsMySessionHandler
+    //class clsSession extends clsSessionHandler// extends clsMySessionHandler
+    class clsSession// extends clsMySessionHandler
     {   
         private $ip_address="";
         private $ip_address_type="ip4";
@@ -25,17 +26,17 @@
 
         private $savePath;
 
+        public $all_vars=array();
         public $var=array();
         public $cls=array();
-        function __construct(){
-            $this->var=&clsClassFactory::$vrs;
-            $this->cls=&clsClassFactory::$cls;
-        
+        public function __construct($classes=array()){
             
-            $this->session_set_globals();
             
 		}
+
         
+
+                
             
         public function read_data($id)
         {
@@ -127,7 +128,7 @@
 
         public function set_database($r=null)
         {
-            $this->cls->clsDatabaseInterface=&$r;
+            //$this->cls->clsDatabaseInterface=&$r;
             
         }
         /*
@@ -246,7 +247,9 @@
             
             if($this->new_guid==""){
                 $this->new_guid=$guid;
+                $this->guid=$guid;
             }
+            //$guid=$this->get_guid();
             //print $this->guid;
         }
 
@@ -275,7 +278,8 @@
         public function session_start()
         {
             //session_start();
-            //print "session_start>".$this->guid." | ";
+            $this->session_set_globals();
+            print "session_start>".$this->guid." | ";
             if(isset($_COOKIE["Session"])){
                 $this->use_cookie=true;
                 $session_cookie=$_COOKIE["Session"];
@@ -306,7 +310,7 @@
                 }
             }
             
-            //print"ggg".$_COOKIE["Session"].'  -'.$this->id.'  -'.$this->guid.'- \n\n';
+            print"ggg".$_COOKIE["Session"].'  -'.$this->id.'  -'.$this->guid.'- \n\n';
             //print_r($this->id);
             $this->cls->clsLog->general("session_start->",5,array($tag,$this->use_cookie,$session_cookie));
         }
@@ -461,8 +465,9 @@
         public function session_save_path($save_path="")
         {
             //$this->save_path=$save_path;
-            /*
+            
             $guid=$this->get_guid();
+            
             //print $guid;
             //print("\n--------------0-".$guid."-1-------------\n");
             if($save_path!=""){
@@ -471,7 +476,7 @@
                 $save_path='./bcms/sessions/';
                 $save_path.=$guid;
             }
-            */
+            
             $save_path='./bcms/sessions/';
             //$this->fwrite_stream($save_path, $this->cls->clsDatabaseInterfaceetrieve_all_session_variables());
             //session_save_path($save_path);

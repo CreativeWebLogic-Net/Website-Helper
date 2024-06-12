@@ -1,14 +1,16 @@
 <?php
 class clsSessionHandler implements SessionHandlerInterface
 {
-    private $savePath="./bcms/sesions/";
+    private $savePath="./bcms/sessions/";
 
     public $sess;
     public $log;
 
     public $r;
 
-    
+    public $all_vars=array();
+        public $var=array();
+        public $cls=array();
     function __construct(){
 
         //$this->Set_Log(clsClassFactory::$all_vars['log']);
@@ -32,7 +34,7 @@ class clsSessionHandler implements SessionHandlerInterface
 		if($savePath!=""){
 			$this->savePath = $savePath;
 		}
-		//print("XX4".$this->savePath);
+		print("XX4".$this->savePath);
         if (!is_dir($this->savePath)) {
             mkdir($this->savePath, 0777);
         }
@@ -48,7 +50,7 @@ class clsSessionHandler implements SessionHandlerInterface
     #[\ReturnTypeWillChange]
     public function read($id)
     {
-        //print("XX3".$id);
+        print("XX3->".$id." \n");
         return (string)@file_get_contents("$this->savePath/sess_$id");
     }
 
@@ -56,7 +58,7 @@ class clsSessionHandler implements SessionHandlerInterface
     {
         
         $output=file_put_contents("$this->savePath/sess_$id", $data) === false ? false : true;
-       // print("XX2-".$output."-".$data);
+        print("XX2-".$output."-".$data);
         return $output;
     }
 

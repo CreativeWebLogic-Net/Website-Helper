@@ -2,17 +2,22 @@
 
    class clsLog{
         
-   var $MessageArray=array();
-   var $PriorityMessages=array();
-   //var $clsFact;
-   var $output_level=5;
+      var $MessageArray=array();
+      var $PriorityMessages=array();
+      //var $clsFact;
+      var $output_level=5;
+      public $all_vars=array();
+      public $var=array();
+        public $cls=array();
+        function __construct(){
+            
+            
+		}
 
-   function __construct(){
       
-   }
 
    public function general($msg,$num=0,$log_array=array()){
-      
+      /*
        $log_msg=array($num,$msg,var_export($log_array,true));
        if($num>=$this->output_level){
          if(!in_array($log_msg,$this->PriorityMessages)){
@@ -24,7 +29,7 @@
            $this->MessageArray[]=$log_msg;
          }
        }
-       
+       */
    }
    
    public function user($msg,$num=1,$memberID=0,$member_name="") 
