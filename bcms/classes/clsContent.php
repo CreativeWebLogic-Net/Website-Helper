@@ -139,10 +139,10 @@
            
             $this->Content_Init_Page_Details();
 
-            
+            $original_page=$this->input_data['REQUEST_URI'];
             $PArr=$this->all_vars['content']["PArr"];
             //print_r($this->all_vars['content']);
-            /*
+            
             if($this->input_data['dcmsuri']>0){
                 $this->all_vars['content']["URI"]=$this->input_data['dcmsuri'];
                 if($this->input_data['dcmsuri']>0){
@@ -162,7 +162,7 @@
                 }
                 
             }
-            */
+            
             
             $content_data_uri=array();
             $this->all_vars['content']["dcmsuri"]=$this->input_data['dcmsuri'];
@@ -210,7 +210,7 @@
                 $this->all_vars['content']["content_pagesID"]=0;
                 $this->all_vars['content']["uri"]=$this->all_vars['content']["URI"];
             }
-                //print_r($PArr);
+                
             $this->all_vars['content']["uri_split_array"]=$PArr;
             $current_page="/";
             $get_variables=array();
@@ -226,7 +226,7 @@
                 }
             }
             $this->all_vars['content']['get_variables']=$get_variables;
-            
+            //print_r($this->all_vars['content']['get_variables']);
             if(!isset($this->all_vars['content']["TOTALPAGENAME"])){
                 $this->all_vars['content']['RESET']=true;
                 $TotalPageName=$current_page;
@@ -374,11 +374,28 @@
                     //if(!isset(PAGENAME)) define('PAGENAME',$TotalPageName);
                     $this->all_vars['content']['PAGENAME']=$OriginalPageName;
                     $this->all_vars['content']['db']=$this->cls->clsDatabaseInterface->Fetch_Assoc($rslt);	
-                    //print_r($this->all_vars['content']);
+                    //print_r($this->all_vars);
                     if(!isset($_SESSION['membersID'])&&($this->all_vars['content']['db']['ExposureLT']==37)){
                         //echo"Member Page";
                         //exit("Member Page");
                         //header("Location: /");
+                    }
+                    //print_r($this->all_vars);
+                    if($this->all_vars['content']["db"]['domainsID']==0){
+                        // what group is the page in => management
+                    
+                        if($_SESSION['membersID']>0){
+                            // member logged in
+                            if($this->all_vars['content']["db"]['ExposureLT']>36){
+                                // page either member or both
+                                //echo"Member Page 1";
+                            }else{
+                                header("Location: /login-management/");
+                            }
+                        }
+                    }else{
+                        // what group is the page in => public
+                        //echo"Public Page 1";
                     }
                     
                     
@@ -461,8 +478,9 @@
                     $this->all_vars['content']['db']=$this->cls->clsDatabaseInterface->Fetch_Assoc($rslt);
                     $_SESSION['LanguagesID']=$this->all_vars['content']['languagesID'];
                 };
+                
             };
-            
+            //print_r($this->all_vars);
             $this->all_vars['content']["db"] = $this->cls->clsAssortedFunctions->strip_capitals($this->all_vars['content']["db"]);
             //print_r($this->all_vars['content']);
             if(isset($this->all_vars['content']['db']['module_viewsid'])){
@@ -487,7 +505,7 @@
                 //echo"2234321012345555-----------------------------------------------------------------------------\n";
                 $this->all_vars['module']["db"] = $this->cls->clsAssortedFunctions->strip_capitals($this->all_vars['module']["db"]);
                 //echo"112234321012345555-----------------------------------------------------------------------------\n";
-                //print_r($this->all_vars['module']);
+                
                 $this->target_class=$this->all_vars['module']["db"]['class'];
                 $target_class=$this->target_class;
                 //echo $target_class."-00001112234321012345555-----------------------------------------------------------------------------\n";
@@ -515,12 +533,47 @@
                     }
                     */
                 }
-                // check for member session
+
+                //print_r($_SESSION);
+                    if($this->all_vars['content']["db"]['domainsID']==0){
+                        // what group is the page in => management
+                    
+                        if($_SESSION['membersID']>0){
+                            // member logged in
+                            if($this->all_vars['content']["db"]['ExposureLT']>36){
+                                // page either member or both
+                                //echo"Member Page 1";
+                            }else{
+                                // if member logged in to management on public page=>redirect
+                                header("Location: /login-management/");
+                            }
+                        }
+                    }else{
+                        if(isset($_SESSION['membersID'])){
+                            if($_SESSION['membersID']==0){
+                                // what group is the page in => public
+                                //echo"Public Page 1";
+                            }else{
+                                if($this->all_vars['content']["db"]['ExposureLT']==36){
+                                    // if member logged in on public page=>redirect
+                                    header("Location: /members-home/");
+                                    
+                                }else{
+    
+                                }
+                            }
+                        }
+                        
+                    }
+
+                
+                /*
                 if(!isset($_SESSION['membersID'])&&($this->all_vars['content']["db"]['ExposureLT']==37)){
                     //echo"Member Page";
                     $this->cls->clsLog->general("Member Page->",1);
                     //header("Location: /");
                 }
+                */
             }
             if(isset($this->all_vars['content']["content_pagesID"])){
                 $this->all_vars['content']["content_pagesid"]=$this->all_vars['content']["content_pagesID"];

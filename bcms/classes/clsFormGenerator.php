@@ -137,12 +137,23 @@
           $return_array=array();
           //$text_input_item=array('type'=>"text",'value'=>"",'size'=>"45",'style'=>"",'class'=>"");
           //$drop_down_input_item=array('type'=>"drop_down",'value'=>"",'size'=>"45",'style'=>"",'class'=>"",'db_table'=>"mod_organization");
-          $text_input_item=array('type'=>"text",'size'=>"45",'style'=>"",'class'=>"");
+          $text_input_item=array('type'=>"text",'size'=>"45",'style'=>"",'class'=>"","value"=>'');
           $drop_down_input_item=array('type'=>"drop_down",'size'=>"45",'style'=>"",'class'=>"",'db_table'=>"mod_organization");
           $blank_item=array('type'=>'blank');
           $hidden_item=array('type'=>'hidden',"value"=>'',"html"=>'<input type="hidden" value="">');
           $button_item=array('type'=>"submit_button","value"=>'Submit',"name"=>'Submit',"id"=>'','class'=>"formbuttons");
           $return_array=array($text_input_item,$drop_down_input_item,$blank_item,$hidden_item,$button_item);
+          return $return_array;
+        }
+
+
+        public function Get_Table_Elements(){
+          $return_array=array();
+          $return_array["text"]=array('type'=>"text",'size'=>"45",'style'=>"",'class'=>"","value"=>'');
+          $return_array["drop_down"]=array('type'=>"drop_down",'size'=>"45",'style'=>"",'class'=>"");
+          $return_array["blank"]=array('type'=>'blank');
+          $return_array["hidden"]=array('type'=>'hidden',"value"=>'',"html"=>'<input type="hidden" value="">');
+          $return_array["submit_button"]=array('type'=>"submit_button","value"=>'Submit',"name"=>'Submit',"id"=>'','class'=>"formbuttons");
           return $return_array;
         }
 
@@ -255,6 +266,45 @@
 
           public function Create_Edit_Table($input=array(),$edit_id=0,$sql_table,$order_by="id"){
             
+            
+            $column_count=0;
+            foreach($input['item_types'] as $keys=>$values){
+                if($values!="blank"){
+                    $column_count++;
+                }
+            }
+            $table_total=$input['table_total'];         
+            //$table_total=array('tags_columns'=>$column_count,'tags_rows'=>2,'end_rows'=>1);
+
+            $input['table_dimentions']=$table_total;
+
+            $table_constants=$this->Create_Edit_Table_Constants();
+            $table_array=$table_constants[0];
+            $table_cols_array=$table_constants[1];
+
+            $input['table_tags']['cols']=$table_constants[1];
+            $input['table_tags']['rows']=array();
+            $input['table_properties']=$table_constants[0];
+
+              
+            
+            
+            $list_rows=$this->Edit_Table_Rows($sql_table,$input['select_items'],$edit_id);
+            //print_r($list_rows);
+            $input['row_outputs']=$list_rows;
+            
+            $this->output=$this->Create_Editor_Form($input);
+            $this->output=$this->Create_HTML_Form($this->output,$_SERVER['REQUEST_URI']);
+            
+            
+            return $this->output;
+          }
+
+          // ==================================================================  new form builder types | edit
+
+          public function Build_Edit_Table($input=array(),$edit_id=0){
+            
+            print_r($input);
             
             $column_count=0;
             foreach($input['item_types'] as $keys=>$values){

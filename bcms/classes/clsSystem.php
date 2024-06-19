@@ -102,7 +102,7 @@
             $this->cls->clsModules->Find_Module_View();
             
             $this->template_code=$this->cls->clsTemplate->Run_Template();
-            
+            $this->cls->clsSession->session_set_globals();
             print $this->All_Outputs();
             //exit("ii");
             //$this->output_code=
@@ -115,13 +115,14 @@
             //session_save_path("bcms/sessions/"); // Set the path where session files will be stored
             session_start();
             */
-            $guid=$this->cls->clsAssortedFunctions->make_guid();
+            //$guid=$this->cls->clsAssortedFunctions->make_guid();
             //print($guid);
-            $this->cls->clsSession->set_new_guid($guid);
+            //$this->cls->clsSession->set_new_guid($guid);
+            
             $this->cls->clsSession->session_start();
 
-            $_SESSION['username'] = 'john_doe';
-            print_r($_SESSION);
+            //$_SESSION['username'] = 'john_doe';
+            //print_r($_SESSION);
         }
 
         

@@ -41,7 +41,9 @@
                         $this->cls->clsLog->general('Member Login Checked-',1);
                         $_SESSION['member_array']=$user_details;
                         $_SESSION['membersID']=$user_details["account"]['id'];
-                        
+                        clsClassFactory::$cls->clsSession->session_set_globals();
+                        //print "\n HHH55 \n";
+                        //PRINT_R($_SESSION);
                         /*
                         if(isset($_SESSION['PAGENAME'])){
                             $destination=$_SESSION['PAGENAME'];
@@ -168,7 +170,7 @@
             if(isset($_GET['hash'])){
                 $login=true;
                 $sql="UPDATE administrators SET administratorActive=1 WHERE hash='".$_GET['hash']."'";
-                $data=$this->cls->clsDatabaseInterfacerawQuery($sql);
+                $data=$this->cls->clsDatabaseInterface->rawQuery($sql);
                 $sql="SELECT * FROM administrators where hash='".$_GET['hash']."' LIMIT 0,1";
             }
 
@@ -183,8 +185,8 @@
             }
 
             if($login){
-                $data=$this->cls->clsDatabaseInterfacerawQuery($sql);
-                $dataarray=$this->cls->clsDatabaseInterfaceFetch_Array($data);
+                $data=$this->cls->clsDatabaseInterface->rawQuery($sql);
+                $dataarray=$this->cls->clsDatabaseInterface->Fetch_Array($data);
                     if(isset($dataarray[0])){
                         if($dataarray[0]>0){ //admin login ok
                             
@@ -203,10 +205,10 @@
                                 $sql.=" AND administratorsID=$session_data[administratorsID] AND clientsID=$session_data[clientsID]";
                             }
                             
-                            $rslt=$this->cls->clsDatabaseInterfaceRawQuery($sql);
+                            $rslt=$this->cls->clsDatabaseInterface->rawQuery($sql);
                             if($rslt){
                                 if($this->cls->clsDatabaseInterfaceNumRows($rslt)>0){
-                                    $data=$this->cls->clsDatabaseInterfaceFetch_Array($rslt);
+                                    $data=$this->cls->clsDatabaseInterface->Fetch_Array($rslt);
                                     if($data[0]>0){
                                         $session_data['original_domainsID']=$data[0];
                                         $_COOKIE['original_domainsID']=$data[0];
@@ -478,6 +480,7 @@
             //$this->output=$this->cls->clsFormCreator->Create_User_Details();
             //$this->output="Add_Member";
             $this->output=__METHOD__;
+            $this->output=$this->cls->clsFormCreator->Create_Members_List_Table();
             return $this->output;
         }
 
@@ -713,7 +716,7 @@
                     if($rslt){
                         $Simple="Dear Member here are the details you requested.\n";
                         //$this->m=new SendMail();
-                        while($data=$this->cls->clsDatabaseInterfaceFetch_Array($rslt)){
+                        while($data=$this->cls->clsDatabaseInterface->Fetch_Array($rslt)){
                             //$m->To(array($data[1]=>$data[2]));
                             $Simple.="Your name is: $data[1] \n Your email is $data[2].\n Your password is $data[0] \n";
                             $Simple.="------------------------------------------------------------------------------\n";

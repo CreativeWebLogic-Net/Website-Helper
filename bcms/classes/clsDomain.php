@@ -290,7 +290,16 @@
         }
         
         public function Domain_List(){
-            $this->output=__METHOD__;
+            //$this->output=__METHOD__;
+            $this->output=$this->cls->clsFormCreator->Create_Domains_List_Table();
+            return $this->output;
+        }
+
+        public function Domain_Edit(){
+            $this->output=__METHOD__."<br> \n";
+            $get=$this->all_vars['content']['get_variables'];
+
+            $this->output.=$this->cls->clsFormCreator->Edit_Domain_Form($get['id']);
             return $this->output;
         }
 

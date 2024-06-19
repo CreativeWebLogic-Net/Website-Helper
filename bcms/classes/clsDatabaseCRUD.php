@@ -24,39 +24,90 @@
 			return $this->Execute_Database_Query($array_type,$query_type,$table_name,$columns_array,$specific_columns,$order_by,$max_rows,$page_number);
 		}
 
-		public function Exec_Retrieve($array_type="Assoc",$table_name,$retrieve_columns=array("*"),$where_array=array(),$order_by="id",$max_rows=0,$page_number=1){
+		public function Exec_Retrieve($array_type="Assoc",$table_name,$retrieve_columns=array("*"),$where_array=array(),$order_by="",$max_rows=0,$page_number=1){
 			$numargs = func_num_args();
 			$arg_list = func_get_args();
 			for ($i = 0; $i < $numargs; $i++) {
-				echo "Argument $i is: " . $arg_list[$i] . "\n";
+				if(is_array($arg_list[$i])){
+					//echo "Argument $i is: " . var_export($arg_list[$i],true) . "\n";
+				}else{
+					//echo "Argument $i is: " . $arg_list[$i] . "\n";
+				}
+				
 			}
 			
 			$query_type="Retrieve";
 			$where_list="";
+			
+			
 			if(is_array($where_array)){
 				$acount=0;
 				foreach($where_array as $key=>$val){
 					if($acount==0){
-						$where_list.=" WHERE ".implode("=",$val);
+						//$where_list.=" WHERE ".implode("=",$val);
+						$where_list.=" WHERE ".$key."=".$val;
 					}else{
-						$where_list.=" AND '".implode("'='",$val)."'";
+						//$where_list.=" AND '".implode("'='",$val)."'";
+						//$where_list.=" AND ".$key."=".$val;
 					}
 					$acount++;
 				}
 				
 			}
+			//print_r($where_list);
+
 			if(is_array($retrieve_columns)){
 				$retrieve_list=implode(",",$retrieve_columns);
 			}else{
 				$retrieve_list="";
 			}
-			$order_by_sql=" ORDER BY ".$order_by;
+			if($order_by!=""){
+				$order_by_sql=" ORDER BY ".$order_by;
+			}
+			
 			//$max_rows=0;
 			//$page_number
-			$sql_limits="LIMIT ".($page_number*$max_rows).",".$max_rows;
-			$sql="SELECT ".$retrieve_list." FROM ".$table_name." ".$where_list." ".$order_by." ".$sql_limits;
+			if($max_rows>0){
+				$sql_limits="LIMIT ".($page_number*$max_rows).",".$max_rows;
+			}else{
+				$sql_limits="";
+			}
 			
-			return $this->Execute_Database_Query($array_type,$query_type,$table_name,$retrieve_columns,$where_array,$order_by,$max_rows,$page_number);
+			$sql="SELECT ".$retrieve_list." FROM ".$table_name." ".$where_list." ".$order_by." ".$sql_limits;
+
+			//print $sql;
+            $return_array=array();
+            $rslt=$this->cls->clsDatabaseFactory->rawQuery($sql);
+			
+			if($rslt){
+				$this->cls->clsDatabaseFactory->Set_Result($rslt);
+				$NumRows=$this->cls->clsDatabaseFactory->NumRows($rslt);
+			}
+            //$this->rslt=$this->Database_Raw_Query($sql);
+			if($NumRows>1){
+				if($array_type=="Assoc"){
+					while($myrow=$this->cls->clsDatabaseFactory->Fetch_Assoc($rslt)){
+						$return_array[]=$myrow;
+					}
+				}else{
+					while($myrow=$this->cls->clsDatabaseFactory->Fetch_Array($rslt)){
+						$return_array[]=$myrow;
+					}
+				}
+			}else{
+				if($array_type=="Assoc"){
+					$return_array=$this->cls->clsDatabaseFactory->Fetch_Assoc($rslt);
+				}else{
+					$return_array=$this->cls->clsDatabaseFactory->Fetch_Array($rslt);
+				}
+			}
+			
+            
+            //print_r($return_array);
+            //print_r("ggg=> \n");
+            return $return_array;
+			
+			//return $this->Execute_Database_Query($array_type,$query_type,$table_name,$retrieve_columns,$where_array,$order_by,$max_rows,$page_number);
 		}
 
 		public function Exec_Delete($array_type="Assoc",$table_name,$columns_array=array(),$specific_columns=array()){

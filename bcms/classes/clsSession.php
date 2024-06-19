@@ -62,10 +62,20 @@
 
         public function session_set_globals()
         {
-            $map_array=array(0=>"SESSION",1=>"SERVER",2>"GET",3=>"POST",4=>"FILES",5=>"RERQUEST",6=>"ENV",7=>"COOKIE");
+            $new_array=array();
+            $map_array=array(0=>"SESSION",1=>"SERVER",2>"GET",3=>"POST",4=>"FILES",5=>"RERQUEST",6=>"ENV",7=>"COOKIE",8=>"All_Vars");
             //$input_array=array($_SESSION,$_SERVER,$_GET,$_POST,$_FILES,$_REQUEST,$_ENV,$_COOKIE);
-            $input_array=array($_SERVER,$_GET,$_POST,$_FILES,$_REQUEST,$_ENV,$_COOKIE);
-            //print_r($input_array);
+            //$input_array=array($map_array[0]=>$_SESSION,$map_array[1]=>$_SERVER,$map_array[2]=>$_GET,$map_array[3]=>$_POST,
+            $input_array=array($map_array[1]=>$_SERVER,$map_array[2]=>$_GET,$map_array[3]=>$_POST,
+            $map_array[4]=>$_FILES,$map_array[5]=>$_REQUEST,$map_array[6]=>$_ENV,$map_array[7]=>$_COOKIE,$map_array[8]=>clsClassFactory::$all_vars);
+            if(count($_SESSION)>0) $input_array[$map_array[0]]=$_SESSION;
+            foreach ($input_array as $name => $value) {
+                if(count($value)>0){
+                    $new_array[$name]=$value;
+                }
+            }
+            //print_r($new_array);
+            $input_array=$new_array;
             //
             //$input_array=array($_SESSION,$_SERVER,$_GET,$_POST,$_FILES,$_REQUEST,$_ENV,$_COOKIE);
                         //$input_array=$GLOBALS;
@@ -76,12 +86,14 @@
                 foreach ($value as $var_name => $var_value) {
                     
                     //$this->cls->clsLog->general("Map ",9,array($map_array,$name));
-                    $this->session_vars_data[$map_array[$name]][$var_name]=$var_value;
+                    //$this->session_vars_data[$map_array[$name]][$var_name]=$var_value;
+                    $this->session_vars_data[$name][$var_name]=$var_value;
                 }
             
             }
             $this->set_data($this->session_vars_data,$serialize="serialize");
             $this->server_variables['HTTP_USER_AGENT']=$_SERVER['HTTP_USER_AGENT'];
+            //print_r($this->session_vars_data);
             //$this->cls->clsLog->general("All Globals ",9,array($_SERVER,$this->session_vars_data,$input_array));
         }
         
@@ -126,24 +138,11 @@
                     
         }
 
-        public function set_database($r=null)
-        {
-            //$this->cls->clsDatabaseInterface=&$r;
-            
-        }
-        /*
-        public function set_session()
-        {
-            $this->sess=&clsClassFactory::$cls->clsSession;
-            
-        }
-        */
-
         
-
         public function Get_Current_Time(){
-            date_default_timezone_set('Australia/Sydney');
-            $today = date("Y-m-d H:i:s"); 
+            $today =clsClassFactory::$cls->clsAssortedFunctions->Get_Current_Time();
+            //date_default_timezone_set('Australia/Sydney');
+            //$today = date("Y-m-d H:i:s"); 
             return $today;   
         }
 
@@ -161,6 +160,7 @@
             }
             
             //if($this->ip_address==""){
+                $ip_address=$_SERVER['SERVER_ADDR'];
                 $this->ip_address=$ip_address;
             //}
             
@@ -268,7 +268,9 @@
             if($this->guid!=""){
                 $return_val=$this->guid;
             }else{
-                $this->guid=$this->new_guid;
+                $this->guid=$this->cls->clsAssortedFunctions->make_guid();
+                
+                //$this->guid=$this->new_guid;
                 $return_val=$this->guid;
             }
             
@@ -277,9 +279,9 @@
 
         public function session_start()
         {
-            //session_start();
+            session_start();
             $this->session_set_globals();
-            print "session_start>".$this->guid." | ";
+            //print "session_start>".$this->guid." | ";
             if(isset($_COOKIE["Session"])){
                 $this->use_cookie=true;
                 $session_cookie=$_COOKIE["Session"];
@@ -310,7 +312,7 @@
                 }
             }
             
-            print"ggg".$_COOKIE["Session"].'  -'.$this->id.'  -'.$this->guid.'- \n\n';
+            //print"ggg".$_COOKIE["Session"].'  -'.$this->id.'  -'.$this->guid.'- \n\n';
             //print_r($this->id);
             $this->cls->clsLog->general("session_start->",5,array($tag,$this->use_cookie,$session_cookie));
         }

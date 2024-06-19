@@ -84,6 +84,105 @@
             return $output;
             
         }
+
+        function Create_DropDown($config=array(),$default=null,$items=array()){
+            //print_r($items);
+          $output="";
+          $select_details=implode("=",$config);
+          $output='<select '.$select_details.'>';
+
+          foreach($items as $key=>$val){
+            if(!is_null($default)){
+              if($default==$val['id']){
+                $selected_string="selected";
+              }else{
+                $selected_string="";
+              }
+            }else{
+              $selected_string="";
+            }
+            $output.="<option value='".$val['id']."' ".$selected_string.">".$val['Name']."</option>";
+                       
+          }
+          $output.="</select>";
+          
+          return $output;
+          
+        }
+
+        function Create_TextBox($config=array(),$default=""){
+          //print_r($items);
+          $output="";
+          $config_output="";
+          foreach($config as $key=>$val){
+            $config_output.=" ".$key."='".$val."' ";
+          }
+          $output='<input '.$config_output.' value="'.$default.'">';
+ 
+                      
+          return $output;
+          
+        }
+
+        function Create_Label($config=array(),$default=""){
+          //print_r($items);
+          $output="";
+          $config_output="";
+          foreach($config as $key=>$val){
+            $config_output.=" ".$key."='".$val."' ";
+          }
+          $output='<span '.$config_output.' >'.$default.'</span>';
+ 
+                      
+          return $output;
+          
+        }
+
+        function Create_Table_TD($config=array(),$item=""){
+            
+          $output="";
+          $config_output="";
+          foreach($config as $key=>$val){
+            $config_output.=" ".$key."='".$val."' ";
+          }
+          $output='<td '.$config_output.'>';
+          $output.=$item;
+          
+          $output.="</td>";
+          
+          return $output;
+          
+        }
+
+        function Create_Table_TR($config=array(),$item=""){
+            
+          $output="";
+          $select_details=implode("=",$config);
+          $output='<tr '.$select_details.'>';
+          $output.=$item;
+          
+          $output.="</tr>";
+          
+          return $output;
+          
+        }
+
+        function Create_Table($config=array(),$item=""){
+            
+          $output="";
+          $config_output="";
+          foreach($config as $key=>$val){
+            $config_output.=" ".$key."='".$val."' ";
+          }
+          ///$select_details=implode("=",$config);
+          $output='<table '.$config_output.'>';
+          $output.=$item;
+          
+          $output.="</table>";
+          
+          return $output;
+          
+        }
         
 
 function Create_Admin_Member_Register_Form($countryID=0,$domainsID=0,$mod_business_categoriesID=0,$Message="",$Form_Action=""){
@@ -725,6 +824,175 @@ function Create_Admin_Member_Register_Form($countryID=0,$domainsID=0,$mod_busine
                 return $this->output;
             }
 
+            public function Edit_Domain_Form($edit_id=0){
+
+                
+
+              $item_array=$this->Get_Table_Elements();
+              //print_r($item_array);
+              /*
+              $return_array["text"]=array('type'=>"text",'size'=>"45",'style'=>"",'class'=>"","value"=>'');
+              $return_array["drop_down"]=array('type'=>"drop_down",'size'=>"45",'style'=>"",'class'=>"");
+              $return_array["blank"]=array('type'=>'blank');
+              $return_array["hidden"]=array('type'=>'hidden',"value"=>'',"html"=>'<input type="hidden" value="">');
+              $return_array["submit_button"]=array('type'=>"submit_button","value"=>'Submit',"name"=>'Submit',"id"=>'','class'=>"formbuttons");
+              */
+              //$input['header_tags']=array('id','Name','Analytics','GSiteMapMeta','SiteTitle','AEmail','templatesID','serversID','mirrorID','PublicLT','SEOFriendlyLT');
+              $input['header_tags']=array(0=>'Domain Name',1=>'Analytics',2=>'Google Site Map Meta',3=>'Site Title',4=>'Admin Email',5=>'Template',6=>'Server',7=>'Domain Mirror',
+                  8=>'Exposure',9=>'SEO Friendly',10=>'id');
+              $items=$input['header_tags'];
+              $input['header_tags_type']=array('label','label','label','label','label','label','label','label',"label","label");
+              /*
+              //$input['item_types']=array('text_field','text_field','text_field','text_field','drop_down','drop_down','drop_down','drop_down','drop_down',"submit_button");
+              $input['item_types']=array($items['Name']=>"text",$items['Analytics']=>"text",$items['Google Site Map Meta']=>"text",$items['Site Title']=>"text",
+              $items['Admin Email']=>"text",$items['Template']=>"drop_down",$items['Server']=>"drop_down",$items['Domain Mirror']=>"drop_down",
+              $items['Exposure']=>"drop_down",$items['SEO Friendly']=>"drop_down");
+              */
+
+              $input['item_types'][$items[0]]=array("name"=>$items[0],"type"=>"text","value"=>"");
+              $input['item_types'][$items[1]]=array("name"=>$items[1],"type"=>"text","value"=>"");
+              $input['item_types'][$items[2]]=array("name"=>$items[2],"type"=>"text","value"=>"");
+              $input['item_types'][$items[3]]=array("name"=>$items[3],"type"=>"text","value"=>"");
+              $input['item_types'][$items[4]]=array("name"=>$items[4],"type"=>"text","value"=>"");
+              $input['item_types'][$items[5]]=array("name"=>$items[5],"type"=>"drop_down","value"=>array());
+              $input['item_types'][$items[6]]=array("name"=>$items[6],"type"=>"drop_down","value"=>array());
+              $input['item_types'][$items[7]]=array("name"=>$items[7],"type"=>"drop_down","value"=>array());
+              $input['item_types'][$items[8]]=array("name"=>$items[8],"type"=>"drop_down","value"=>array());
+              $input['item_types'][$items[9]]=array("name"=>$items[9],"type"=>"drop_down","value"=>array());
+              $input['item_types'][$items[0]]=array("name"=>$items[10],"type"=>"hidden","value"=>"");
+
+
+              //=====================================================================================================
+
+              $where=array("id"=>$edit_id);
+              $list_type['select_vars']=array('id','Name','Analytics','GSiteMapMeta','SiteTitle','AEmail','templatesID','serversID','mirrorID','PublicLT','SEOFriendlyLT');
+              $list_type['select_req']=array("Table"=>"domains","Retrieve"=>"single","Search"=>array("id"=>$edit_id));
+              $output_vars['domains']=$this->cls->clsDatabaseCRUD->Exec_Retrieve("Assoc",$list_type['select_req']['Table'],$list_type['select_vars'],$where);
+
+              //=====================================================================================================
+              
+              $list_type['select_vars']=array('id','Name');
+              $list_type['select_req']=array("Table"=>"templates","Retrieve"=>"list","Search"=>"all");
+              $output_vars['templates']=$this->cls->clsDatabaseCRUD->Exec_Retrieve("Assoc",$list_type['select_req']['Table'],$list_type['select_vars'],array());
+
+              //--
+              $default=$output_vars['domains']['templatesID'];
+              $items=$output_vars['templates'];
+              $drop_down=$this->Create_DropDown(array(),$default,$items);
+              $output_vars['templates']['drop_down']=$drop_down;
+              //print $drop_down;
+              //=====================================================================================================
+              
+              $list_type['select_vars']=array('id','Name');
+              $list_type['select_req']=array("Table"=>"servers","Retrieve"=>"list","Search"=>"all");
+              $output_vars['servers']=$this->cls->clsDatabaseCRUD->Exec_Retrieve("Assoc",$list_type['select_req']['Table'],$list_type['select_vars'],array());
+              $default=$output_vars['domains']['serversID'];
+              $items=$output_vars['servers'];
+              $drop_down=$this->Create_DropDown(array(),$default,$items);
+              $output_vars['servers']['drop_down']=$drop_down;
+
+              //=====================================================================================================
+
+              
+              $list_type['select_vars']=array('id','Name');
+              $list_type['select_req']=array("Table"=>"domains","Retrieve"=>"list","Search"=>"all");
+              $output_vars['domains_list']=$this->cls->clsDatabaseCRUD->Exec_Retrieve("Assoc",$list_type['select_req']['Table'],$list_type['select_vars'],array());
+              $default=$output_vars['domains']['mirrorID'];
+              $items=$output_vars['domains_list'];
+              $drop_down=$this->Create_DropDown(array(),$default,$items);
+              $output_vars['domains_list']['drop_down']=$drop_down;
+
+              //=====================================================================================================
+
+              
+              $list_type['select_vars']=array('id','group_label',	'group_code');
+              $list_type['select_req']=array("Table"=>"list_multi_select_item_groups","Retrieve"=>"list","Search"=>"all");
+              $output_vars['list_multi_select_item_groups']=$this->cls->clsDatabaseCRUD->Exec_Retrieve("Assoc",$list_type['select_req']['Table'],$list_type['select_vars'],array());
+
+              //=====================================================================================================
+
+              $list_type['select_vars']=array('id','list_multi_select_item_groupsID',	'item_label');
+              $list_type['select_req']=array("Table"=>"list_multi_select_items","Retrieve"=>"list","Search"=>"all");
+              $output_vars['list_multi_select_items']=$this->cls->clsDatabaseCRUD->Exec_Retrieve("Assoc",$list_type['select_req']['Table'],$list_type['select_vars'],array("list_multi_select_item_groupsID"=>10));
+              $items=array();
+              foreach($output_vars['list_multi_select_items'] as $key=>$val){
+                $items[]=array("id"=>$val['id'],"Name"=>$val['item_label']);
+              }
+
+              $default=$output_vars['domains']['PublicLT'];
+              //$items=$output_vars['domains_list'];
+              $drop_down=$this->Create_DropDown(array(),$default,$items);
+              $output_vars['list_multi_select_items_publicLT']['drop_down']=$drop_down;
+
+              //=====================================================================================================
+
+              $list_type['select_vars']=array('id','list_multi_select_item_groupsID',	'item_label');
+              $list_type['select_req']=array("Table"=>"list_multi_select_items","Retrieve"=>"list","Search"=>"all");
+              $output_vars['list_multi_select_items']=$this->cls->clsDatabaseCRUD->Exec_Retrieve("Assoc",$list_type['select_req']['Table'],$list_type['select_vars'],array("list_multi_select_item_groupsID"=>6));
+              $items=array();
+              foreach($output_vars['list_multi_select_items'] as $key=>$val){
+                $items[]=array("id"=>$val['id'],"Name"=>$val['item_label']);
+              }
+
+              $default=$output_vars['domains']['SEOFriendlyLT'];
+              //$items=$output_vars['domains_list'];
+              $drop_down=$this->Create_DropDown(array(),$default,$items);
+              $output_vars['list_multi_select_items_SEOFriendlyLT']['drop_down']=$drop_down;
+
+              //print_r($output_vars['list_multi_select_items_publicLT']['drop_down']);
+              
+
+              //=====================================================================================================
+              //print_r($output_vars);
+              
+              $table_settings=array("width"=>'40%', "border"=>'0', "align"=>'center' ,"cellpadding"=>'2',"cellspacing"=>'1', "bgcolor"=>'#EBEBEB',"id"=>'table');
+
+              $table_total=array('tags_columns'=>2,'tags_rows'=>10);
+              $input['table_total']=$table_total;
+
+              $this_total_rows="";
+              foreach($output_vars['domains'] as $key=>$val){
+                switch($key){
+
+                  
+                  case "SEOFriendlyLT":
+                    $heading=$this->Create_Label(array("style"=>"color: white"),$key);
+                    $item=$output_vars['list_multi_select_items_SEOFriendlyLT']['drop_down'];
+                  break;
+                  case "PublicLT":
+                    $heading=$this->Create_Label(array("style"=>"color: white"),$key);
+                    $item=$output_vars['list_multi_select_items_publicLT']['drop_down'];
+                  break;
+                  
+                  case "mirrorID":
+                    $heading=$this->Create_Label(array("style"=>"color: white"),$key);
+                    $item=$output_vars['domains_list']['drop_down'];
+                  break;
+                  case "serversID":
+                    $heading=$this->Create_Label(array("style"=>"color: white"),$key);
+                    $item=$output_vars['servers']['drop_down'];
+                  break;
+                  case "templatesID":
+                    $heading=$this->Create_Label(array("style"=>"color: white"),$key);
+                    $item=$output_vars['templates']['drop_down'];
+                  break;
+                  default:
+                    $heading=$this->Create_Label(array("style"=>"color: white"),$key);
+                    $item=$this->Create_TextBox(array(),$val);
+                  break;
+
+                }
+                $this_heading=$this->Create_Table_TD(array(),$heading);
+                $this_data=$this->Create_Table_TD(array(),$item);
+                $this_total=$this_heading.$this_data;
+                $this_total_rows.=$this->Create_Table_TR(array(),$this_total);
+              }
+              $this_table_data=$this->Create_Table($table_settings,$this_total_rows);
+              
+              $this->output.=$this_table_data;
+              return $this->output;
+          }
+
             // ==================================================================  new form builder types | create
 
             public function Create_Members_Login_List_Table(){
@@ -793,7 +1061,7 @@ function Create_Admin_Member_Register_Form($countryID=0,$domainsID=0,$mod_busine
               $this->output=$this->Create_List_Table($input,"servers","id");
               return $this->output;
             }
-
+            /*
           public function Create_Domains_List_Table(){
             $input['header_tags']=array('id','Name','Site Title','Edit');
             $input['header_tags_type']=array('blank','label','label','label');
@@ -803,7 +1071,7 @@ function Create_Admin_Member_Register_Form($countryID=0,$domainsID=0,$mod_busine
             $this->output=$this->Create_List_Table($input,"domains","id");
             return $this->output;
           }
-
+          */
           public function Create_Members_List_Table(){
             $input['header_tags']=array('id','Name','Email','Edit');
             $input['header_tags_type']=array('blank','label','label','label');
@@ -812,6 +1080,17 @@ function Create_Admin_Member_Register_Form($countryID=0,$domainsID=0,$mod_busine
             $input['edit_page']=array('target_uri'=>'/management-modify-member/');
 
             $this->output=$this->Create_List_Table($input,"mod_user_accounts","id");
+            return $this->output;
+          }
+
+          public function Create_Domains_List_Table(){
+            $input['header_tags']=array('id','Name','SiteTitle','Edit');
+            $input['header_tags_type']=array('blank','label','label','label');
+            $input['select_items']=array('id','Name','SiteTitle','id');
+            $input['item_types']=array('blank','label','label','edit_link');
+            $input['edit_page']=array('target_uri'=>'/management-edit-domain/');
+
+            $this->output=$this->Create_List_Table($input,"domains","id");
             return $this->output;
           }
 

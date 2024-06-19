@@ -104,6 +104,12 @@
             return $key;
 		}
 
+        public function Get_Current_Time(){
+            date_default_timezone_set('Australia/Sydney');
+            $today = date("Y-m-d H:i:s"); 
+            return $today;   
+        }
+
         
 
         function Get_HTML_Tags(){
