@@ -88,8 +88,15 @@
             //$this->cls->clsLog->general("-Content init Start->",1);
             if(!isset($this->input_data['membersID'])) $this->input_data['membersID']=0;
             $original_page=$this->input_data['REQUEST_URI'];
+			if($original_page=='/index.php'){
+				
+				$original_page="/";
+			}else{
+				
+			};
+			
             $this->all_vars['content']["original_uri"]=$original_page;
-            $this->all_vars['content']['cpid']=0;
+            $this->all_vars['content']['cpid']=$this->input_data['cpid'];
             
             
             if($this->input_data['dcmsuri']>0){
@@ -103,13 +110,18 @@
                 $this->all_vars['content']["proxy_uri"]=$this->all_vars['content']["URI"];
             }else{
                 $this->all_vars['content']["URI"]="";
-                $PArr = preg_split("/\//",$original_page);
-                $this->all_vars['content']["PArr"]=$PArr;
-                if($PArr[1]==""){
-                    $this->all_vars['content']["URI"]='/';
-                }else{
-                    $this->all_vars['content']["URI"]='/'.$PArr[1].'/';
-                }
+				if($original_page=="/"){
+					$this->all_vars['content']["URI"]='/';
+				}else{
+					$PArr = preg_split("/\//",$original_page);
+					$this->all_vars['content']["PArr"]=$PArr;
+					if($PArr[1]==""){
+						$this->all_vars['content']["URI"]='/';
+					}else{
+						$this->all_vars['content']["URI"]='/'.$PArr[1].'/';
+					}
+				};
+                
                 
             }
             //$this->vrs->do=$this->all_vars;
@@ -120,7 +132,7 @@
 
         public function Content_Init(){
             
-            //print_r($this->all_vars);
+            
             
             //echo"\n\n--D22222XXX---------------------------------------------------------------------------\n";
             //print_r($this->all_vars['domain']);
@@ -140,6 +152,12 @@
             $this->Content_Init_Page_Details();
 
             $original_page=$this->input_data['REQUEST_URI'];
+			if($original_page=='/index.php'){
+				
+				$original_page="/";
+			}else{
+				
+			};
             $PArr=$this->all_vars['content']["PArr"];
             //print_r($this->all_vars['content']);
             
@@ -154,12 +172,17 @@
                 $this->all_vars['content']["proxy_uri"]=$this->all_vars['content']["URI"];
             }else{
                 $this->all_vars['content']["URI"]="";
-                $PArr = preg_split("/\//",$original_page);
-                if($PArr[1]==""){
-                    $this->all_vars['content']["URI"]='/';
-                }else{
-                    $this->all_vars['content']["URI"]='/'.$PArr[1].'/';
-                }
+				if($original_page=="/"){
+					$this->all_vars['content']["URI"]='/';
+				}else{
+					$PArr = preg_split("/\//",$original_page);
+					if($PArr[1]==""){
+						$this->all_vars['content']["URI"]='/';
+					}else{
+						$this->all_vars['content']["URI"]='/'.$PArr[1].'/';
+					}
+				}
+                
                 
             }
             
@@ -285,6 +308,7 @@
             //======================================================================== If site is search engine friendly
             if(isset($this->all_vars['domain']["db"]["SEOFriendlyLT"])){
                 if($this->all_vars['domain']["db"]["SEOFriendlyLT"]==13){
+					//echo"YYY";
                     if($this->all_vars['content']["content_pagesID"]>0){
                         $sql="SELECT * FROM content_pages WHERE id='".$this->all_vars['content']["content_pagesID"]."'  LIMIT 0,1";
 
@@ -437,7 +461,7 @@
                 $rslt=$this->cls->clsDatabaseInterface->RawQuery($sql);
                 if($this->cls->clsDatabaseInterface->NumRows($rslt)==0){// cant find page so load homepage for language/site
                     $sql="SELECT * FROM content_pages WHERE URI='".$this->all_vars['content']['PAGENAME']."' AND domainsID=0";
-                    //print $sql;
+                    print $sql;
                     $rslt=$this->cls->clsDatabaseInterface->RawQuery($sql);
                     $num_rows=$this->cls->clsDatabaseInterface->NumRows($rslt);
                     if($num_rows>0){
@@ -611,6 +635,7 @@
                 //$return_html=$this->target->$method();
             }
             //$this->vrs->do=$this->all_vars;
+			//print_r($this->all_vars);
             return $return_html;
             /*
             if(isset($module_data["db"]['dir'])){

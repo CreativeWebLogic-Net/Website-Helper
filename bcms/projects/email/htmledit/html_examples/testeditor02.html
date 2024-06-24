@@ -1,0 +1,45 @@
+<html>
+<head>
+<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=ISO-8859-1" />
+<title>Example 2</title>
+<link type="text/css" href="../style.css" rel="stylesheet" />
+
+<!-- QWebEditor 3.12 Initialization Start 
+--><script language="javascript"><!--
+// variables to match your qwebeditor installation
+var g_strHtmlEditPath="/htmledit/"			// uri to qwebeditor directory
+function ijs(file){document.write("<scr"+"ipt language=\"javascript\" src=\""
+	+g_strHtmlEditPath+file+"\"></scr"+"ipt>")}
+// load utility libraries and configuration file
+ijs("browserSniffer.js");ijs("utils.js");ijs("mydlg.js");ijs("htmledit_cfg.js")
+//--></script><script language="javascript"><!--
+// load necessary file if browser supports the editor
+ijs(g_strHtmlEditLangFile)
+if(has_htmledit){ijs(g_strHtmlEditThemeUrl);ijs("license.js");ijs("htmledit.js");ijs("htmledit_styles.js")}
+// browser does not support the editor. load compatibility file
+else {ijs("htmledit_ta.js")}
+//--></script><!-- 
+QWebEditor 3.12 Initialization End -->
+
+</head>
+<body>
+<p>This example displays QWebEditor as a popup window.</p>
+
+<p><a href="javascript: void(HtmlEditOpenEditorFromObj({
+	strId:'displaytext',
+	width:620,
+	height:420,
+	strTitle:'Sample Popup Editor',
+	className:'default',
+	onChanged:new Function('alert(\'Thank you for the update.\')')
+}))">
+Open editor</a></p>
+
+<div id="displaytext" style="border-style: solid; border-width: 1px; border-color: black; padding: 4px 4px 4px 4px;">
+<P>Here is some sample text: <B>bold</B>, <I>italic</I>, <U>underline</U>. </P>
+<P align=center>Different fonts, sizes and colors (all in bold):</P>
+<P><B><FONT face=arial color=#000066 size=7>arial</FONT>, <FONT face="courier new" color=#006600 size=6>courier new</FONT>, <FONT face=georgia color=#006666 size=5>georgia</FONT>, <FONT face=tahoma color=#660000 size=4>tahoma</FONT>, <FONT face="times new roman" color=#660066 size=3>times new roman</FONT>, <FONT face=verdana color=#666600 size=2>verdana</FONT>, <FONT face=tahoma color=#666666 size=1>tahoma</FONT> </B></P>
+<P>Click on <A href="http://www.qwebeditor.com/">this link</A> and then on the link button to the details ... OR ... select some text and click link to create a <B>new</B> link.</P>
+</div>
+</body>
+</html>

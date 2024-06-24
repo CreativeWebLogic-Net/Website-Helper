@@ -1,0 +1,83 @@
+.submenu2
+{
+  border: solid 1px #8A867A;
+  background-color: #FFFFFF;
+  background-image: url(images/sm_back_office2.gif);
+  background-repeat: repeat-y;
+  height: auto;
+}
+
+
+.item12
+{
+  border: solid 0px #316AC5;
+  margin: 1px;
+  background-color: transparent;
+  width: 100%;
+  cursor: default;
+}
+
+.item22
+{
+  border: solid 1px #000C80;
+  margin: 0px;
+  background-color: #FFF2C8;
+  width: 100%;
+  cursor: default;
+}
+
+.text12
+{
+  font: normal 11px Tahoma, Arial;
+  color: #000000;
+  text-indent: 10px;
+  padding: 3px 10px 3px 3px;
+  width:100%;
+}
+
+.text22
+{
+  font: normal 11px Tahoma, Arial;
+  color: #000000;
+  text-indent: 10px;
+  padding: 3px 10px 3px 3px;
+  width:100%;
+}
+
+
+.topsubmenu2
+{
+  border: solid 1px #000C80;
+  background-color: #B8D1F8;
+}
+
+.topitem12
+{
+  border: solid 1px #B8D1F8;
+  background-color: #B8D1F8;
+  width: 100%;
+  cursor: default;
+}
+
+.topitem22
+{
+  border: solid 1px #000C80;
+  background-color: #FFF2C8;
+  width: 100%;
+  cursor: default;
+}
+
+.toptext12
+{
+  font: normal 11px Tahoma, Arial;
+  color: #000000;
+  padding: 3px;
+}
+
+.toptext22
+{
+  font: normal 11px Tahoma, Arial;
+  color: #000000;
+  padding: 3px;
+}
+

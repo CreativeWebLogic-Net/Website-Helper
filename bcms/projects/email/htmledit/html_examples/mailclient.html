@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- use transitional doctype if possible. IE and Mozilla may not render correctly for strict doctype -->
+<html>
+<head>
+<title>Example 6</title>
+
+<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=utf-8">
+<!--
+    provided language resources are all utf-8 encoded. you can use other encoding but you must provide
+    your own language resources or use the default english resources.
+-->
+
+<style type="text/css">
+<!--
+body, td, th, p, input {font-family: tahoma, arial, sans-serif; font-size: 8pt;}
+-->
+</style>
+
+<!-- Initialize the QWebEditor library --><script language="javascript"><!--
+// some important global variables
+var g_strHtmlEditPath = "/htmledit/"
+var g_strHtmlEditImgUrl = ""
+var g_strHtmlEditLangFile = "lang_eng.js"
+function ijs(file) {document.write("<scr"+"ipt language=\"javascript\" src=\""+g_strHtmlEditPath+file+"\"></scr"+"ipt>")}
+ijs("browserSniffer.js")
+ijs(g_strHtmlEditLangFile)
+ijs("utils.js")
+ijs("mydlg.js")
+ijs("theme_xp.js")
+//--></script><script language="javascript"><!--
+if (has_htmledit) {
+	ijs("license.js")
+	ijs("htmledit.js")
+}
+else {
+	ijs("htmledit_ta.js")
+}
+//--></script><!-- End of Initialization -->
+
+</head>
+<body bgcolor=white>
+<p>This example demonstrates a practical usage of QWebEditor as a simple mail client.
+It uses the free htmlMimeMail class (available from <a href="http://www.phpguru.org/mime.mail.html">www.phpguru.org</a>)
+to send the HTML email.</p>
+<div id="helperdiv" style="display: none; visibility: hidden; height: 1px"></div>
+<table cellpadding=1 cellspacing=0 width=700 bgcolor=black border=0>
+<tr><td><table cellpadding=4 cellspacing=0 width=100% style="background-color:threedface;"  border=0>
+<form name="myform" action="../php_examples/sendmail.php" method="post"
+onsubmit="javascript:
+    // Is Editor available?
+    if (document.getElementById('qwebeditorID'))
+    {
+        document.getElementById('helperdiv').innerHTML = HtmlEditGetContent('qwebeditorID');
+        this.mailtext.value = GetInnerTextById('helperdiv');
+    }
+    return true;
+"><input type=hidden name=mailtext value="" />
+<tr><td colspan=2><input type=submit name=mysubmit value="Send Now!" /></td></tr>
+<tr><td width=20%>Recipient Email</td><td width=80%><input type=text name=recipientemail style="width: 100%;" /></td></tr>
+<tr><td width=20%>Subject</td><td width=80%><input type=text name=subject style="width: 100%;" /></td></tr>
+<tr><td colspan=2><script language="javascript">
+<!--
+var obj = new Object()
+obj.strHeight = "250px"
+obj.strId = "qwebeditorID"
+obj.lFlags = g_lHeCModeFormElement | g_lHeCBorder | g_lHeCDisableStatusBar
+obj.strElementName = "mailcontent"
+HtmlEditCreateControlFromObj(obj)
+//-->
+</script></td></tr></form></table></td></tr></table>
+</html>

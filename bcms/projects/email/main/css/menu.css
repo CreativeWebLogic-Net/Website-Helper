@@ -1,0 +1,93 @@
+/* CSS Document */
+/*===========================================MENU=====================================================*/
+/*font family for page. If you have another style sheet that sets font family, you can delete this rule*/
+div, td, p {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+/*Control DIV for expand all and collapse all links*/
+#p7TMctrl {
+	margin: 0 0 12px 0;
+	font-size: 12px;
+	display: block;
+	/*/*/display: block; /* hide from NN4*/
+}
+#p7TMctrl a:link {
+	/*color: #333333;*/
+	color:#142F4A ;
+}
+#p7TMctrl a:visited {
+	color: #142F4A;
+}
+#p7TMctrl a:hover {
+	color:#1D456D;
+}
+
+
+/*Sets line-height of all menuitems*/
+#p7TMnav {
+	/*/*/line-height: 1.5; /* */
+}
+
+/*second level menuitem divs on - Cascades to lower levels*/
+/*Sets left margin to 16px establishing a cascading indent*/
+#p7TMnav div div {
+	margin: 0 0 0 16px;
+}
+
+/*The Link style for top-level menuitems*/
+#p7TMnav div a {
+	color: #FFFFFF;
+	font-size: 12px;
+	font-weight: bold;
+	color: #FFFFFF;
+	padding: 0;
+}
+#p7TMnav div a:visited {
+	color: #666666;
+}
+#p7TMnav div a:hover {
+	/*color: #66CC00;*/
+	color: #FFFFFF;
+}
+
+/*The Link style for second-level menuitems*/
+#p7TMnav div div a {
+	font-size: 12px;
+}
+
+/*The Link style for third-level menuitems and lower*/
+/*To set a specific style for the fourth level, add a div to the selector*/
+/*Fourth-level example syntax: p7TMnav div div div div a {declaration}*/
+#p7TMnav div div div a {
+	font-size: 12px;
+}
+
+/*rules programatically assigned to parent links when image-based plus and minus option is selected*/
+/*do not remove*/
+.p7plusmark {
+	background-repeat: no-repeat;
+	/*background-image:   url(../images/arrow2.gif); p7t_plus.gif */
+	background-position: 0 50%;
+	padding: 0 0 0 20px !important;
+}
+.p7minusmark {
+	background-repeat: no-repeat;
+	/*background-image:   url(../images/arrow2.gif); p7t_minus.gif */
+	background-position: 0 50%;
+	padding: 0 0 0 20px !important;
+}
+/*rule programatically assigned to child links when image-based plus and minus option is selected*/
+.p7defmark {
+	background-image:  none;
+	padding: 0 0 0 20px !important;
+}
+
+/*rules programatically assigned to page link correesponding to current page (You are Here)*/
+.p7currentmark {
+	font-weight: bold;
+	/*text-transform: uppercase;*/
+	margin: 0 0 0 20px;
+	color: #F2960D !important;/*#666666*/
+}
+

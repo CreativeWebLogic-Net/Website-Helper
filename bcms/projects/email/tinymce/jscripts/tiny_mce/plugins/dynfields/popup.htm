@@ -1,0 +1,56 @@
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>{$lang_template_title}</title>
+	<script language="javascript" type="text/javascript" src="../../tiny_mce_popup.js"></script>
+	<script language="javascript" type="text/javascript">
+	<!--
+		function init() {
+			var inst = tinyMCE.selectedInstance;
+			var elm = inst.getFocusElement();
+
+			//alert("Got a window argument from plugin: " + tinyMCE.getWindowArg('some_custom_arg'));
+
+			// Set the form item value to the selected node element name
+			//document.forms[0].nodename.value = elm.nodeName;
+		}
+
+		function insertSomething() {
+			// Execute the mceTemplate command without UI this time
+			var val=document.getElementById("Fields").value;
+			
+			tinyMCE.execCommand("mceInsertRawHTML", false, val);
+			//tinyMCEPopup.execCommand('mceTemplate');
+
+			// Close the dialog
+			tinyMCEPopup.close();
+		}
+	//-->
+	</script>
+</head>
+<body onLoad="init();"> 
+	<form onSubmit="insert();return false;">
+		<h3>{$lang_template_title}</h3>
+
+		<!-- Gets filled with the selected elements name -->
+	  <div style="margin-top: 10px; margin-bottom: 10px">
+	    <select name="Fields" id="Fields" onChange="insertSomething()">
+              <option value="">-Select To Insert</option>
+              <option value="[Name]">Name</option>
+              <option value="[Phone]">Phone</option>
+              <option value="[PostCode]">PostCode</option>
+              <option value="[State]">State</option>
+              <option value="[Suburb]">Suburb</option>
+              <option value="[id]">Member ID</option>
+        </select>
+	    
+	    <input type="button" id="cancel" name="cancel" value="{$lang_cancel}" onClick="tinyMCEPopup.close();" />
+      </div>
+
+		<div class="mceActionPanel">
+			<div style="float: left"></div>
+
+			<div style="float: right"></div>
+		</div>
+	</form>
+</body> 
+</html> 

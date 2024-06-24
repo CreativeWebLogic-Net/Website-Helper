@@ -1,0 +1,27 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Strict//EN">
+<html>
+<head>
+<script language="javascript">
+// use caller character set
+var charset = (top.opener.document.characterSet) ? top.opener.document.characterSet : top.opener.document.charset
+document.write("<meta HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; CHARSET=" + charset + "\" />")
+</script>
+<script language="javascript">
+var g_strHtmlEditPath = top.opener.g_strHtmlEditPath
+</script>
+<title></title>
+<LINK REL=STYLESHEET TYPE="text/css" HREF="../style.css">
+</head>
+<body style="background-color: threedface; " oncontextmenu="javascript: return false" leftmargin="10" topmargin="10">
+<script language="javascript" src="../utils.js"></script>
+<script language="javascript" src="../mydlg.js"></script>
+<script language="javascript">
+<!--
+top.document.title = "Dialog Title ..."
+//-->
+</script>
+<a href="#" onclick="MyDlgHandleOK('Test 1')">Test 1</a><br />
+<a href="#" onclick="MyDlgHandleOK('Test 2')">Test 2</a><br />
+<a href="#" onclick="MyDlgHandleOK('Test 3')">Test 3</a><br />
+<input type="button" value="Cancel" onclick="MyDlgHandleCancel()">
+</body></html>

@@ -1,0 +1,41 @@
+<html>
+<head>
+<script language="javascript">
+document.write("<meta HTTP-EQUIV=\"Content-Type\" CONTENT=\"text/html; CHARSET=" + top.opener.dialogWin.args.strCharset + "\" />")
+document.write("<title>" + top.opener.dialogWin.args.strTitle + "</title>")
+top.document.title = top.opener.dialogWin.args.strTitle
+</script>
+<!-- Initialize the QWebEditor 2.0 library -->
+<script language="javascript"><!--
+// some important global variables
+var g_strHtmlEditPath = top.opener.dialogWin.args.strHtmlEditPath
+var g_strHtmlEditImgUrl = top.opener.dialogWin.args.strHtmlEditImgUrl
+var g_strHtmlEditLangFile = top.opener.dialogWin.args.strHtmlEditLangFile
+var g_bMergedImageDialog = top.opener.dialogWin.args.bMergedImageDialog
+// Following codes load up all necessary js files
+function ijs(file) {document.write("<scr"+"ipt language=\"javascript\" src=\""+g_strHtmlEditPath+file+"\"></scr"+"ipt>")}
+// Konqueror 2.2 and Opera can load one js file per script tag
+//--></script>
+<script language="javascript" src="browserSniffer.js"></script>
+<script language="javascript" src="utils.js"></script>
+<script language="javascript" src="mydlg.js"></script>
+<script language="javascript"><!--
+if (top.opener.dialogWin.args.strThemeFile) {
+    ijs(top.opener.dialogWin.args.strThemeFile)
+}
+ijs(g_strHtmlEditLangFile)
+//--></script><script language="javascript"><!--
+if(has_htmledit) {ijs("license.js");ijs("htmledit.js");}
+else {ijs("htmledit_ta.js");}
+//--></script><!-- End of Initialization -->
+</head>
+<body bgcolor="#d0d0d0" onload="if (this.style) this.style.backgroundColor='threedface'; "
+leftmargin=0 topmargin=0 marginwidth=0 marginheight=0>
+<script language="javascript">
+HtmlEditCreateControl2(
+    "mytext", "100%", "250px", top.opener.dialogWin.args.strContent,
+    (top.opener.dialogWin.args.lFlags & ~g_lHeCModeMask) | g_lHeCModeStandaloneDialog | g_lHeCResizeToWindow)
+HtmlEditFocus("mytext")
+</script>
+</body>
+</html>

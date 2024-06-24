@@ -82,7 +82,15 @@
                                 $base_address='http://'.$domain_name;
                             }
                             
+							/*
                             if($SEOFriendly=="No"){
+                                $data['link_address']=$base_address.$this->all_vars['app']['ROOTDIR'].'index.php?guid=1&cpid='.$data["content_pagesid"];
+                            }else{
+                                if(!isset($data["uri"])) $data["uri"]="";
+                                $data['link_address']=$base_address.$data["uri"];
+                            }
+							*/
+							if($this->all_vars['domain']["db"]["SEOFriendlyLT"]==13){
                                 $data['link_address']=$base_address.$this->all_vars['app']['ROOTDIR'].'index.php?guid=1&cpid='.$data["content_pagesid"];
                             }else{
                                 if(!isset($data["uri"])) $data["uri"]="";

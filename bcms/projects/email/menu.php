@@ -1,0 +1,3 @@
+<a href="/">Home</a> | <a href="sms-email-marketing-features.php">Features</a> | <a href="sms-email-marketing-about-us.php">About Us</a> | <a href="signup.php">Signup</a> | <a href="contact.php">Contact</a> | <a href="sms-email-marketing-affiliates.php">Affiliates</a>
+
+| <a href="sms-email-marketing-terms-and-conditions.php">Terms &amp; Conditions</a> | <a href="links.php">Links</a> | <a href="/forum/">Forum</a> 

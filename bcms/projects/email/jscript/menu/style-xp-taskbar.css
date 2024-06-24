@@ -1,0 +1,322 @@
+.submenu
+{
+  border: solid 1px #55A1FF;
+  background-color: #FFFFFF;
+  background-image: url(images/sm_back_xp.gif);
+  background-repeat: repeat-y;
+  height: auto;
+  width: auto;
+}
+
+
+.item1
+{
+  background-color: transparent;
+  width: 100%;
+  cursor: default;
+  padding: 3px;
+}
+
+.item2
+{
+  background-color: #316AC5;
+  width: 100%;
+  cursor: default;
+  padding: 3px;
+}
+
+.text1
+{
+  font: normal 11px Tahoma, Arial;
+  color: #000000;
+  text-indent: 10px;
+  width:100%;
+}
+
+.text2
+{
+  font: normal 11px Tahoma, Arial;
+  color: #FFFFFF;
+  text-indent: 10px;
+  width:100%;
+}
+
+.textdis
+{
+  font: normal 11px Tahoma, Arial;
+  color: #AAAAAA;
+  text-indent: 10px;
+  width: 100%;
+}
+
+
+.taskbar
+{
+  background-image: url(images/xptaskbar.gif);
+  background-repeat: repeat-x;
+  /*width: 400px;*/
+  height: 30px;
+}
+
+.itemStart
+{
+  width: 100px;
+  height: 30px;
+  cursor: default;
+}
+
+.itemStartText
+{
+  padding: 0px;
+}
+
+.itemBtn
+{
+  width: 23px;
+  height: 25px;
+  cursor: default;
+}
+
+
+.itemBtn2
+{
+  background-image: url(images/xptb_btn.gif);
+  background-repeat: no-repeat;
+  background-position:center center;
+  width: 23px;
+  height: 25px;
+  cursor: default;
+}
+
+.textBtn
+{
+  text-align: center;
+}
+
+
+.itemBtnTask
+{
+  background-image: url(images/xptb_btn2.gif);
+  background-repeat: no-repeat;
+  width: 148px;
+  height: 25px;
+  cursor: default;
+}
+
+
+.itemBtnTask2
+{
+  background-image: url(images/xptb_btn2o.gif);
+  background-repeat: no-repeat;
+  width: 148px;
+  height: 25px;
+  cursor: default;
+}
+
+.textBtnTask
+{
+
+  font: normal 11px Tahoma, Arial;
+  font-weight: normal;
+  color: #FFFFFF;
+  text-align: left;
+  width: 100%;
+}
+
+.submenuStart
+{
+  background-image: url(pics/startmiddle.gif);
+  background-repeat: repeat-y;
+  border: none;
+  width: 380px;
+}
+
+.itemStartSep
+{
+  background-image: url(images/sep_xp2.gif);
+  background-repeat: no-repeat;
+  background-position:center center;
+  height: 10px;
+  width: 180px;
+  cursor: default;
+}
+
+.textStartSep
+{
+  padding: 2px;
+}
+
+.itemStartTop
+{
+  background-color: #FFFFFF;
+  background-image: url(pics/starttop.gif);
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 67px;
+  cursor: default;
+}
+
+.itemStartTopRight
+{
+  background-color: #FFFFFF;
+  background-image: url(pics/starttop2.gif);
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 67px;
+  cursor: default;
+}
+
+.itemStartMiddle
+{
+  width: 180px;
+  cursor: default;
+  margin-left: 5px;
+  margin-right: 2px;
+}
+
+.itemStartMiddle2
+{
+  background-color: #316AC5;
+  width: 180px;
+  cursor: default;
+  margin-left: 5px;
+  margin-right: 2px;
+}
+
+
+.textStartMiddle
+{
+  font: normal 11px Tahoma, Arial;
+  font-weight: bold;
+  color: #373738;
+  padding: 5px;
+  width:100%;
+}
+
+.textStartMiddle2
+{
+  font: normal 11px Tahoma, Arial;
+  font-weight: bold;
+  color: #FFFFFF;
+  padding: 5px;
+  width:100%;
+}
+
+.textStartMiddleNormal
+{
+  font: normal 11px Tahoma, Arial;
+  font-weight: normal;
+  color: #373738;
+  padding: 5px;
+  width:100%;
+}
+
+.textStartMiddleNormal2
+{
+  font: normal 11px Tahoma, Arial;
+  font-weight: normal;
+  color: #FFFFFF;
+  padding: 5px;
+  width:100%;
+}
+
+.textStartMiddleNormalB
+{
+  font: normal 11px Tahoma, Arial;
+  font-weight: normal;
+  color: #0A246A;
+  padding: 5px;
+  width:100%;
+}
+
+.textStartMiddleNormalB2
+{
+  font: normal 11px Tahoma, Arial;
+  font-weight: normal;
+  color: #FFFFFF;
+  padding: 5px;
+  width:100%;
+}
+
+.textStartMiddleRight
+{
+  font: normal 11px Tahoma, Arial;
+  font-weight: bold;
+  color: #0A246A;
+  padding: 5px;
+  width:100%;
+}
+
+.textStartMiddleRight2
+{
+  font: normal 11px Tahoma, Arial;
+  font-weight: bold;
+  color: #FFFFFF;
+  padding: 5px;
+  width:100%;
+}
+
+.itemStartBottom
+{
+  background-color: #1F72DE ;
+  background-image: url(pics/startbottom.gif);
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 42px;
+  cursor: default;
+}
+
+.itemStartBottom2
+{
+  background-color: #1F72DE ;
+  background-image: url(pics/startbottom2.gif);
+  background-repeat: no-repeat;
+  width: 100%;
+  height: 42px;
+  cursor: default;
+}
+
+.starttext
+{
+  font: normal 11px Tahoma, Arial;
+  padding: 0px;
+  width:100%;
+}
+
+.starthint
+{
+  font: normal 11px Tahoma, Arial;
+  color: #808080;
+  font-weight: normal;
+}
+
+.topitem1
+{
+  border: solid 1px #ECE9D8;
+  background-color: #ECE9D8;
+  width: 100%;
+  cursor: default;
+}
+
+.topitem2
+{
+  border: solid 1px #316AC5;
+  background-color: #C1D2EE;
+  width: 100%;
+  cursor: default;
+}
+
+.toptext1
+{
+  font: normal 11px Tahoma, Arial;
+  color: #000000;
+  padding: 3px;
+}
+
+.toptext2
+{
+  font: normal 11px Tahoma, Arial;
+  color: #000000;
+  padding: 3px;
+}
+

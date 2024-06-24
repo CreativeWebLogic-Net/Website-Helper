@@ -1,0 +1,119 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Strict//EN">
+<html>
+<head>
+<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=ISO-8859-1" />
+<title>Example 1</title>
+<link type="text/css" href="../style.css" rel="stylesheet" />
+
+<!-- QWebEditor 3.12 Initialization Start 
+--><script language="javascript"><!--
+// variables to match your qwebeditor installation
+var g_strHtmlEditPath="/htmledit/"			// uri to qwebeditor directory
+function ijs(file){document.write("<scr"+"ipt language=\"javascript\" src=\""
+	+g_strHtmlEditPath+file+"\"></scr"+"ipt>")}
+// load utility libraries and configuration file
+ijs("browserSniffer.js");ijs("utils.js");ijs("mydlg.js");ijs("htmledit_cfg.js")
+//--></script><script language="javascript"><!--
+// load necessary file if browser supports the editor
+ijs(g_strHtmlEditLangFile)
+if(has_htmledit){ijs(g_strHtmlEditThemeUrl);ijs("license.js");ijs("htmledit.js");ijs("htmledit_styles.js")}
+// browser does not support the editor. load compatibility file
+else {ijs("htmledit_ta.js")}
+//--></script><!-- 
+QWebEditor 3.12 Initialization End -->
+</head>
+<body>
+
+<table width=740 align=center><tr><td>
+
+<p>This example demonstrates using QWebEditor to replace textarea in a form and 
+it requires PHP enabled server to view submitted data.</p>
+
+<form name="myform" action="../php_examples/viewresult2.php" method="post">
+
+<b>1. The simplest way to create an editor:</b><pre>
+HtmlEditCreateControlFromObj({
+    strElementName:"pagecontent1",    // form element name
+    strWidth:"650px"                  // width of editor. default is "100%".
+    })
+</pre><script language="javascript"><!--
+HtmlEditCreateControlFromObj({
+	strElementName:"pagecontent1",
+	strWidth:"650px"
+	})
+//--></script><br />
+
+<b>2. Another example demonstrates how to set the initial value and load stylesheets:</b><pre>
+HtmlEditCreateControlFromObj({
+    strElementName:"pagecontent2",    // form element name
+    strWidth:"650px",                 // width of editor
+    strValue:"Editor 2",              // set the initial content of editor
+    strCssStyle:["../style.css","../style2.css"]        
+                                      // load multiple stylesheets into editor
+    })
+</pre><script language="javascript">
+// specifying external style sheet
+HtmlEditCreateControlFromObj({
+	strElementName:"pagecontent2",
+	strWidth:"650px",
+	strValue:"Editor 2",
+	strCssStyle:["../style.css","../style2.css"]
+	})
+</script><br />
+<b>3. This example creates an editor with "simple" class which is defined in htmledit_styles.js:</b><pre>
+HtmlEditCreateControlFromObj({
+    strElementName:"pagecontent3",    // form element name
+    strWidth:"650px",                 // width of editor
+    strValue:"Editor 3",              // set the initial content of editor
+    className:'simple'                // specifies a class name defined in htmledit_styles.js
+    })
+</pre><script language="javascript">
+// specifying external style sheet
+HtmlEditCreateControlFromObj({
+	strElementName:"pagecontent3",
+	strWidth:"650px",
+	strValue:"Editor 3",
+	className:'simple'
+	})
+</script><br />
+<b>4. Another example creates an editor with "example" class which overrides font list, paragraph list and load default stylesheet:</b><pre>
+HtmlEditCreateControlFromObj({
+    strElementName:"pagecontent4",    // form element name
+    strWidth:"650px",                 // width of editor
+    strValue:"Editor 4",              // set the initial content of editor
+    className:'example'               // specifies a class name defined in htmledit_styles.js
+    })
+</pre><script language="javascript">
+// specifying external style sheet
+HtmlEditCreateControlFromObj({
+	strElementName:"pagecontent4",
+	strWidth:"650px",
+	strValue:"Editor 4",
+	className:'example'
+	})
+</script><br />
+<b>5. This example demonstrates how to set the base href and the height of the editor:</b><pre>
+HtmlEditCreateControlFromObj({
+    strElementName:"pagecontent5",    // form element name
+    strWidth:"650px",                 // width of editor
+    strHeight:"300px",                // height of editor
+    strValue:"&lt;img src='images/next.gif' /&gt; Editor 5",
+    strBaseHref:"http://www.qwebeditor.com/"
+                                      // base href of the editor
+    })
+</pre><script language="javascript">
+// create the control
+HtmlEditCreateControlFromObj({
+	strElementName:"pagecontent5",
+	strWidth:"650px",
+	strHeight:"50px",
+	strValue:"<img src='images/next.gif' /> Editor 5",
+	strBaseHref:"http://www.qwebeditor.com/"
+	})
+</script>
+<p><input type="Submit" name="mysubmit" value="Submit"></p>
+</form>
+
+</td></tr></table>
+</body>
+</html>

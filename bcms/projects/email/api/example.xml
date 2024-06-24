@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<smsmailpro_api>
+	<version>1.0</version>
+	<authentication>
+		<message_id>666</message_id>
+		<client_guid>sadsdsadsadsadfdsf</client_guid>
+		<username>dan</username>
+		<password>pass</password>
+		<token>d7m3w9dmjmdudmmeiud</token>
+	</authentication>
+	<commands>
+		<command>
+			<command_request_guid></command_request_guid>
+			<type>add_contact</type>
+		</command>
+		<command>
+			<command_request_guid></command_request_guid>
+			<type>modify_contact</type>
+		</command>
+		<command>
+			<command_request_guid></command_request_guid>
+			<type>delete_contact</type>
+		</command>
+		
+		<command>
+			<command_request_guid></command_request_guid>
+			<type>add_member_group</type>
+		</command>
+		<command>
+			<command_request_guid></command_request_guid>
+			<type>delete_member_group</type>
+		</command>
+		<command>
+			<command_request_guid></command_request_guid>
+			<type>add_contact_to_member_group</type>
+		</command>
+		<command>
+			<command_request_guid></command_request_guid>
+			<type>delete_contact_from_member_group</type>
+		</command>
+		
+		<command>
+			<command_request_guid></command_request_guid>
+			<type>add_autoresponder</type>
+		</command>
+		<command>
+			<command_request_guid></command_request_guid>
+			<type>delete_autoresponder</type>
+		</command>
+		
+		<command>
+			<command_request_guid></command_request_guid>
+			<type>add_contact_to_autoresponder</type>
+		</command>
+		<command>
+			<command_request_guid></command_request_guid>
+			<type>delete_contact_from_autoresponder</type>
+		</command>
+		<command>
+			<command_request_guid></command_request_guid>
+			<type>add_template</type>
+		</command>
+		<command>
+			<command_request_guid></command_request_guid>
+			<type>delete_template</type>
+		</command>
+		<command>
+			<command_request_guid></command_request_guid>
+			<type>send_usenet_mesage</type>
+		</command>
+		<command>
+			<command_request_guid></command_request_guid>
+			<type>send_messenger_mesage</type>
+		</command>
+		<command>
+			<command_request_guid></command_request_guid>
+			<type>add_messenger_contact</type>
+		</command>
+		<command>
+			<command_request_guid></command_request_guid>
+			<type>block_messenger_contact</type>
+		</command>
+		<command>
+			<command_request_guid></command_request_guid>
+			<type>delete_messenger_contact</type>
+		</command>
+		<command>
+			<command_request_guid></command_request_guid>
+			<type>send_icq_mesage</type>
+		</command>
+		<command>
+			<command_request_guid></command_request_guid>
+			<type>add_icq_contact</type>
+		</command>
+		<command>
+			<command_request_guid></command_request_guid>
+			<type>block_icq_contact</type>
+		</command>
+		<command>
+			<command_request_guid></command_request_guid>
+			<type>delete_icq_contact</type>
+		</command>
+		<command>
+			<command_request_guid></command_request_guid>
+			<type>send_irc_mesage</type>
+		</command>
+		
+		<command>
+			<command_request_guid>asdasdacvcxfdsfdsff</command_request_guid>
+			<type>send_sms</type>
+			<details>
+				<from>0433204582</from>
+				<send_datetime>2008-06-08 23:00:00</send_datetime>
+				<body>xxx</body>
+				<log_title>log xxx</log_title>
+				<numbers>
+					<number number_guid="hydyugdsa7dyxcbjhcx">61433204582</number>
+					<number number_guid="gfetfdgfdgfdggfgfgg">61433204582</number>
+					<number number_guid="asdasdacvcxfdsfdsff">61433204582</number>
+				</numbers>
+			</details>
+		</command>
+		<command>
+			<command_request_guid>asdasdacvcxfdsfdsff</command_request_guid>
+			<type>send_sms</type>
+			<details>
+				<from>0433204582</from>
+				<send_datetime>2008-06-08 23:00:00</send_datetime>
+				<body>xxx</body>
+				<send_criteria>
+					<Country>australia</Country>
+					<Country>usa</Country>
+					<Suburb>southport</Suburb>
+					<Suburb>wisconsen</Suburb>
+					<member_group>contact_form</member_group>
+					<member_group>new_members</member_group>
+				</send_criteria>
+			</details>
+		</command>
+		<command>
+			<command_request_guid>gfetfdgfdgfdggfgfgg</command_request_guid>
+			<type>send_email</type>
+			<details>
+				<from>dan@iwebbiz.com.au</from>
+				<body>xxx</body>
+				<template_guid>sadjsdndnsance</template_guid>
+				<send_datetime>NOW</send_datetime>
+				<numbers>
+					<number number_guid="hydyugdsa7dyxcbjhcx">61433204582</number>
+					<number number_guid="gfetfdgfdgfdggfgfgg">61433204582</number>
+					<number number_guid="asdasdacvcxfdsfdsff">61433204582</number>
+				</numbers>
+			</details>
+		</command>
+	</commands>
+</smsmailpro_api>

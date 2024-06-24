@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dwsync>
+<file name="admin_activate.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="admin_send_email.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="admin_welcome_activated.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="admin_welcome_inactive.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="coppa_resend_inactive.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="coppa_welcome_inactive.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="email_notify.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="forum_notify.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="group_added.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="group_approved.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="group_request.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="index.htm" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="installed.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="newtopic_notify.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="post_approved.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="post_disapproved.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="privmsg_notify.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="profile_send_email.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="profile_send_im.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="report_closed.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="report_deleted.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="topic_approved.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="topic_disapproved.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="topic_notify.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="user_activate.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="user_activate_inactive.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="user_activate_passwd.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="user_reactivate_account.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="user_remind_inactive.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="user_resend_inactive.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="user_welcome.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+<file name="user_welcome_inactive.txt" local="128419567200000000" remote="128419567200000000" testing="0" />
+</dwsync>

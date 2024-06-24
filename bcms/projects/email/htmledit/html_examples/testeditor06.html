@@ -1,0 +1,138 @@
+<html>
+<head>
+<meta HTTP-EQUIV="Content-Type" CONTENT="text/html; CHARSET=ISO-8859-1" />
+<title>Example 6</title>
+<link type="text/css" href="../style.css" rel="stylesheet" />
+
+<!-- QWebEditor 3.12 Initialization Start 
+--><script language="javascript"><!--
+// variables to match your qwebeditor installation
+var g_strHtmlEditPath="/htmledit/"			// uri to qwebeditor directory
+function ijs(file){document.write("<scr"+"ipt language=\"javascript\" src=\""
+	+g_strHtmlEditPath+file+"\"></scr"+"ipt>")}
+// load utility libraries and configuration file
+ijs("browserSniffer.js");ijs("utils.js");ijs("mydlg.js");ijs("htmledit_cfg.js")
+//--></script><script language="javascript"><!--
+// load necessary file if browser supports the editor
+ijs(g_strHtmlEditLangFile)
+if(has_htmledit){ijs(g_strHtmlEditThemeUrl);ijs("license.js");ijs("htmledit.js");ijs("htmledit_styles.js")}
+// browser does not support the editor. load compatibility file
+else {ijs("htmledit_ta.js")}
+//--></script><!-- 
+QWebEditor 3.12 Initialization End -->
+
+<!-- Custom buttons handler -->
+<script language="javascript">
+
+function HtmlEditDemoCustomDlg(eventObj) {
+	HtmlEditHideAllPopup()
+	MyDlgOpen(
+		g_strHtmlEditPath + "html_examples/testdlg.html", // html page used in dialog
+		460, // width of dialog
+		220, // height of dialog
+		HtmlEditDemoCustomDlgReturn,  // function to call after popup dialog called "MyDlgHandleOk()"
+		null, // arguments
+		eventObj // holding caller data
+		)
+}
+
+function HtmlEditDemoCustomDlgReturn() {
+	var result=dialogWin.returnedValue
+	var eventObj=dialogWin.callerdata
+	HtmlEditInsertCode(eventObj.editorId, result)
+}
+
+function HtmlEditDemoCustomMenu(eventObj) {
+	HtmlEditHideAllPopup()
+	var str=new String()
+	var numitems=3
+	// construct the menu content
+	str +=HtmlEditGetMenuItem(
+		HtmlSpecialChars("[Test1]"),	// menu text
+		HtmlSpecialChars("HtmlEditPopupInsertCode('"+eventObj.editorId+"', '"+"[Test1]"+"')")
+		// handler if menu item is selected
+		)
+	str +=HtmlEditGetMenuItem(
+		HtmlSpecialChars("[Test2]"),
+		HtmlSpecialChars("HtmlEditPopupInsertCode('"+eventObj.editorId+"', '"+"[Test2]"+"')")
+		)
+	str +=HtmlEditGetMenuItem(
+		HtmlSpecialChars("[Test3]"),
+		HtmlSpecialChars("HtmlEditPopupInsertCode('"+eventObj.editorId+"', '"+"[Test3]"+"')")
+		)
+	// specify content of popup menu
+	PopupSetContent(g_hePopup, HtmlEditGetMenuStart() + str + HtmlEditGetMenuEnd())
+	PopupShow(
+		g_hePopup, // qwebeditor builtin popup menu object
+		0, 		   // x coord relative to target
+		24,       // y coord relative to target
+		200,      // width of menu
+		(is_ie ? (18 * numitems + g_strHeCssMenuBorderWidth * 2 - 2) : (18 * numitems)), 
+		          // height of menu. IE height and gecko height is a bit different
+		eventObj.target
+		          // doc element where x and y relative to
+		)
+}
+
+</script>
+
+</head>
+<body>
+
+<table width=740 align=center><tr><td>
+
+<p>This example displays the default configuration of QWebEditor in a stand-alone form. Please
+click the "Save" button to submit. This example requires PHP enabled server
+to view submitted data.</p>
+
+<!--
+Uses textarea to hold the text in QWebEditor.
+Benefit of using QWebEditor is that it holds and memorizes user entered information.
+Therefore, when user uses the back button to revisit the same page, user entered
+text is displayed instead.
+ -->
+<form style="position: absolute; width: 1px; height: 1px; visibility: hidden;">
+<textarea id="content">Line #1
+Line #2
+Line #3
+</textarea></form>
+
+<div align=center>
+<!-- Create the control as a standalone form -->
+<script language="javascript"><!--
+HtmlEditCreateControlFromObj({
+	strId:"myeditor",
+	strElementName:"myelement",
+	strAction:"../php_examples/viewresult.php",
+	strWidth:"650px",
+	strHeight:"250px",
+	lFlags:
+		g_lHeCBorder|							// displays border
+		g_lHeCToTextIfFail|						// if client browser does not support qwebeditor, convert source
+												// content to plain text
+		g_lHeCDetectPlainText|					// if source is plain text, convert it to HTML (linefeed to <br>, etc.)
+		g_lHeCModeStandaloneForm|				// editor acts as standalone form (with own form tag and 
+												// submit(save) button
+		g_lHeCEnumSysFonts,						// allow editor under IE to enumerate system fonts and populate
+												// the font drop down box
+	strTextareaId:"content",
+	className:"example",
+	customBtns:[
+		{
+			title:"Custom Dialog",				// button tool tips
+			funcname:"HtmlEditDemoCustomDlg",	// callback function when button is clicked
+			imgname:"10101.gif"					// toolbar image for custom button
+		},
+		{
+			title:"Custom Menu",
+			funcname:"HtmlEditDemoCustomMenu",
+			imgname:"10101.gif"}
+		],
+	strCssStyle:"../style.css"
+	})
+//--></script>
+</div>
+</td></tr></table>
+
+</body>
+</html>
