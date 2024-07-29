@@ -163,10 +163,7 @@
 
                 return $output;
            }
-
-           public function Export_Features(){
-                return $this->output;
-           }
-       }
 	
     }
+
+?>
